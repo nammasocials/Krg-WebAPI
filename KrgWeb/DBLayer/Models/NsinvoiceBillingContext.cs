@@ -17,6 +17,8 @@ public partial class NsinvoiceBillingContext : DbContext
 
     public virtual DbSet<InvUser> InvUsers { get; set; }
 
+    public virtual DbSet<Log> Logs { get; set; }
+
     public virtual DbSet<UserType> UserTypes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,6 +41,14 @@ public partial class NsinvoiceBillingContext : DbContext
                 .HasForeignKey(d => d.UserType)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_InvUsers_UserType");
+        });
+
+        modelBuilder.Entity<Log>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC0795986915");
+
+            entity.Property(e => e.Level).HasMaxLength(128);
+            entity.Property(e => e.TimeStamp).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<UserType>(entity =>
