@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrgWebAPI", "KrgWebAPI\KrgW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBLayer", "DBLayer\DBLayer.csproj", "{9C0D69FB-AF25-40A2-8EE0-E3E27D555965}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilityLayer", "UtilityLayer\UtilityLayer.csproj", "{490F3B21-DDFF-40E2-BC9B-C85EBC0BCFB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9C0D69FB-AF25-40A2-8EE0-E3E27D555965}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C0D69FB-AF25-40A2-8EE0-E3E27D555965}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C0D69FB-AF25-40A2-8EE0-E3E27D555965}.Release|Any CPU.Build.0 = Release|Any CPU
+		{490F3B21-DDFF-40E2-BC9B-C85EBC0BCFB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{490F3B21-DDFF-40E2-BC9B-C85EBC0BCFB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{490F3B21-DDFF-40E2-BC9B-C85EBC0BCFB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{490F3B21-DDFF-40E2-BC9B-C85EBC0BCFB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
