@@ -65,6 +65,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddDbContext<NsinvoiceBillingContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserClaimsService, UserClaimsService>();
 
 // Add services to the container.
 
@@ -85,7 +87,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseMiddleware<SecurityAndExceptionMiddleware>();
+app.UseMiddleware<KrgWebAPI.SecurityAndExceptionMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 

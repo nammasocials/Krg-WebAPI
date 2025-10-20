@@ -47,8 +47,8 @@ namespace DBLayer.Service.Authentication
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserCode.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
+                new Claim(JwtRegisteredClaimNames.NameId, user.UserCode.ToString()),
+                new Claim(JwtRegisteredClaimNames.Name, user.Username),
                 new Claim("type", user.UserType.ToString())
             };
 
