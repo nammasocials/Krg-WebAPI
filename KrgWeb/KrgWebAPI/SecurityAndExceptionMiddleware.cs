@@ -12,14 +12,17 @@ namespace KrgWebAPI
         private readonly RequestDelegate _next;
         private readonly ILogger<SecurityAndExceptionMiddleware> _logger;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IUserClaimsService _userClaimsService;
 
         public SecurityAndExceptionMiddleware(RequestDelegate next, 
             ILogger<SecurityAndExceptionMiddleware> logger,
-            IAuthenticationService iAuthenticationService)
+            IAuthenticationService iAuthenticationService,
+            IUserClaimsService iUserClaimsService)
         {
             _next = next;
             _logger = logger;
             _authenticationService = iAuthenticationService;
+            _userClaimsService = iUserClaimsService;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -28,21 +31,14 @@ namespace KrgWebAPI
             {
                 var endpoint = context.GetEndpoint();
                 var hasAllowAnonymous = endpoint?.Metadata?.GetMetadata<AllowAnonymousAttribute>() != null;
-                //if (!hasAllowAnonymous)
-                //{
-                //    var user = new InvUser();
-                //    user.Username = context.User.FindFirst(ClaimTypes.NameId)?.Value;
+                if (!hasAllowAnonymous)
+                {
+                    var user = _userClaimsService.GetUserClaims();
+                    var token = _authenticationService.GenerateToken(user);
 
-                //    new Claim(JwtRegisteredClaimNames.NameId, user.UserCode.ToString()),
-                //new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
-                //new Claim("type", user.UserType.ToString())
-
-
-                //    var token = _authenticationService.GenerateToken(userId);
-
-                //    // Add to response header
-                //    context.Response.Headers["X-New-JWT"] = token;
-                //}
+                    // Add to response header
+                    context.Response.Headers["X-New-JWT"] = token;
+                }
 
                 await _next(context);
             }

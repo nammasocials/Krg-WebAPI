@@ -1,5 +1,6 @@
 ﻿using DBLayer.Service.Authentication;
 using DBLayer.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,6 +17,7 @@ namespace KrgWebAPI.Controllers
             _authenticationService = iAuthenticationService;
         }
         // POST api/<UserController>
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] VMAuthReq reqUser)
         {

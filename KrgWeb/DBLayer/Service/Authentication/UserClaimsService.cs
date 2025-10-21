@@ -1,9 +1,9 @@
 ﻿using DBLayer.Models;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,10 +28,9 @@ namespace DBLayer.Service.Authentication
 
             return new InvUser
             {
-                UserCode = user.FindFirstValue(ClaimTypes.NameId),
-                FullName = user.FindFirstValue(ClaimTypes.Name),
-                Username = user.FindFirstValue(ClaimTypes.Email),
-                UserType = user.FindFirstValue(ClaimTypes.Role)
+                UserCode = Guid.Parse(user.FindFirst("UserCode")?.Value),
+                Username = user.FindFirst("UserName")?.Value,
+                UserType = Convert.ToInt16(user.FindFirst("Usertype")?.Value)
             };
         }
     }

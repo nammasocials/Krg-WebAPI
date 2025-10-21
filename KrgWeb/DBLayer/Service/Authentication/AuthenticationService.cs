@@ -47,9 +47,9 @@ namespace DBLayer.Service.Authentication
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserCode.ToString()),
-                new Claim(JwtRegisteredClaimNames.Name, user.Username),
-                new Claim("type", user.UserType.ToString())
+                new Claim("UserCode", user.UserCode.ToString()),
+                new Claim("UserName", user.Username),
+                new Claim("Usertype", user.UserType.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
