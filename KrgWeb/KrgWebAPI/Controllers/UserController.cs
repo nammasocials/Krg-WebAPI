@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KrgWebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("KrgWebAPI/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace KrgWebAPI.Controllers
         }
         // POST api/<UserController>
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("Authenticate")]
         public async Task<IActionResult> Login([FromBody] VMAuthReq reqUser)
         {
             var erroResponse = new ApiErrorResponse();

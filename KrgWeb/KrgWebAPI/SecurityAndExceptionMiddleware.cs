@@ -11,33 +11,41 @@ namespace KrgWebAPI
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<SecurityAndExceptionMiddleware> _logger;
-        private readonly IAuthenticationService _authenticationService;
-        private readonly IUserClaimsService _userClaimsService;
+        private readonly IServiceScopeFactory _scopeFactory;
+        //private readonly IAuthenticationService _authenticationService;
+        //private readonly IUserClaimsService _userClaimsService;
 
         public SecurityAndExceptionMiddleware(RequestDelegate next, 
             ILogger<SecurityAndExceptionMiddleware> logger,
-            IAuthenticationService iAuthenticationService,
-            IUserClaimsService iUserClaimsService)
+            IServiceScopeFactory scopeFactory)
         {
             _next = next;
             _logger = logger;
-            _authenticationService = iAuthenticationService;
-            _userClaimsService = iUserClaimsService;
+            _scopeFactory = scopeFactory;
+            //_authenticationService = iAuthenticationService;
+            //_userClaimsService = iUserClaimsService;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
             try
             {
-                var endpoint = context.GetEndpoint();
-                var hasAllowAnonymous = endpoint?.Metadata?.GetMetadata<AllowAnonymousAttribute>() != null;
-                if (!hasAllowAnonymous)
-                {
-                    var user = _userClaimsService.GetUserClaims();
-                    var token = _authenticationService.GenerateToken(user);
 
-                    // Add to response header
-                    context.Response.Headers["X-New-JWT"] = token;
+                using (var scope = _scopeFactory.CreateScope())
+                {
+                    var _authenticationService = scope.ServiceProvider.GetRequiredService<IAuthenticationService>();
+                    var _userClaimsService = scope.ServiceProvider.GetRequiredService<IUserClaimsService>();
+
+                    var endpoint = context.GetEndpoint();
+                    var hasAllowAnonymous = endpoint?.Metadata?.GetMetadata<AllowAnonymousAttribute>() != null;
+                    if (!hasAllowAnonymous)
+                    {
+                        var user = _userClaimsService.GetUserClaims();
+                        var token = _authenticationService.GenerateToken(user);
+
+                        // Add to response header
+                        context.Response.Headers["X-New-JWT"] = token;
+                    }
                 }
 
                 await _next(context);

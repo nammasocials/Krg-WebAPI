@@ -1,3 +1,8 @@
+CREATE DATABASE NSinvoiceBilling;
+GO
+Use NSinvoiceBilling;
+GO
+
 CREATE TABLE Logs (
     Id INT IDENTITY PRIMARY KEY,
     Message NVARCHAR(MAX),
@@ -6,4 +11,4 @@ CREATE TABLE Logs (
     TimeStamp DATETIME,
     Exception NVARCHAR(MAX),
     Properties NVARCHAR(MAX)
-)
+);
