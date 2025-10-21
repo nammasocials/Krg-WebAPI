@@ -28,24 +28,27 @@ public partial class NsinvoiceBillingContext : DbContext
     {
         modelBuilder.Entity<InvUser>(entity =>
         {
-            entity.HasKey(e => e.UserCode);
+            entity.HasKey(e => e.UserCode).HasName("PK__InvUser__1DF52D0DC81D7AC7");
 
-            entity.Property(e => e.UserCode).HasDefaultValueSql("(newsequentialid())");
+            entity.ToTable("InvUser");
+
+            entity.Property(e => e.UserCode).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedOn)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.FullName).HasMaxLength(200);
-            entity.Property(e => e.Username).HasMaxLength(50);
+            entity.Property(e => e.Password).HasMaxLength(255);
+            entity.Property(e => e.Username).HasMaxLength(100);
 
             entity.HasOne(d => d.UserTypeNavigation).WithMany(p => p.InvUsers)
                 .HasForeignKey(d => d.UserType)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_InvUsers_UserType");
+                .HasConstraintName("FK_InvUser_UserType");
         });
 
         modelBuilder.Entity<Log>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC0795986915");
+            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC07393D13C7");
 
             entity.Property(e => e.Level).HasMaxLength(128);
             entity.Property(e => e.TimeStamp).HasColumnType("datetime");
@@ -53,14 +56,15 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<UserType>(entity =>
         {
+            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D816988A4854");
+
             entity.ToTable("UserType");
 
             entity.Property(e => e.CreatedOn)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.UserTypeName)
-                .HasMaxLength(200)
-                .IsFixedLength();
+            entity.Property(e => e.Description).HasMaxLength(500);
+            entity.Property(e => e.UserTypeName).HasMaxLength(255);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,9 +1,12 @@
-﻿using DBLayer.Models;
+﻿using Azure;
+using DBLayer.Models;
 using DBLayer.Service.Authentication;
 using DBLayer.ViewModels;
+using KrgWebAPI.Constants;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Text.Json;
+using UtilityLayer;
 
 namespace KrgWebAPI
 {
@@ -28,22 +31,32 @@ namespace KrgWebAPI
 
         public async Task InvokeAsync(HttpContext context)
         {
+            if (context.Request.Method == HttpMethods.Options)
+            {
+                await _next(context);
+                return;
+            }
             try
             {
-
                 using (var scope = _scopeFactory.CreateScope())
                 {
                     var _authenticationService = scope.ServiceProvider.GetRequiredService<IAuthenticationService>();
                     var _userClaimsService = scope.ServiceProvider.GetRequiredService<IUserClaimsService>();
 
-                    var endpoint = context.GetEndpoint();
-                    var hasAllowAnonymous = endpoint?.Metadata?.GetMetadata<AllowAnonymousAttribute>() != null;
+                    var hasAllowAnonymous = AuthPathUtility.IsAnonymousPath(context.Request.Path);
                     if (!hasAllowAnonymous)
                     {
                         var user = _userClaimsService.GetUserClaims();
                         var token = _authenticationService.GenerateToken(user);
 
-                        // Add to response header
+                        // Add to response Secure Cookie
+                        context.Response.Cookies.Append(HeaderConstants.JwtCookie, token, new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict,
+                            Expires = DateTime.UtcNow.AddMinutes(10)
+                        });
                         context.Response.Headers["X-New-JWT"] = token;
                     }
                 }

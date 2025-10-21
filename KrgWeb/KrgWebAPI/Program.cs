@@ -1,6 +1,7 @@
 using DBLayer;
 using DBLayer.Models;
 using DBLayer.Service.Authentication;
+using KrgWebAPI.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -37,6 +38,19 @@ Serilog.Log.Logger = new LoggerConfiguration()
     ))
     .CreateLogger();
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200") // your Angular app's origin
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
+});
+
+
 builder.Host.UseSerilog();
 
 
@@ -59,6 +73,18 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtSettings["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]))
     };
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var token = context.Request.Cookies[HeaderConstants.JwtCookie];
+            if (!string.IsNullOrEmpty(token))
+            {
+                context.Token = token; // Assign token from cookie to context for validation
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
 builder.Services.AddAuthorization();
 
@@ -78,7 +104,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
+app.UseCors("AllowFrontend");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -87,10 +113,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseMiddleware<KrgWebAPI.SecurityAndExceptionMiddleware>();
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseMiddleware<KrgWebAPI.SecurityAndExceptionMiddleware>();
 app.MapControllers();
+
+
 
 app.Run();

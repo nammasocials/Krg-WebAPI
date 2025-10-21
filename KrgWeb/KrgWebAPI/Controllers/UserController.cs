@@ -1,5 +1,6 @@
 ﻿using DBLayer.Service.Authentication;
 using DBLayer.ViewModels;
+using KrgWebAPI.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,12 +35,41 @@ namespace KrgWebAPI.Controllers
                     }
                 });
             }
+            Response.Cookies.Append(HeaderConstants.JwtCookie, result.token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddMinutes(10)
+            });
+            result.token = "";
             return StatusCode(200, new ApiResponse<VMAuthResponse>
             {
-                Code = 401,
-                Message = "UnAuthorized",
+                Code = 200,
+                Message = "Authorized",
                 Data = result
             });
+        }
+        [Authorize] // or AllowAnonymous if you prefer
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Append(HeaderConstants.JwtCookie, "", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(-1) // Past date = delete
+            });
+
+            return Ok(new { message = "Logged out" });
+        }
+        [Authorize] // or AllowAnonymous if you prefer
+        [HttpGet("Test")]
+        public IActionResult TestAuthentication()
+        {
+
+            return Ok(new { message = "Working" });
         }
     }
 }

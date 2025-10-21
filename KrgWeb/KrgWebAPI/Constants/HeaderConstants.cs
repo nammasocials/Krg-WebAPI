@@ -2,6 +2,6 @@
 {
     public static class HeaderConstants
     {
-        public static readonly string JwtHeader = "X-New-JWT";
+        public static readonly string JwtCookie = "X-New-JWT";
     }
 }
