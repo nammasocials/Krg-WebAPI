@@ -24,7 +24,6 @@ namespace KrgWebAPI.Controllers
         {
             var erroResponse = new ApiErrorResponse();
             var result = await _authenticationService.ValidateUser(reqUser);
-            throw new Exception("For testing custom exception");
             if (result.isAuthenticated == false)
             {
                 return StatusCode(401, new ApiErrorResponse
