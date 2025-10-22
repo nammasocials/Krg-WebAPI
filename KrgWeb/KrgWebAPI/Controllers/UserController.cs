@@ -56,7 +56,7 @@ namespace KrgWebAPI.Controllers
         {
             Response.Cookies.Append(HeaderConstants.JwtCookie, "", new CookieOptions
             {
-                HttpOnly = true,
+                HttpOnly = false,
                 Secure = true,
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddDays(-1) // Past date = delete
