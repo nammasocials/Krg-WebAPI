@@ -35,7 +35,8 @@ namespace DBLayer.Service.Authentication
             response.isAuthenticated = false;
             if (user != null)
             {
-                if (HashHelper.ComputeSha512Hash(reqUser.password) == user.Password)
+                var reqPass = HashHelper.ComputeSha512Hash(reqUser.password);
+                if (reqPass == user.Password)
                 {
                     response.isAuthenticated = true;
                     response.token = GenerateToken(user);

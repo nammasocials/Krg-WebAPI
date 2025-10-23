@@ -54,8 +54,8 @@ namespace KrgWebAPI
                         {
                             HttpOnly = true,
                             Secure = true,
-                            SameSite = SameSiteMode.Strict,
-                            Expires = DateTime.UtcNow.AddMinutes(10)
+                            SameSite = SameSiteMode.None,
+                            Expires = DateTime.Now.AddMinutes(10)
                         });
                         context.Response.Headers["X-New-JWT"] = token;
                     }

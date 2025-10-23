@@ -39,8 +39,8 @@ namespace KrgWebAPI.Controllers
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddMinutes(10)
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.Now.AddMinutes(10)
             });
             result.token = "";
             return StatusCode(200, new ApiResponse<VMAuthResponse>
@@ -65,11 +65,11 @@ namespace KrgWebAPI.Controllers
             return Ok(new { message = "Logged out" });
         }
         [Authorize] // or AllowAnonymous if you prefer
-        [HttpGet("Test")]
-        public IActionResult TestAuthentication()
+        [HttpGet("Validate")]
+        public IActionResult ValidateAuthentication()
         {
 
-            return Ok(new { message = "Working" });
+            return Ok();
         }
     }
 }

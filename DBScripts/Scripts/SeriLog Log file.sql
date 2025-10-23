@@ -33,6 +33,6 @@ CREATE TABLE [dbo].[InvUser] (
         REFERENCES [dbo].[UserType]([UserTypeId])
 );
 Go
-Insert into InvUser (Username, Password, FullName, UserType) --Password123$
-Values ('NSAdmin','9183554fe5425ffe6aadfa6315792352119df073f92606a177458af117e2f0efe44c6fcefedfcb1231b1f7437ef272bd3f09cf0425bd4ef12a231e265c974992','Namma Socials Admin', 1);
+Insert into InvUser (Username, Password, FullName, UserType) --PassWord@123$
+Values ('NSAdmin','d04aa783775fa330e0ef7b78b329aa02b9ff004d2ae0ab39e2e0caa84a6468bc80c7316d43d62efd1f200a433242eb858e7fb3c0a447906deacf9ef3de3ddc2c','Namma Socials Admin', 1);
 Go
