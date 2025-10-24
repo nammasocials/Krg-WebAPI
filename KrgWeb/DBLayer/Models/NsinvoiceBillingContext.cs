@@ -32,16 +32,19 @@ public partial class NsinvoiceBillingContext : DbContext
     {
         modelBuilder.Entity<InvCustomer>(entity =>
         {
-            entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__06678520A6BD7A27");
+            entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__066785202CD228EC");
 
+            entity.Property(e => e.ContactNo).HasMaxLength(15);
             entity.Property(e => e.CreatedOn)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.CustomerAddress).HasMaxLength(500);
+            entity.Property(e => e.CustomerEmail).HasMaxLength(100);
             entity.Property(e => e.CustomerName).HasMaxLength(100);
             entity.Property(e => e.Gst)
                 .HasMaxLength(30)
                 .HasColumnName("GST");
+            entity.Property(e => e.SecnContactNo).HasMaxLength(15);
         });
 
         modelBuilder.Entity<InvUser>(entity =>
@@ -91,13 +94,16 @@ public partial class NsinvoiceBillingContext : DbContext
                 .HasNoKey()
                 .ToView("VCustomers");
 
+            entity.Property(e => e.ContactNo).HasMaxLength(15);
             entity.Property(e => e.CreatedOn).HasColumnType("datetime");
             entity.Property(e => e.CustomerAddress).HasMaxLength(500);
             entity.Property(e => e.CustomerCode).ValueGeneratedOnAdd();
+            entity.Property(e => e.CustomerEmail).HasMaxLength(100);
             entity.Property(e => e.CustomerName).HasMaxLength(100);
             entity.Property(e => e.Gst)
                 .HasMaxLength(30)
                 .HasColumnName("GST");
+            entity.Property(e => e.SecnContactNo).HasMaxLength(15);
         });
 
         OnModelCreatingPartial(modelBuilder);

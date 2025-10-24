@@ -4,6 +4,9 @@ GO
 CREATE TABLE [dbo].[InvCustomers] (
     [CustomerCode] Integer IDENTITY(1,1) PRIMARY KEY,
     [CustomerName] NVARCHAR(100) NOT NULL,
+    [CustomerEmail] NVARCHAR(100) NOT NULL,
+    [ContactNo] NVARCHAR(15) NOT NULL,
+    [SecnContactNo] NVARCHAR(15) NOT NULL,
     [CustomerAddress] NVARCHAR(500) NOT NULL,
     [GST] NVARCHAR(30) NOT NULL,
     [CustomerLogo] VARBINARY(MAX),
@@ -24,6 +27,9 @@ CREATE OR ALTER VIEW [dbo].[VCustomers] AS
         [CustomerCode],
         [CustomerName],
         [CustomerAddress],
+        [CustomerEmail],
+        [ContactNo],
+        [SecnContactNo],
         [GST],
         [CreatedOn],
         [CreatedBy] 

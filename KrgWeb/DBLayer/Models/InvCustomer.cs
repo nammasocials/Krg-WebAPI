@@ -9,6 +9,12 @@ public partial class InvCustomer
 
     public string CustomerName { get; set; } = null!;
 
+    public string CustomerEmail { get; set; } = null!;
+
+    public string ContactNo { get; set; } = null!;
+
+    public string SecnContactNo { get; set; } = null!;
+
     public string CustomerAddress { get; set; } = null!;
 
     public string Gst { get; set; } = null!;
