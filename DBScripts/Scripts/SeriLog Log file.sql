@@ -37,16 +37,7 @@ Insert into InvUser (Username, Password, FullName, UserType) --PassWord@123$
 Values ('NSAdmin','d04aa783775fa330e0ef7b78b329aa02b9ff004d2ae0ab39e2e0caa84a6468bc80c7316d43d62efd1f200a433242eb858e7fb3c0a447906deacf9ef3de3ddc2c','Namma Socials Admin', 1);
 Go
 
-CREATE TABLE [dbo].[InvCustomers] (
-    [CustomerCode] Integer IDENTITY(1,1) PRIMARY KEY,
-    [CustomerName] NVARCHAR(100) NOT NULL,
-    [CustomerAddress] NVARCHAR(500) NOT NULL,
-    [GST] NVARCHAR(30) NOT NULL,
-    [CustomerLogo] VARBINARY(MAX),
-    [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
-    [CreatedBy] int
-);
-Go
+
 
 --CREATE LOGIN KrgApiUser WITH PASSWORD = 'Krg@10121796';
 --USE NSinvoiceBilling;

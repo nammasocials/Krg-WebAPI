@@ -1,5 +1,6 @@
 using DBLayer;
 using DBLayer.Models;
+using DBLayer.Service;
 using DBLayer.Service.Authentication;
 using KrgWebAPI.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -93,6 +94,7 @@ builder.Services.AddDbContext<NsinvoiceBillingContext>(options =>
 );
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserClaimsService, UserClaimsService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 // Add services to the container.
 

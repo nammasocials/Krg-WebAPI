@@ -23,6 +23,8 @@ public partial class NsinvoiceBillingContext : DbContext
 
     public virtual DbSet<UserType> UserTypes { get; set; }
 
+    public virtual DbSet<Vcustomer> Vcustomers { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=DefaultConnection");
 
@@ -81,6 +83,21 @@ public partial class NsinvoiceBillingContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.UserTypeName).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<Vcustomer>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("VCustomers");
+
+            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+            entity.Property(e => e.CustomerAddress).HasMaxLength(500);
+            entity.Property(e => e.CustomerCode).ValueGeneratedOnAdd();
+            entity.Property(e => e.CustomerName).HasMaxLength(100);
+            entity.Property(e => e.Gst)
+                .HasMaxLength(30)
+                .HasColumnName("GST");
         });
 
         OnModelCreatingPartial(modelBuilder);

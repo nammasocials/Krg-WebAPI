@@ -12,7 +12,7 @@ namespace KrgWebAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IAuthenticationService _authenticationService;
+        private readonly IAuthenticationService _authenticationService;
         public UserController(IAuthenticationService iAuthenticationService)
         {
             _authenticationService = iAuthenticationService;
