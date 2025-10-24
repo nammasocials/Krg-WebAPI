@@ -43,7 +43,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // your Angular app's origin
+        policy.WithOrigins("https://192.168.1.5:8001", "https://renegotiable-excessive-carli.ngrok-free.dev","http://localhost:4200") // your Angular app's origin
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -106,11 +106,11 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 app.UseCors("AllowFrontend");
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseHttpsRedirection();
 app.UseRouting();

@@ -1,4 +1,4 @@
-CREATE DATABASE NSinvoiceBilling;
+﻿CREATE DATABASE NSinvoiceBilling;
 GO
 Use NSinvoiceBilling;
 GO
@@ -36,3 +36,11 @@ Go
 Insert into InvUser (Username, Password, FullName, UserType) --PassWord@123$
 Values ('NSAdmin','d04aa783775fa330e0ef7b78b329aa02b9ff004d2ae0ab39e2e0caa84a6468bc80c7316d43d62efd1f200a433242eb858e7fb3c0a447906deacf9ef3de3ddc2c','Namma Socials Admin', 1);
 Go
+
+--CREATE LOGIN KrgApiUser WITH PASSWORD = 'Krg@10121796';
+--USE NSinvoiceBilling;
+--CREATE USER KrgApiUser FOR LOGIN KrgApiUser;
+
+---- 3️⃣  Give data access (read/write)
+--ALTER ROLE db_datareader ADD MEMBER KrgApiUser;
+--ALTER ROLE db_datawriter ADD MEMBER KrgApiUser;
