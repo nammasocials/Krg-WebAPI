@@ -51,18 +51,23 @@ namespace KrgWebAPI.Controllers
             });
         }
         [Authorize] // or AllowAnonymous if you prefer
-        [HttpPost("logout")]
+        [HttpGet("logout")]
         public IActionResult Logout()
         {
             Response.Cookies.Append(HeaderConstants.JwtCookie, "", new CookieOptions
             {
-                HttpOnly = false,
+                HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddDays(-1) // Past date = delete
             });
 
-            return Ok(new { message = "Logged out" });
+            return StatusCode(200, new ApiResponse<string>
+            {
+                Code = 200,
+                Message = "Successfully Logged Out",
+                Data = ""
+            });
         }
         [Authorize] // or AllowAnonymous if you prefer
         [HttpGet("Validate")]
