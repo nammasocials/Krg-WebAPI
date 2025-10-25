@@ -1,4 +1,5 @@
 ﻿using DBLayer.Models;
+using DBLayer.Profiler;
 using DBLayer.Service.Authentication;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,6 +13,7 @@ namespace DBLayer.Service
     public interface ICustomerService
     {
         public Task<List<Vcustomer>> fetchCustomerList();
+        public Task<Vcustomer> AddCustomer(InvCustomer customer);
     }
     public class CustomerService : ICustomerService
     {
@@ -26,6 +28,12 @@ namespace DBLayer.Service
         {
             var customers = await _context.Vcustomers.ToListAsync();
             return customers;
+        }
+        public async Task<Vcustomer> AddCustomer(InvCustomer customer)
+        {
+            await _context.InvCustomers.AddAsync(customer);
+            await _context.SaveChangesAsync();
+            return await _context.Vcustomers.Where(C => C.CustomerCode == customer.CustomerCode).FirstOrDefaultAsync();
         }
     }
 }

@@ -1,5 +1,7 @@
+using AutoMapper;
 using DBLayer;
 using DBLayer.Models;
+using DBLayer.Profiler;
 using DBLayer.Service;
 using DBLayer.Service.Authentication;
 using KrgWebAPI.Constants;
@@ -9,8 +11,6 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
-using System;
-using System.Collections.ObjectModel;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,7 +44,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("https://192.168.1.5:8001", "https://renegotiable-excessive-carli.ngrok-free.dev","http://localhost:4200") // your Angular app's origin
+        policy.WithOrigins("https://192.168.1.5:8001","http://localhost:4200", "http://192.168.0.9:8051") // your Angular app's origin
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -95,6 +95,10 @@ builder.Services.AddDbContext<NsinvoiceBillingContext>(options =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserClaimsService, UserClaimsService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+///////////////////////////// Profilers /////////////////////////////////////////////////////////
+
+
 
 // Add services to the container.
 
