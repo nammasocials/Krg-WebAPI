@@ -11,7 +11,7 @@ CREATE TABLE [dbo].[InvCustomers] (
     [GST] NVARCHAR(30) NOT NULL,
     [CustomerLogo] VARBINARY(MAX),
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
-    [CreatedBy] int
+    [CreatedBy] UNIQUEIDENTIFIER
 );
 Go
 
