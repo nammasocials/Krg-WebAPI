@@ -36,7 +36,7 @@ public partial class NsinvoiceBillingContext : DbContext
     {
         modelBuilder.Entity<InvCustomer>(entity =>
         {
-            entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__06678520FE69968B");
+            entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__0667852033B0468C");
 
             entity.Property(e => e.ContactNo).HasMaxLength(15);
             entity.Property(e => e.CreatedOn)
@@ -53,7 +53,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProduct>(entity =>
         {
-            entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024E6E937628");
+            entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024EAC6402B9");
 
             entity.Property(e => e.CreatedOn)
                 .HasDefaultValueSql("(getdate())")
@@ -71,7 +71,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvUser>(entity =>
         {
-            entity.HasKey(e => e.UserCode).HasName("PK__InvUser__1DF52D0D39E5A8D7");
+            entity.HasKey(e => e.UserCode).HasName("PK__InvUser__1DF52D0DE6F6C797");
 
             entity.ToTable("InvUser");
 
@@ -91,7 +91,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<Log>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC0703F319F9");
+            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC0778E763B8");
 
             entity.Property(e => e.Level).HasMaxLength(128);
             entity.Property(e => e.TimeStamp).HasColumnType("datetime");
@@ -99,7 +99,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<UserType>(entity =>
         {
-            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D81660583328");
+            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D816129ECE1A");
 
             entity.ToTable("UserType");
 

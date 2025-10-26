@@ -15,7 +15,7 @@ public partial class Vcustomer
 
     public string ContactNo { get; set; } = null!;
 
-    public string SecnContactNo { get; set; } = null!;
+    public string? SecnContactNo { get; set; }
 
     public string Gst { get; set; } = null!;
 

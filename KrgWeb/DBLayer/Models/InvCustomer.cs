@@ -13,7 +13,7 @@ public partial class InvCustomer
 
     public string ContactNo { get; set; } = null!;
 
-    public string SecnContactNo { get; set; } = null!;
+    public string? SecnContactNo { get; set; }
 
     public string CustomerAddress { get; set; } = null!;
 

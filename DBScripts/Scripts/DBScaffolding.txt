@@ -1,9 +1,9 @@
 dotnet ef dbcontext scaffold "Name=DefaultConnection" Microsoft.EntityFrameworkCore.SqlServer --project DBLayer --startup-project KrgWebAPI -o Models --force
 
-Server=.;Database=NSInvoiceBilling;Integrated Security=True;TrustServerCertificate=True
+Server=localhost;Initial Catalog=NSInvoiceBilling;User ID=KrgApiUser;Password=Krg@10121796;TrustServerCertificate=True;MultipleActiveResultSets=True
 
 "AMSConnectionString": "Server=DOTNETSERVER;Initial Catalog=NSInvoiceBilling;User ID=Fusion;Password=ispl334643mle;TrustServerCertificate=True;MultipleActiveResultSets=True",
 
 34UswYhOPawxBMveIokgNfendCS_X9pFpj9cJMkP5vKkDFJ4
 
-ngrok config add-authtoken 34UswYhOPawxBMveIokgNfendCS_X9pFpj9cJMkP5vKkDFJ4
+ngrok config add-authtoken 34UswYhOPawxBMveIokgNfendCS_X9pFpj9cJMkP5vKkDFJ4 

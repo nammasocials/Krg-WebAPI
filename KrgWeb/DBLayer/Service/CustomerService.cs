@@ -30,7 +30,7 @@ namespace DBLayer.Service
             return customers;
         }
         public async Task<Vcustomer> AddCustomer(InvCustomer customer)
-        {
+        { 
             await _context.InvCustomers.AddAsync(customer);
             await _context.SaveChangesAsync();
             return await _context.Vcustomers.Where(C => C.CustomerCode == customer.CustomerCode).FirstOrDefaultAsync();

@@ -33,7 +33,7 @@ namespace KrgWebAPI.Controllers
                 Data = result
             });
         }
-        [HttpGet("AddCustomer")]
+        [HttpPost("AddCustomer")]
         public async Task<IActionResult> AddCustomer([FromForm] VCustomerInput customerInput)
         {
             var customer = CustomerMapper.ToEntity(customerInput);

@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[InvCustomers] (
     [CustomerName] NVARCHAR(100) NOT NULL,
     [CustomerEmail] NVARCHAR(100) NOT NULL,
     [ContactNo] NVARCHAR(15) NOT NULL,
-    [SecnContactNo] NVARCHAR(15) NOT NULL,
+    [SecnContactNo] NVARCHAR(15) NULL,
     [CustomerAddress] NVARCHAR(500) NOT NULL,
     [GST] NVARCHAR(30) NOT NULL,
     [CustomerLogo] VARBINARY(MAX),

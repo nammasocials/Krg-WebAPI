@@ -9,7 +9,6 @@ namespace DBLayer.ViewModels
 {
     public class VCustomerInput
     {
-        public int CustomerCode { get; set; }
 
         public string CustomerName { get; set; } = null!;
 
@@ -19,13 +18,9 @@ namespace DBLayer.ViewModels
 
         public string ContactNo { get; set; } = null!;
 
-        public string SecnContactNo { get; set; } = null!;
+        public string? SecnContactNo { get; set; }
 
         public string Gst { get; set; } = null!;
-
-        public DateTime CreatedOn { get; set; }
-
-        public Guid? CreatedBy { get; set; }
         public IFormFile? CompanyLogo { get; set; }
     }
 }

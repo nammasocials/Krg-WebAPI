@@ -46,3 +46,4 @@ Go
 ---- 3️⃣  Give data access (read/write)
 --ALTER ROLE db_datareader ADD MEMBER KrgApiUser;
 --ALTER ROLE db_datawriter ADD MEMBER KrgApiUser;
+--GRANT VIEW DEFINITION TO [KrgApiUser];
