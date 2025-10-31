@@ -13,7 +13,7 @@ namespace DBLayer.Service
     public interface ICustomerService
     {
         public Task<List<Vcustomer>> fetchCustomerList();
-        public Task<Vcustomer> AddCustomer(InvCustomer customer);
+        public Task<Vcustomer> AddCustomer(InvCustomer customer, bool isEdit);
     }
     public class CustomerService : ICustomerService
     {
@@ -29,10 +29,22 @@ namespace DBLayer.Service
             var customers = await _context.Vcustomers.ToListAsync();
             return customers;
         }
-        public async Task<Vcustomer> AddCustomer(InvCustomer customer)
-        { 
-            await _context.InvCustomers.AddAsync(customer);
-            await _context.SaveChangesAsync();
+        public async Task<Vcustomer> AddCustomer(InvCustomer customer, bool isEdit)
+        {
+            if (isEdit)
+            {
+                var customerToEdit = await _context.InvCustomers.Where(C => C.CustomerCode == customer.CustomerCode)
+                    .FirstOrDefaultAsync();
+                customerToEdit = customer;
+                _context.InvCustomers.Update(customer);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                await _context.InvCustomers.AddAsync(customer);
+                await _context.SaveChangesAsync();
+            }
+
             return await _context.Vcustomers.Where(C => C.CustomerCode == customer.CustomerCode).FirstOrDefaultAsync();
         }
     }

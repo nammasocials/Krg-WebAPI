@@ -46,7 +46,29 @@ namespace KrgWebAPI.Controllers
                 }
             }
 
-            var result = await _customerService.AddCustomer(customer);
+            var result = await _customerService.AddCustomer(customer, false);
+
+            return StatusCode(200, new ApiResponse<Vcustomer>
+            {
+                Code = 200,
+                Message = $"Successfully Fetched {result.CustomerCode} records",
+                Data = result
+            });
+        }
+        [HttpPost("EditCustomer")]
+        public async Task<IActionResult> EditCustomer([FromForm] VCustomerInput customerInput)
+        {
+            var customer = CustomerMapper.ToEntity(customerInput);
+            if (customerInput.CompanyLogo != null)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    await customerInput.CompanyLogo.CopyToAsync(ms);
+                    customer.CustomerLogo = ms.ToArray();  // ✅ convert to byte[]
+                }
+            }
+
+            var result = await _customerService.AddCustomer(customer, true);
 
             return StatusCode(200, new ApiResponse<Vcustomer>
             {
