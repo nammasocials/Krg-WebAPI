@@ -46,7 +46,7 @@ namespace KrgWebAPI.Controllers
                 }
             }
 
-            var result = await _customerService.AddCustomer(customer, false);
+            var result = await _customerService.AddOrEditCustomer(customer, false);
 
             return StatusCode(200, new ApiResponse<Vcustomer>
             {
@@ -68,7 +68,7 @@ namespace KrgWebAPI.Controllers
                 }
             }
 
-            var result = await _customerService.AddCustomer(customer, true);
+            var result = await _customerService.AddOrEditCustomer(customer, true);
 
             return StatusCode(200, new ApiResponse<Vcustomer>
             {
