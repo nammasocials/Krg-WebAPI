@@ -13,6 +13,7 @@ namespace DBLayer.Service
     public interface ICustomerService
     {
         public Task<List<Vcustomer>> fetchCustomerList();
+        public Task<bool> deleteCustomer(int customerId);
         public Task<Vcustomer> AddOrEditCustomer(InvCustomer customer, bool isEdit);
     }
     public class CustomerService : ICustomerService
@@ -51,6 +52,22 @@ namespace DBLayer.Service
             }
 
             return await _context.Vcustomers.Where(C => C.CustomerCode == customer.CustomerCode).FirstOrDefaultAsync();
+        }
+        public async Task<bool> deleteCustomer(int customerId)
+        {
+            var customerToDelete = await _context.InvCustomers
+                    .FirstOrDefaultAsync(c => c.CustomerCode == customerId);
+
+            if (customerToDelete != null)
+            {
+                _context.InvCustomers.Remove(customerToDelete);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
