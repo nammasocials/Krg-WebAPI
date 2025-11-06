@@ -15,6 +15,8 @@ public partial class InvProduct
 
     public decimal UnitCost { get; set; }
 
+    public byte[]? ProductLogo { get; set; }
+
     public bool IsActive { get; set; }
 
     public DateTime CreatedOn { get; set; }

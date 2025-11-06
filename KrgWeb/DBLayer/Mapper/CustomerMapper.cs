@@ -10,4 +10,10 @@ namespace DBLayer.Profiler
         public static partial VCustomerInput ToDto(InvCustomer customer);
         public static partial InvCustomer ToEntity(VCustomerInput customerDto);
     }
+    [Mapper]
+    public static partial class ProductMapper
+    {
+        public static partial VProductInput ToDto(InvProduct product);
+        public static partial InvProduct ToEntity(VProductInput productDto);
+    }
 }

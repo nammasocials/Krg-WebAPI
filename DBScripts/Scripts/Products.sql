@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[InvProducts] (
     [StockCount] Integer Default 0 NOT NULL,
 	[UnitName] NVARCHAR(15) NOT NULL,
     [UnitCost] decimal(10,2) NOT Null,
+	[ProductLogo] [varbinary](max) NULL,
     [isActive] bit default 1 NOT NULL,
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
     [CreatedBy] UNIQUEIDENTIFIER,
