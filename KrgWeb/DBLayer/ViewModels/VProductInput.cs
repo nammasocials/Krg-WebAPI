@@ -19,6 +19,5 @@ namespace DBLayer.ViewModels
 
         public decimal UnitCost { get; set; }
         public IFormFile? ProductLogo { get; set; }
-        public bool IsActive { get; set; }
     }
 }

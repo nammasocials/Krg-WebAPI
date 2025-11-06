@@ -13,7 +13,9 @@ namespace DBLayer.Profiler
     [Mapper]
     public static partial class ProductMapper
     {
+        [MapperIgnoreTarget(nameof(VProductInput.ProductLogo))]
         public static partial VProductInput ToDto(InvProduct product);
+        [MapperIgnoreTarget(nameof(InvProduct.ProductLogo))]
         public static partial InvProduct ToEntity(VProductInput productDto);
     }
 }
