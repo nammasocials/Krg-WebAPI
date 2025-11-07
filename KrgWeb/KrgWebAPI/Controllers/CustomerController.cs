@@ -41,7 +41,11 @@ namespace KrgWebAPI.Controllers
         public async Task<IActionResult> GetCustomerPhoto(int customerCode)
         {
             var (imageBytes, mimeType) = await _customerService.fetchCustomerImageAsync(customerCode);
-            if (imageBytes == null) return NotFound();
+            if (imageBytes == null || imageBytes.Length == 0)
+            {
+                // Return 200 OK with empty string as body
+                return Content(string.Empty, "text/plain");
+            }
 
             // Serve bytes directly with appropriate mime type (jpeg, png, etc)
             return File(imageBytes, mimeType);
