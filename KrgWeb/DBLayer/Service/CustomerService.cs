@@ -13,6 +13,8 @@ namespace DBLayer.Service
     public interface ICustomerService
     {
         public Task<List<Vcustomer>> fetchCustomerList();
+        //public Task<Vcustomer> fetchCustomerDetails();
+        public Task<(byte[] ImageData, string MimeType)> fetchCustomerImageAsync(int customerCode);
         public Task<bool> deleteCustomer(int customerId);
         public Task<Vcustomer> AddOrEditCustomer(InvCustomer customer, bool isEdit);
     }
@@ -30,6 +32,21 @@ namespace DBLayer.Service
             var customers = await _context.Vcustomers.ToListAsync();
             return customers;
         }
+        //public Task<Vcustomer> fetchCustomerDetails();
+        public async Task<(byte[] ImageData, string MimeType)> fetchCustomerImageAsync(int customerCode)
+        {
+            var customerPhoto = await _context.InvCustomers
+                .Where(c => c.CustomerCode == customerCode)
+                .Select(c => new { c.CustomerLogo, c.CustomerLogoMime })  // Assuming you store MIME type
+                .FirstOrDefaultAsync();
+
+            if (customerPhoto == null || customerPhoto.CustomerLogo == null)
+                return (null, null);
+
+            return (customerPhoto.CustomerLogo, customerPhoto.CustomerLogoMime ?? "image/jpeg");
+        }
+
+
         public async Task<Vcustomer> AddOrEditCustomer(InvCustomer customer, bool isEdit)
         {
             if (isEdit)
@@ -53,6 +70,7 @@ namespace DBLayer.Service
 
             return await _context.Vcustomers.Where(C => C.CustomerCode == customer.CustomerCode).FirstOrDefaultAsync();
         }
+
         public async Task<bool> deleteCustomer(int customerId)
         {
             var customerToDelete = await _context.InvCustomers

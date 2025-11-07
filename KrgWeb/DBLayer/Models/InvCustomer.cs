@@ -21,6 +21,8 @@ public partial class InvCustomer
 
     public byte[]? CustomerLogo { get; set; }
 
+    public string? CustomerLogoMime { get; set; }
+
     public DateTime CreatedOn { get; set; }
 
     public Guid? CreatedBy { get; set; }

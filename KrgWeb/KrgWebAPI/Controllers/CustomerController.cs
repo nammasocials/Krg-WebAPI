@@ -6,7 +6,10 @@ using KrgWebAPI.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using UtilityLayer;
 
 namespace KrgWebAPI.Controllers
 {
@@ -33,6 +36,17 @@ namespace KrgWebAPI.Controllers
                 Data = result
             });
         }
+
+        [HttpGet("getCustomerPhoto/{customerCode}")]
+        public async Task<IActionResult> GetCustomerPhoto(int customerCode)
+        {
+            var (imageBytes, mimeType) = await _customerService.fetchCustomerImageAsync(customerCode);
+            if (imageBytes == null) return NotFound();
+
+            // Serve bytes directly with appropriate mime type (jpeg, png, etc)
+            return File(imageBytes, mimeType);
+        }
+
         [HttpPost("AddCustomer")]
         public async Task<IActionResult> AddCustomer([FromForm] VCustomerInput customerInput)
         {
@@ -42,7 +56,16 @@ namespace KrgWebAPI.Controllers
                 using (var ms = new MemoryStream())
                 {
                     await customerInput.CompanyLogo.CopyToAsync(ms);
-                    customer.CustomerLogo = ms.ToArray();  // ✅ convert to byte[]
+                    var imageBytes = ms.ToArray();
+                    using (var img = Image.FromStream(new MemoryStream(imageBytes)))
+                    {
+                        string mimeType = ImageReader.GetMimeType(img.RawFormat);
+                        Console.WriteLine($"Detected MIME type: {mimeType}");
+
+                        // Save both imageBytes and mimeType to your database/entity
+                        customer.CustomerLogo = imageBytes;
+                        customer.CustomerLogoMime = mimeType;
+                    }
                 }
             }
 
@@ -55,6 +78,7 @@ namespace KrgWebAPI.Controllers
                 Data = result
             });
         }
+
         [HttpPost("EditCustomer")]
         public async Task<IActionResult> EditCustomer([FromForm] VCustomerInput customerInput)
         {
@@ -64,7 +88,16 @@ namespace KrgWebAPI.Controllers
                 using (var ms = new MemoryStream())
                 {
                     await customerInput.CompanyLogo.CopyToAsync(ms);
-                    customer.CustomerLogo = ms.ToArray();  // ✅ convert to byte[]
+                    var imageBytes = ms.ToArray();
+                    using (var img = Image.FromStream(new MemoryStream(imageBytes)))
+                    {
+                        string mimeType = ImageReader.GetMimeType(img.RawFormat);
+                        Console.WriteLine($"Detected MIME type: {mimeType}");
+
+                        // Save both imageBytes and mimeType to your database/entity
+                        customer.CustomerLogo = imageBytes;
+                        customer.CustomerLogoMime = mimeType;
+                    }
                 }
             }
 
@@ -77,6 +110,7 @@ namespace KrgWebAPI.Controllers
                 Data = result
             });
         }
+
         [HttpDelete("DeleteCustomer/{id}")]
         public async Task<IActionResult> DeleteCustomerDetails(int id)
         {

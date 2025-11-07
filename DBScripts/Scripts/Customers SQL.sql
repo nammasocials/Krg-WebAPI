@@ -10,6 +10,7 @@ CREATE TABLE [dbo].[InvCustomers] (
     [CustomerAddress] NVARCHAR(500) NOT NULL,
     [GST] NVARCHAR(30) NOT NULL,
     [CustomerLogo] VARBINARY(MAX),
+	[CustomerLogoMime] Nvarchar(30),
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
     [CreatedBy] UNIQUEIDENTIFIER
 );
