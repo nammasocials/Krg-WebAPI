@@ -94,6 +94,7 @@ builder.Services.AddDbContext<NsinvoiceBillingContext>(options =>
 );
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserClaimsService, UserClaimsService>();
+builder.Services.AddScoped<IRecentActivityService, RecentActivityService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
