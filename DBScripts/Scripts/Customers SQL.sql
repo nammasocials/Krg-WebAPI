@@ -1,5 +1,26 @@
 Use NSinvoiceBilling;
 GO
+CREATE TABLE InvCustomers_Audit
+(
+    AuditID INT IDENTITY(1,1) PRIMARY KEY,
+    CustomerCode INT,
+    -- Add all other columns from InvCustomers here, e.g.
+    [CustomerName] NVARCHAR(100) NOT NULL,
+    [CustomerEmail] NVARCHAR(100) NOT NULL,
+    [ContactNo] NVARCHAR(15) NOT NULL,
+    [SecnContactNo] NVARCHAR(15) NULL,
+    [CustomerAddress] NVARCHAR(500) NOT NULL,
+    [GST] NVARCHAR(30) NOT NULL,
+    [CustomerLogo] VARBINARY(MAX),
+	[CustomerLogoMime] Nvarchar(30),
+    [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [ModifiedOn] DATETIME,
+    [ModifiedBy] UNIQUEIDENTIFIER,
+    -- ... more columns ...
+    OperationType CHAR(1), -- 'I' for Insert, 'U' for Update, 'D' for Delete
+);
+Go
 
 CREATE TABLE [dbo].[InvCustomers] (
     [CustomerCode] Integer IDENTITY(1,1) PRIMARY KEY,
@@ -12,7 +33,9 @@ CREATE TABLE [dbo].[InvCustomers] (
     [CustomerLogo] VARBINARY(MAX),
 	[CustomerLogoMime] Nvarchar(30),
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
-    [CreatedBy] UNIQUEIDENTIFIER
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [ModifiedOn] DATETIME,
+    [ModifiedBy] UNIQUEIDENTIFIER
 );
 Go
 
@@ -33,6 +56,8 @@ CREATE OR ALTER VIEW [dbo].[VCustomers] AS
         [SecnContactNo],
         [GST],
         [CreatedOn],
-        [CreatedBy] 
+        [CreatedBy],
+        [ModifiedOn],
+        [ModifiedBy] 
     from InvCustomers;
 GO

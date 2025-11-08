@@ -53,6 +53,7 @@ namespace DBLayer.Service
 
         public async Task<Vcustomer> AddOrEditCustomer(InvCustomer customer, bool isEdit)
         {
+            var claims = _userClaimsService.GetUserClaims();
             if (isEdit)
             {
                 var customerToEdit = await _context.InvCustomers
@@ -63,11 +64,15 @@ namespace DBLayer.Service
                     var createdOn = customerToEdit.CreatedOn;
                     _context.Entry(customerToEdit).CurrentValues.SetValues(customer);
                     customerToEdit.CreatedOn = createdOn;
+                    customerToEdit.ModifiedOn = DateTime.Now;
+                    customerToEdit.ModifiedBy = claims.UserCode;
                     await _context.SaveChangesAsync();
                 }
             }
             else
             {
+                customer.CreatedOn = DateTime.Now;
+                customer.CreatedBy = claims.UserCode;
                 await _context.InvCustomers.AddAsync(customer);
                 await _context.SaveChangesAsync();
             }

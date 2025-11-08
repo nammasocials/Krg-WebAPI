@@ -3,9 +3,11 @@ using System.Collections.Generic;
 
 namespace DBLayer.Models;
 
-public partial class InvCustomer
+public partial class InvCustomersAudit
 {
-    public int CustomerCode { get; set; }
+    public int AuditId { get; set; }
+
+    public int? CustomerCode { get; set; }
 
     public string CustomerName { get; set; } = null!;
 
@@ -30,4 +32,6 @@ public partial class InvCustomer
     public DateTime? ModifiedOn { get; set; }
 
     public Guid? ModifiedBy { get; set; }
+
+    public string? OperationType { get; set; }
 }
