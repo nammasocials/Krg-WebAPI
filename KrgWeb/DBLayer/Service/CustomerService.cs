@@ -13,7 +13,7 @@ namespace DBLayer.Service
     public interface ICustomerService
     {
         public Task<List<Vcustomer>> fetchCustomerList();
-        //public Task<Vcustomer> fetchCustomerDetails();
+        public Task<Vcustomer> fetchCustomerDetails(int customerCode);
         public Task<(byte[] ImageData, string MimeType)> fetchCustomerImageAsync(int customerCode);
         public Task<bool> deleteCustomer(int customerId);
         public Task<Vcustomer> AddOrEditCustomer(InvCustomer customer, bool isEdit);
@@ -32,7 +32,11 @@ namespace DBLayer.Service
             var customers = await _context.Vcustomers.ToListAsync();
             return customers;
         }
-        //public Task<Vcustomer> fetchCustomerDetails();
+        public async Task<Vcustomer> fetchCustomerDetails(int customerCode)
+        {
+            var customers = await _context.Vcustomers.Where(C => C.CustomerCode == customerCode).FirstOrDefaultAsync();
+            return customers;
+        }
         public async Task<(byte[] ImageData, string MimeType)> fetchCustomerImageAsync(int customerCode)
         {
             var customerPhoto = await _context.InvCustomers

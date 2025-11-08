@@ -37,6 +37,19 @@ namespace KrgWebAPI.Controllers
             });
         }
 
+        [HttpGet("getAllCustomerDetails/{customerCode}")]
+        public async Task<IActionResult> fetchCustomerDetails(int customerCode)
+        {
+            var result = await _customerService.fetchCustomerDetails(customerCode);
+
+            return StatusCode(200, new ApiResponse<Vcustomer>
+            {
+                Code = 200,
+                Message = $"Successfully Fetched {result.CustomerCode} records",
+                Data = result
+            });
+        }
+
         [HttpGet("getCustomerPhoto/{customerCode}")]
         public async Task<IActionResult> GetCustomerPhoto(int customerCode)
         {
