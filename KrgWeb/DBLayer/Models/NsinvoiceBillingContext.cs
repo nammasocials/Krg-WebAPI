@@ -29,6 +29,8 @@ public partial class NsinvoiceBillingContext : DbContext
 
     public virtual DbSet<UserType> UserTypes { get; set; }
 
+    public virtual DbSet<VactivityLog> VactivityLogs { get; set; }
+
     public virtual DbSet<Vcustomer> Vcustomers { get; set; }
 
     public virtual DbSet<Vproduct> Vproducts { get; set; }
@@ -158,6 +160,21 @@ public partial class NsinvoiceBillingContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.UserTypeName).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<VactivityLog>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("VActivityLog");
+
+            entity.Property(e => e.ActionType).HasMaxLength(20);
+            entity.Property(e => e.ActivityId).ValueGeneratedOnAdd();
+            entity.Property(e => e.CreatedBy).HasMaxLength(100);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(500);
+            entity.Property(e => e.EntityType).HasMaxLength(50);
+            entity.Property(e => e.RedirectUrl).HasMaxLength(300);
         });
 
         modelBuilder.Entity<Vcustomer>(entity =>

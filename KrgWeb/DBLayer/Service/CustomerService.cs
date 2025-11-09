@@ -22,10 +22,13 @@ namespace DBLayer.Service
     {
         private readonly NsinvoiceBillingContext _context;
         private readonly IUserClaimsService _userClaimsService;
-        public CustomerService(NsinvoiceBillingContext context, IUserClaimsService iUserClaimsService) 
+        private readonly IRecentActivityService _recentActivityService;
+        public CustomerService(NsinvoiceBillingContext context, IUserClaimsService iUserClaimsService
+            IRecentActivityService iRecentActivityService) 
         {
             _context = context;
             _userClaimsService = iUserClaimsService;
+            _recentActivityService = iRecentActivityService;
         }
         public async Task<List<Vcustomer>> fetchCustomerList()
         {
@@ -62,6 +65,9 @@ namespace DBLayer.Service
                 if (customerToEdit != null)
                 {
                     var createdOn = customerToEdit.CreatedOn;
+
+                    
+
                     _context.Entry(customerToEdit).CurrentValues.SetValues(customer);
                     customerToEdit.CreatedOn = createdOn;
                     customerToEdit.ModifiedOn = DateTime.Now;
