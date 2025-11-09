@@ -1,6 +1,7 @@
 ﻿using DBLayer.Models;
 using DBLayer.Profiler;
 using DBLayer.Service.Authentication;
+using DBLayer.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace DBLayer.Service
         public Task<(byte[] ImageData, string MimeType)> fetchCustomerImageAsync(int customerCode);
         public Task<bool> deleteCustomer(int customerId);
         public Task<Vcustomer> AddOrEditCustomer(InvCustomer customer, bool isEdit);
+        public Task<VDashboardStats> fetchDashboardCustomerStats();
     }
     public class CustomerService : ICustomerService
     {
@@ -34,6 +36,14 @@ namespace DBLayer.Service
         {
             var customers = await _context.Vcustomers.ToListAsync();
             return customers;
+        }
+        public async Task<VDashboardStats> fetchDashboardCustomerStats()
+        {
+            var result = new VDashboardStats();
+            result.OverallCustomerCount = await _context.Vcustomers.CountAsync();
+            result.RecentAddedCustomersCount = await _context.Vcustomers.
+                Where(R => R.CreatedOn == DateTime.Today).CountAsync();
+            return result;
         }
         public async Task<Vcustomer> fetchCustomerDetails(int customerCode)
         {
