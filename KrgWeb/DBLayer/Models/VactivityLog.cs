@@ -15,7 +15,7 @@ public partial class VactivityLog
 
     public string? Description { get; set; }
 
-    public string? CreatedBy { get; set; }
+    public Guid? CreatedBy { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 
