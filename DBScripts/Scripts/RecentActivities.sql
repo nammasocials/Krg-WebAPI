@@ -6,7 +6,7 @@ CREATE TABLE ActivityLog (
     EntityId INT NOT NULL,                
     ActionType NVARCHAR(20) NOT NULL,      
     Description NVARCHAR(500) NULL, 
-    CreatedBy NVARCHAR(100) NULL,
+    CreatedBy UNIQUEIDENTIFIER,
     CreatedDate DATETIME DEFAULT GETDATE(),
     RedirectUrl NVARCHAR(300) NULL
 );

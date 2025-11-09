@@ -42,12 +42,11 @@ public partial class NsinvoiceBillingContext : DbContext
     {
         modelBuilder.Entity<ActivityLog>(entity =>
         {
-            entity.HasKey(e => e.ActivityId).HasName("PK__Activity__45F4A79172BDE3DD");
+            entity.HasKey(e => e.ActivityId).HasName("PK__Activity__45F4A791CF357D7E");
 
             entity.ToTable("ActivityLog");
 
             entity.Property(e => e.ActionType).HasMaxLength(20);
-            entity.Property(e => e.CreatedBy).HasMaxLength(100);
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");

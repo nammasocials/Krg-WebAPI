@@ -15,7 +15,7 @@ public partial class ActivityLog
 
     public string? Description { get; set; }
 
-    public string? CreatedBy { get; set; }
+    public Guid? CreatedBy { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 

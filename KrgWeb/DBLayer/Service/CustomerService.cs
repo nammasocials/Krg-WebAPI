@@ -23,7 +23,7 @@ namespace DBLayer.Service
         private readonly NsinvoiceBillingContext _context;
         private readonly IUserClaimsService _userClaimsService;
         private readonly IRecentActivityService _recentActivityService;
-        public CustomerService(NsinvoiceBillingContext context, IUserClaimsService iUserClaimsService
+        public CustomerService(NsinvoiceBillingContext context, IUserClaimsService iUserClaimsService,
             IRecentActivityService iRecentActivityService) 
         {
             _context = context;
@@ -66,13 +66,18 @@ namespace DBLayer.Service
                 {
                     var createdOn = customerToEdit.CreatedOn;
 
-                    
+                    var entry = _context.Entry(customerToEdit);
+                    string modifiedColumns = await _recentActivityService.GetChangedColumns(entry, "ModifiedOn", "ModifiedBy");
 
                     _context.Entry(customerToEdit).CurrentValues.SetValues(customer);
                     customerToEdit.CreatedOn = createdOn;
                     customerToEdit.ModifiedOn = DateTime.Now;
                     customerToEdit.ModifiedBy = claims.UserCode;
+
                     await _context.SaveChangesAsync();
+
+                    await _recentActivityService.AddActivityLogAsync("Customer", customerToEdit.CustomerCode
+                        , "Update", modifiedColumns);
                 }
             }
             else
@@ -81,6 +86,8 @@ namespace DBLayer.Service
                 customer.CreatedBy = claims.UserCode;
                 await _context.InvCustomers.AddAsync(customer);
                 await _context.SaveChangesAsync();
+                await _recentActivityService.AddActivityLogAsync("Customer", customer.CustomerCode
+                    , "Insert", $"New Customer - Name : {customer.CustomerName} has been added");
             }
 
             return await _context.Vcustomers.Where(C => C.CustomerCode == customer.CustomerCode).FirstOrDefaultAsync();
