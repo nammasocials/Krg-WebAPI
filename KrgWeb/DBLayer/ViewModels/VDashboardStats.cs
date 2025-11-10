@@ -8,7 +8,7 @@ namespace DBLayer.ViewModels
 {
     public class VDashboardStats
     {
-        public int OverallCustomerCount { get; set; }
-        public int RecentAddedCustomersCount { get; set; }
+        public int OverallCount { get; set; }
+        public int RecentAddedCount { get; set; }
     }
 }

@@ -1,3 +1,5 @@
+use NSinvoiceBilling
+go
 CREATE TRIGGER trg_InvCustomers_Audit
 ON InvCustomers
 AFTER INSERT, UPDATE, DELETE

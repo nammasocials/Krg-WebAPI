@@ -40,9 +40,9 @@ namespace DBLayer.Service
         public async Task<VDashboardStats> fetchDashboardCustomerStats()
         {
             var result = new VDashboardStats();
-            result.OverallCustomerCount = await _context.Vcustomers.CountAsync();
-            result.RecentAddedCustomersCount = await _context.Vcustomers.
-                Where(R => R.CreatedOn == DateTime.Today).CountAsync();
+            result.OverallCount = await _context.Vcustomers.CountAsync();
+            result.RecentAddedCount = await _context.Vcustomers.
+                Where(R => R.CreatedOn.Date == DateTime.Today).CountAsync();
             return result;
         }
         public async Task<Vcustomer> fetchCustomerDetails(int customerCode)

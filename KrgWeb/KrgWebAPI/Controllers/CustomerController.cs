@@ -44,7 +44,7 @@ namespace KrgWebAPI.Controllers
             return StatusCode(200, new ApiResponse<VDashboardStats>
             {
                 Code = 200,
-                Message = $"Successfully Fetched {result.OverallCustomerCount} records",
+                Message = $"Successfully Fetched {result.OverallCount} records",
                 Data = result
             });
         }
