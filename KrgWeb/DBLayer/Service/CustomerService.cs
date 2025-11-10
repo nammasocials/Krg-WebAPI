@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilityLayer;
 
 namespace DBLayer.Service
 {
@@ -75,9 +76,8 @@ namespace DBLayer.Service
                 if (customerToEdit != null)
                 {
                     var createdOn = customerToEdit.CreatedOn;
-
-                    var entry = _context.Entry(customerToEdit);
-                    string modifiedColumns = await _recentActivityService.GetChangedColumns(entry, "ModifiedOn", "ModifiedBy");
+                    var ignoredColumns = new List<string>{ "ModifiedOn", "ModifiedBy", "CreatedOn", "CreatedBy" };
+                    var modifiedColumns = DifferenceFinder.GetDifferentProperties<InvCustomer>(customerToEdit, customer, ignoredColumns);
 
                     _context.Entry(customerToEdit).CurrentValues.SetValues(customer);
                     customerToEdit.CreatedOn = createdOn;
@@ -85,9 +85,10 @@ namespace DBLayer.Service
                     customerToEdit.ModifiedBy = claims.UserCode;
 
                     await _context.SaveChangesAsync();
+                    var description = string.Join(", ", modifiedColumns) + $" For Customer {customerToEdit.CustomerName}";
 
                     await _recentActivityService.AddActivityLogAsync("Customer", customerToEdit.CustomerCode
-                        , "Update", modifiedColumns);
+                        , "Update", description);
                 }
             }
             else

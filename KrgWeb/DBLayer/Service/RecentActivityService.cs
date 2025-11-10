@@ -18,7 +18,6 @@ namespace DBLayer.Service
         public Task<List<VactivityLog>> fetchActivityLogsList();
         public Task<List<VactivityLog>> fetchActivityLogsByEntity(string entity);
         public Task<VactivityLog> fetchActivityLogsByLogId(int logId);
-        public Task<string> GetChangedColumns(EntityEntry entry, params string[] ignoreColumns);
     }
     public class RecentActivityService : IRecentActivityService
     {
@@ -43,26 +42,6 @@ namespace DBLayer.Service
         {
             var activityLog = await _context.VactivityLogs.Where(C => C.ActivityId == logId).FirstOrDefaultAsync();
             return activityLog;
-        }
-        public async Task<string> GetChangedColumns(EntityEntry entry, params string[] ignoreColumns)
-        {
-            var changedColumns = entry.Properties
-            .Where(p =>
-                p.IsModified &&
-                !Equals(p.CurrentValue, p.OriginalValue) &&
-                (ignoreColumns == null || !ignoreColumns.Contains(p.Metadata.Name))
-            )
-            .Select(p => p.Metadata.Name)
-            .ToList();
-
-            // Format: "Name, Email and GSTNo"
-            return changedColumns.Count switch
-            {
-                0 => string.Empty,
-                1 => changedColumns[0],
-                _ => string.Join(", ", changedColumns.Take(changedColumns.Count - 1))
-                        + " and " + changedColumns.Last()
-            };
         }
         public async Task<VactivityLog> AddActivityLogAsync(string entityType, int entityCode, 
             string actionType, string description)
