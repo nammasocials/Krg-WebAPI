@@ -36,6 +36,19 @@ namespace KrgWebAPI.Controllers
                 Data = result
             });
         }
+        [HttpGet("getRecentlyAddedCustomers")]
+        public async Task<IActionResult> getRecentlyAddedCustomers()
+        {
+            var customerList = await _customerService.fetchCustomerList();
+            var result = customerList.Where(C => C.CreatedOn.Date >= DateTime.Today).Take(5).ToList();
+
+            return StatusCode(200, new ApiResponse<List<Vcustomer>>
+            {
+                Code = 200,
+                Message = $"Successfully Fetched {result.Count} records",
+                Data = result
+            });
+        }
         [HttpGet("getCustomerStats")]
         public async Task<IActionResult> getCustomerStatsForDashboard()
         {
