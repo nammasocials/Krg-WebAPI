@@ -13,7 +13,7 @@ namespace DBLayer.Service
 {
     public interface IRecentActivityService
     {
-        public Task<VactivityLog> AddActivityLogAsync(string entityType, int entityCode,
+        public Task<VactivityLog> AddActivityLogAsync(string entityType, Guid entityCode,
             string actionType, string description);
         public Task<List<VactivityLog>> fetchActivityLogsList();
         public Task<List<VactivityLog>> fetchActivityLogsByEntity(string entity);
@@ -43,7 +43,7 @@ namespace DBLayer.Service
             var activityLog = await _context.VactivityLogs.Where(C => C.ActivityId == logId).FirstOrDefaultAsync();
             return activityLog;
         }
-        public async Task<VactivityLog> AddActivityLogAsync(string entityType, int entityCode, 
+        public async Task<VactivityLog> AddActivityLogAsync(string entityType, Guid entityCode, 
             string actionType, string description)
         {
             var claims = _userClaimsService.GetUserClaims();

@@ -15,9 +15,9 @@ namespace DBLayer.Service
     public interface ICustomerService
     {
         public Task<List<Vcustomer>> fetchCustomerList();
-        public Task<Vcustomer> fetchCustomerDetails(int customerCode);
-        public Task<(byte[] ImageData, string MimeType)> fetchCustomerImageAsync(int customerCode);
-        public Task<bool> deleteCustomer(int customerId);
+        public Task<Vcustomer> fetchCustomerDetails(Guid customerCode);
+        public Task<(byte[] ImageData, string MimeType)> fetchCustomerImageAsync(Guid customerCode);
+        public Task<bool> deleteCustomer(Guid customerId);
         public Task<Vcustomer> AddOrEditCustomer(InvCustomer customer, bool isEdit);
         public Task<VDashboardStats> fetchDashboardCustomerStats();
     }
@@ -46,12 +46,12 @@ namespace DBLayer.Service
                 Where(R => R.CreatedOn.Date == DateTime.Today).CountAsync();
             return result;
         }
-        public async Task<Vcustomer> fetchCustomerDetails(int customerCode)
+        public async Task<Vcustomer> fetchCustomerDetails(Guid customerCode)
         {
             var customers = await _context.Vcustomers.Where(C => C.CustomerCode == customerCode).FirstOrDefaultAsync();
             return customers;
         }
-        public async Task<(byte[] ImageData, string MimeType)> fetchCustomerImageAsync(int customerCode)
+        public async Task<(byte[] ImageData, string MimeType)> fetchCustomerImageAsync(Guid customerCode)
         {
             var customerPhoto = await _context.InvCustomers
                 .Where(c => c.CustomerCode == customerCode)
@@ -104,7 +104,7 @@ namespace DBLayer.Service
             return await _context.Vcustomers.Where(C => C.CustomerCode == customer.CustomerCode).FirstOrDefaultAsync();
         }
 
-        public async Task<bool> deleteCustomer(int customerId)
+        public async Task<bool> deleteCustomer(Guid customerId)
         {
             var customerToDelete = await _context.InvCustomers
                     .FirstOrDefaultAsync(c => c.CustomerCode == customerId);

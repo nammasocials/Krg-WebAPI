@@ -12,7 +12,7 @@ namespace DBLayer.Service
     public interface IProductService
     {
         public Task<List<Vproduct>> fetchProductList();
-        public Task<bool> deleteProduct(int productId);
+        public Task<bool> deleteProduct(Guid productId);
         public Task<Vproduct> AddOrEditProduct(InvProduct product, bool isEdit);
     }
     public class ProductService : IProductService
@@ -52,7 +52,7 @@ namespace DBLayer.Service
 
             return await _context.Vproducts.Where(C => C.ProductCode == product.ProductCode).FirstOrDefaultAsync();
         }
-        public async Task<bool> deleteProduct(int productId)
+        public async Task<bool> deleteProduct(Guid productId)
         {
             var productToDelete = await _context.InvProducts
                     .FirstOrDefaultAsync(c => c.ProductCode == productId);

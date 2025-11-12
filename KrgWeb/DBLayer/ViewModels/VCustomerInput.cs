@@ -9,7 +9,7 @@ namespace DBLayer.ViewModels
 {
     public class VCustomerInput
     {
-        public int CustomerCode { get; set; } = 0;
+        public Guid CustomerCode { get; set; }
         public string CustomerName { get; set; } = null!;
 
         public string CustomerAddress { get; set; } = null!;

@@ -63,7 +63,7 @@ namespace KrgWebAPI.Controllers
         }
 
         [HttpGet("getAllCustomerDetails/{customerCode}")]
-        public async Task<IActionResult> fetchCustomerDetails(int customerCode)
+        public async Task<IActionResult> fetchCustomerDetails(Guid customerCode)
         {
             var result = await _customerService.fetchCustomerDetails(customerCode);
 
@@ -76,7 +76,7 @@ namespace KrgWebAPI.Controllers
         }
 
         [HttpGet("getCustomerPhoto/{customerCode}")]
-        public async Task<IActionResult> GetCustomerPhoto(int customerCode)
+        public async Task<IActionResult> GetCustomerPhoto(Guid customerCode)
         {
             var (imageBytes, mimeType) = await _customerService.fetchCustomerImageAsync(customerCode);
             if (imageBytes == null || imageBytes.Length == 0)
@@ -154,7 +154,7 @@ namespace KrgWebAPI.Controllers
         }
 
         [HttpDelete("DeleteCustomer/{id}")]
-        public async Task<IActionResult> DeleteCustomerDetails(int id)
+        public async Task<IActionResult> DeleteCustomerDetails(Guid id)
         {
             var result = await _customerService.deleteCustomer(id);
             if (!result)

@@ -5,7 +5,7 @@ namespace DBLayer.Models;
 
 public partial class Vproduct
 {
-    public int ProductCode { get; set; }
+    public Guid ProductCode { get; set; }
 
     public string ProductName { get; set; } = null!;
 

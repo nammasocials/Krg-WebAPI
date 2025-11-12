@@ -1,7 +1,7 @@
 Use NSinvoiceBilling;
 GO
 CREATE TABLE [dbo].[InvProducts] (
-    [ProductCode] Integer IDENTITY(1,1) PRIMARY KEY,
+    [ProductCode] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID() PRIMARY KEY,
     [ProductName] NVARCHAR(100) NOT NULL,
     [StockCount] Integer Default 0 NOT NULL,
 	[UnitName] NVARCHAR(15) NOT NULL,

@@ -7,7 +7,7 @@ public partial class InvCustomersAudit
 {
     public int AuditId { get; set; }
 
-    public int? CustomerCode { get; set; }
+    public Guid CustomerCode { get; set; }
 
     public string CustomerName { get; set; } = null!;
 

@@ -9,7 +9,7 @@ public partial class VactivityLog
 
     public string EntityType { get; set; } = null!;
 
-    public int EntityId { get; set; }
+    public Guid EntityId { get; set; }
 
     public string ActionType { get; set; } = null!;
 

@@ -5,7 +5,7 @@ namespace DBLayer.Models;
 
 public partial class Vcustomer
 {
-    public int CustomerCode { get; set; }
+    public Guid CustomerCode { get; set; }
 
     public string CustomerName { get; set; } = null!;
 

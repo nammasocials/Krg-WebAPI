@@ -9,7 +9,7 @@ namespace DBLayer.ViewModels
 {
     public class VProductInput
     {
-        public int ProductCode { get; set; }
+        public Guid ProductCode { get; set; }
 
         public string ProductName { get; set; } = null!;
 

@@ -3,7 +3,7 @@ GO
 CREATE TABLE InvCustomers_Audit
 (
     AuditID INT IDENTITY(1,1) PRIMARY KEY,
-    CustomerCode INT,
+    CustomerCode UNIQUEIDENTIFIER NOT NULL,
     -- Add all other columns from InvCustomers here, e.g.
     [CustomerName] NVARCHAR(100) NOT NULL,
     [CustomerEmail] NVARCHAR(100) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE InvCustomers_Audit
 Go
 
 CREATE TABLE [dbo].[InvCustomers] (
-    [CustomerCode] Integer IDENTITY(1,1) PRIMARY KEY,
+    [CustomerCode] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID() PRIMARY KEY,
     [CustomerName] NVARCHAR(100) NOT NULL,
     [CustomerEmail] NVARCHAR(100) NOT NULL,
     [ContactNo] NVARCHAR(15) NOT NULL,

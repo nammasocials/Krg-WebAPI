@@ -78,7 +78,7 @@ namespace KrgWebAPI.Controllers
             });
         }
         [HttpDelete("DeleteProduct/{id}")]
-        public async Task<IActionResult> DeleteProductDetails(int id)
+        public async Task<IActionResult> DeleteProductDetails(Guid id)
         {
             var result = await _productService.deleteProduct(id);
             if (!result)

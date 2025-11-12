@@ -5,7 +5,7 @@ CREATE TABLE #Results (
 );
 
 EXEC sp_msforeachdb '
-DECLARE @TableName NVARCHAR(256) = ''InvCustomers''
+DECLARE @TableName NVARCHAR(256) = ''InvCustomers_Audit''
 IF ''?'' NOT IN (''master'',''tempdb'',''model'',''msdb'')
 BEGIN
     INSERT INTO #Results
