@@ -29,5 +29,7 @@ public partial class InvProductsAudit
 
     public Guid? ModifiedBy { get; set; }
 
+    public string? OperationType { get; set; }
+
     public virtual InvProduct ProductCodeNavigation { get; set; } = null!;
 }

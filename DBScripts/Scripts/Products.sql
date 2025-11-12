@@ -28,6 +28,8 @@ CREATE TABLE [dbo].[InvProducts_Audit] (
     [CreatedBy] UNIQUEIDENTIFIER,
 	[ModifiedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
     [ModifiedBy] UNIQUEIDENTIFIER,
+    -- ... more columns ...
+    OperationType CHAR(1), -- 'I' for Insert, 'U' for Update, 'D' for Delete
     CONSTRAINT FK_InvProducts_Audit_InvProducts 
     FOREIGN KEY (ProductCode) REFERENCES InvProducts(ProductCode)
 );
