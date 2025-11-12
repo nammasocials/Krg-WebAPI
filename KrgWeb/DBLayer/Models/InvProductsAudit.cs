@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 namespace DBLayer.Models;
 
-public partial class InvProduct
+public partial class InvProductsAudit
 {
+    public int AuditId { get; set; }
+
     public Guid ProductCode { get; set; }
 
     public string ProductName { get; set; } = null!;
@@ -27,5 +29,5 @@ public partial class InvProduct
 
     public Guid? ModifiedBy { get; set; }
 
-    public virtual ICollection<InvProductsAudit> InvProductsAudits { get; set; } = new List<InvProductsAudit>();
+    public virtual InvProduct ProductCodeNavigation { get; set; } = null!;
 }

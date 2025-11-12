@@ -30,4 +30,6 @@ public partial class InvCustomer
     public DateTime? ModifiedOn { get; set; }
 
     public Guid? ModifiedBy { get; set; }
+
+    public virtual ICollection<InvCustomersAudit> InvCustomersAudits { get; set; } = new List<InvCustomersAudit>();
 }

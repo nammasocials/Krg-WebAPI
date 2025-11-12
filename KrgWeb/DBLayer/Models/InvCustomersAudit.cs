@@ -34,4 +34,6 @@ public partial class InvCustomersAudit
     public Guid? ModifiedBy { get; set; }
 
     public string? OperationType { get; set; }
+
+    public virtual InvCustomer CustomerCodeNavigation { get; set; } = null!;
 }
