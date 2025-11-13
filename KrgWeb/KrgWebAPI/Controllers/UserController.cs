@@ -40,7 +40,7 @@ namespace KrgWebAPI.Controllers
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.None,
-                Expires = DateTime.Now.AddMinutes(10)
+                Expires = DateTime.Now.AddMinutes(15)
             });
             result.token = "";
             return StatusCode(200, new ApiResponse<VMAuthResponse>

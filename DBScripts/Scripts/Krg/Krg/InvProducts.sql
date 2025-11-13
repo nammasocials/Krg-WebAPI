@@ -1,12 +1,38 @@
---CREATE DATABASE NSinvoiceBilling;
---GO
+CREATE DATABASE NSinvoiceBilling;
+GO
 Use NSinvoiceBilling;
 GO
+CREATE TABLE [dbo].[InvProducts_Constant] (
+	[ConstantId] INT IDENTITY(1,1) PRIMARY KEY,
+	[Category] nvarchar(100),
+	[Key] int not null,
+	[Name] nvarchar(200) not null,
+	[ShName] nvarchar(200) not null,
+	[Description] nvarchar(200),
+	[isActive] bit default 1 NOT NULL,
+    [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
+    [CreatedBy] UNIQUEIDENTIFIER,
+	CONSTRAINT UQ_InvProducts_Constant UNIQUE ([Category], [Key], [isActive])
+);
+GO
+
+Insert into [InvProducts_Constant] ([Category], [Key], [Name], [ShName], [Description], [CreatedBy] )
+Values('UnitType',1,'Piece','pcs','a single unit',(Select Top 1 UserCode from InvUser));
+Go
+Insert into [InvProducts_Constant] ([Category], [Key], [Name], [ShName], [Description], [CreatedBy] )
+Values('UnitType',2,'Pack','pk','10 units of Bags',(Select Top 1 UserCode from InvUser))
+Go
+Insert into [InvProducts_Constant] ([Category], [Key], [Name], [ShName], [Description], [CreatedBy] )
+Values('StockTxnType',1,'Stock-In','In','Production of Stock Inventory',(Select Top 1 UserCode from InvUser))
+Go
+Insert into [InvProducts_Constant] ([Category], [Key], [Name], [ShName], [Description], [CreatedBy] )
+Values('StockTxnType',2,'Stock-Out','Out','Sales of Stock Inventory',(Select Top 1 UserCode from InvUser))
+Go
+
 CREATE TABLE [dbo].[InvProducts] (
     [ProductCode] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID() PRIMARY KEY,
     [ProductName] NVARCHAR(100) NOT NULL,
-    [StockCount] Integer Default 0 NOT NULL,
-	[UnitName] NVARCHAR(15) NOT NULL,
+	[UnitType] int NOT NULL,
     [UnitCost] decimal(10,2) NOT Null,
 	[ProductLogo] [varbinary](max) NULL,
     [isActive] bit default 1 NOT NULL,
@@ -21,8 +47,7 @@ CREATE TABLE [dbo].[InvProducts_Audit] (
     [AuditID] INT IDENTITY(1,1) PRIMARY KEY,
     [ProductCode] UNIQUEIDENTIFIER NOT NULL ,
     [ProductName] NVARCHAR(100) NOT NULL,
-    [StockCount] Integer Default 0 NOT NULL,
-	[UnitName] NVARCHAR(15) NOT NULL,
+	[UnitType] int NOT NULL,
     [UnitCost] decimal(10,2) NOT Null,
 	[ProductLogo] [varbinary](max) NULL,
     [isActive] bit default 1 NOT NULL,
@@ -37,6 +62,21 @@ CREATE TABLE [dbo].[InvProducts_Audit] (
 );
 Go
 
+CREATE TABLE [dbo].[InvProducts_Stock] (
+    [StockTnxId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID() PRIMARY KEY,
+    [ProductCode] UNIQUEIDENTIFIER NOT NULL ,
+    [UnitType] int NOT NULL,
+    [Quantity] Integer Default 0 NOT NULL,
+	[TxnType] int NOT NULL,
+    [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
+    [CreatedBy] UNIQUEIDENTIFIER,
+    CONSTRAINT FK_InvProducts_Audit_InvProducts 
+    FOREIGN KEY (ProductCode) REFERENCES InvProducts(ProductCode)
+);
+Go
+DENY UPDATE ON [dbo].[InvProducts_Stock] TO [KrgApiUser];
+
+
 /****** Object:  View [dbo].[VCustomers]    Script Date: 24/10/2025 14:00:10 ******/
 SET ANSI_NULLS ON
 GO
@@ -48,15 +88,16 @@ CREATE OR ALTER VIEW [dbo].[VProducts] AS
     Select  
 	[ProductCode],
     [ProductName],
-    [StockCount],
-	[UnitName],
+    P.[StockCount],
+	unit.[Name] as UnitName,
     [UnitCost] ,
     [isActive] ,
     [CreatedOn] ,
     [CreatedBy] ,
 	[ModifiedOn] ,
     [ModifiedBy] 
-    from InvProducts;
+    from InvProducts P 
+	inner join InvProducts_Constant unit on unit.ConstantId = P.UnitType;
 GO
 
 CREATE OR ALTER TRIGGER trg_InvProducts_Audit
