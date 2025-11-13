@@ -1,18 +1,7 @@
-﻿CREATE DATABASE NSinvoiceBilling;
-GO
+--CREATE DATABASE NSinvoiceBilling;
+--GO
 Use NSinvoiceBilling;
 GO
-
-CREATE TABLE Logs (
-    Id INT IDENTITY PRIMARY KEY,
-    Message NVARCHAR(MAX),
-    MessageTemplate NVARCHAR(MAX),
-    Level NVARCHAR(128),
-    TimeStamp DATETIME,
-    Exception NVARCHAR(MAX),
-    Properties NVARCHAR(MAX)
-);
-
 CREATE TABLE [dbo].[UserType] (
     [UserTypeId] SMALLINT IDENTITY(1,1) PRIMARY KEY,
     [UserTypeName] NVARCHAR(255) NOT NULL,
@@ -48,7 +37,7 @@ Go
 --USE NSinvoiceBilling;
 --CREATE USER KrgApiUser FOR LOGIN KrgApiUser;
 
----- 3️⃣  Give data access (read/write)
+---- 3??  Give data access (read/write)
 --ALTER ROLE db_datareader ADD MEMBER KrgApiUser;
 --ALTER ROLE db_datawriter ADD MEMBER KrgApiUser;
 --GRANT VIEW DEFINITION TO [KrgApiUser];
