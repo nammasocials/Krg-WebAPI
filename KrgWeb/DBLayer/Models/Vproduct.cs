@@ -13,6 +13,10 @@ public partial class Vproduct
 
     public string UnitName { get; set; } = null!;
 
+    public string ShortName { get; set; } = null!;
+
+    public string UnitNameDetail { get; set; } = null!;
+
     public decimal UnitCost { get; set; }
 
     public bool IsActive { get; set; }

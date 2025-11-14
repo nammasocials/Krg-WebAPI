@@ -93,6 +93,7 @@ builder.Services.AddDbContext<NsinvoiceBillingContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICommonService, CommonService>();
 builder.Services.AddScoped<IUserClaimsService, UserClaimsService>();
 builder.Services.AddScoped<IRecentActivityService, RecentActivityService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();

@@ -2,32 +2,6 @@
 --GO
 Use NSinvoiceBilling;
 GO
-CREATE TABLE [dbo].[InvProducts_Constant] (
-	[ConstantId] INT IDENTITY(1,1) PRIMARY KEY,
-	[Category] nvarchar(100),
-	[Key] int not null,
-	[Name] nvarchar(200) not null,
-	[ShName] nvarchar(200) not null,
-	[Description] nvarchar(200),
-	[isActive] bit default 1 NOT NULL,
-    [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
-    [CreatedBy] UNIQUEIDENTIFIER,
-	CONSTRAINT UQ_InvProducts_Constant UNIQUE ([Category], [Key], [isActive])
-);
-GO
-
-Insert into [InvProducts_Constant] ([Category], [Key], [Name], [ShName], [Description], [CreatedBy] )
-Values('UnitType',1,'Piece','pcs','a single unit',(Select Top 1 UserCode from InvUser));
-Go
-Insert into [InvProducts_Constant] ([Category], [Key], [Name], [ShName], [Description], [CreatedBy] )
-Values('UnitType',2,'Pack','pk','10 units of Bags',(Select Top 1 UserCode from InvUser))
-Go
-Insert into [InvProducts_Constant] ([Category], [Key], [Name], [ShName], [Description], [CreatedBy] )
-Values('StockTxnType',1,'Stock-In','In','Production of Stock Inventory',(Select Top 1 UserCode from InvUser))
-Go
-Insert into [InvProducts_Constant] ([Category], [Key], [Name], [ShName], [Description], [CreatedBy] )
-Values('StockTxnType',2,'Stock-Out','Out','Sales of Stock Inventory',(Select Top 1 UserCode from InvUser))
-Go
 
 CREATE TABLE [dbo].[InvProducts] (
     [ProductCode] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID() PRIMARY KEY,
@@ -78,6 +52,8 @@ CREATE OR ALTER VIEW [dbo].[VProducts] AS
     [ProductName],
     [CurrentStock],
 	unit.[Name] as UnitName,
+	unit.[ShName] as ShortName,
+	CONCAT(unit.[Name], ' (',unit.[ShName],')') UnitNameDetail, 
     [UnitCost] ,
     P.[isActive] ,
     P.[CreatedOn] ,
@@ -85,7 +61,7 @@ CREATE OR ALTER VIEW [dbo].[VProducts] AS
 	[ModifiedOn] ,
     [ModifiedBy] 
     from InvProducts P 
-	inner join InvProducts_Constant unit on unit.[Key] = P.UnitType and Category = 'UnitType';
+	inner join InvConstant unit on unit.[Key] = P.UnitType and EntityId = 'InvProducts' and Category = 'UnitType';
 GO
 
 CREATE OR ALTER TRIGGER trg_InvProducts_InitialStock
@@ -104,7 +80,7 @@ BEGIN
         i.[ProductCode]
         ,i.[UnitType]
 		,i.[CurrentStock]
-		,(Select [key] from InvProducts_Constant where  Category = 'StockTxnType' and Name = 'Stock-In')
+		,(Select [key] from InvConstant where  Category = 'StockTxnType' and EntityId = 'InvProducts' and Name = 'Stock-In')
         ,i.[CreatedBy]
     FROM inserted i
 END
