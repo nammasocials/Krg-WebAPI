@@ -11,6 +11,8 @@ public partial class Vproduct
 
     public int CurrentStock { get; set; }
 
+    public int UnitType { get; set; }
+
     public string UnitName { get; set; } = null!;
 
     public string ShortName { get; set; } = null!;

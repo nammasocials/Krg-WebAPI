@@ -51,6 +51,7 @@ CREATE OR ALTER VIEW [dbo].[VProducts] AS
 	[ProductCode],
     [ProductName],
     [CurrentStock],
+	[UnitType],
 	unit.[Name] as UnitName,
 	unit.[ShName] as ShortName,
 	CONCAT(unit.[Name], ' (',unit.[ShName],')') UnitNameDetail, 
