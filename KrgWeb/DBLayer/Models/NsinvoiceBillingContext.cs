@@ -118,7 +118,11 @@ public partial class NsinvoiceBillingContext : DbContext
         {
             entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024E3186C59F");
 
-            entity.ToTable(tb => tb.HasTrigger("trg_InvProducts_Audit"));
+            entity.ToTable(tb =>
+                {
+                    tb.HasTrigger("trg_InvProducts_Audit");
+                    tb.HasTrigger("trg_InvProducts_InitialStock");
+                });
 
             entity.Property(e => e.ProductCode).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedOn)

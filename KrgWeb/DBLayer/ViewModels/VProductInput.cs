@@ -13,9 +13,9 @@ namespace DBLayer.ViewModels
 
         public string ProductName { get; set; } = null!;
 
-        public int StockCount { get; set; }
+        public int CurrentStock { get; set; }
 
-        public string UnitName { get; set; } = null!;
+        public int UnitType { get; set; }
 
         public decimal UnitCost { get; set; }
         public IFormFile? ProductLogo { get; set; }
