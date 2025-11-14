@@ -12,6 +12,8 @@ namespace DBLayer.Service
     public interface IProductService
     {
         public Task<List<Vproduct>> fetchProductList();
+        public Task<(byte[] ImageData, string MimeType)> fetchProductImageAsync(Guid productCode);
+        public Task<Vproduct> fetchProductDetails(Guid productCode);
         public Task<bool> deleteProduct(Guid productId);
         public Task<Vproduct> AddOrEditProduct(InvProduct product, bool isEdit);
     }
@@ -28,6 +30,23 @@ namespace DBLayer.Service
         {
             var products = await _context.Vproducts.ToListAsync();
             return products;
+        }
+        public async Task<(byte[] ImageData, string MimeType)> fetchProductImageAsync(Guid productCode)
+        {
+            var productPhoto = await _context.InvProducts
+                .Where(c => c.ProductCode == productCode)
+                .Select(c => new { c.ProductLogo, c.ProductLogoMime })   // Assuming you store MIME type
+                .FirstOrDefaultAsync();
+
+            if (productPhoto == null || productPhoto.ProductLogo == null)
+                return (null, null);
+
+            return (productPhoto.ProductLogo, productPhoto.ProductLogoMime ?? "image/jpeg");
+        }
+        public async Task<Vproduct> fetchProductDetails(Guid productCode)
+        {
+            var product = await _context.Vproducts.Where(C => C.ProductCode == productCode).FirstOrDefaultAsync();
+            return product;
         }
         public async Task<Vproduct> AddOrEditProduct(InvProduct product, bool isEdit)
         {

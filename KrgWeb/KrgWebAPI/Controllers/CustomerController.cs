@@ -62,7 +62,7 @@ namespace KrgWebAPI.Controllers
             });
         }
 
-        [HttpGet("getAllCustomerDetails/{customerCode}")]
+        [HttpGet("getCustomerDetails/{customerCode}")]
         public async Task<IActionResult> fetchCustomerDetails(Guid customerCode)
         {
             var result = await _customerService.fetchCustomerDetails(customerCode);

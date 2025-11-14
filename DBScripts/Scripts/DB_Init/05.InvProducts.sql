@@ -10,6 +10,7 @@ CREATE TABLE [dbo].[InvProducts] (
     [UnitCost] decimal(10,2) NOT Null,
 	[CurrentStock] int DEFAULT 1 NOT NULL,
 	[ProductLogo] [varbinary](max) NULL,
+	[ProductLogoMime] Nvarchar(30),
     [isActive] bit default 1 NOT NULL,
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
     [CreatedBy] UNIQUEIDENTIFIER,
@@ -26,6 +27,7 @@ CREATE TABLE [dbo].[InvProducts_Audit] (
     [UnitCost] decimal(10,2) NOT Null,
 	[CurrentStock] int DEFAULT 1 NOT NULL,
 	[ProductLogo] [varbinary](max) NULL,
+	[ProductLogoMime] Nvarchar(30),
     [isActive] bit default 1 NOT NULL,
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
     [CreatedBy] UNIQUEIDENTIFIER,
@@ -102,6 +104,7 @@ BEGIN
 		[UnitCost],
 		[CurrentStock],
 		[ProductLogo],
+		[ProductLogoMime],
 		[isActive],
 		[CreatedOn],
 		[CreatedBy],
@@ -116,6 +119,7 @@ BEGIN
         ,i.[UnitCost]
 		,i.[CurrentStock]
         ,i.[ProductLogo]
+		,i.[ProductLogoMime]
         ,i.[isActive]
         ,i.[CreatedOn]
         ,i.[CreatedBy]
@@ -134,6 +138,7 @@ BEGIN
 		[UnitCost],
 		[CurrentStock],
 		[ProductLogo],
+		[ProductLogoMime],
 		[isActive],
 		[CreatedOn],
 		[CreatedBy],
@@ -148,6 +153,7 @@ BEGIN
         ,d.[UnitCost]
 		,d.[CurrentStock]
         ,d.[ProductLogo]
+		,d.[ProductLogoMime]
         ,d.[isActive]
         ,d.[CreatedOn]
         ,d.[CreatedBy]
@@ -166,6 +172,7 @@ BEGIN
 		[UnitCost],
 		[CurrentStock],
 		[ProductLogo],
+		[ProductLogoMime],
 		[isActive],
 		[CreatedOn],
 		[CreatedBy],
@@ -180,6 +187,7 @@ BEGIN
         ,i.[UnitCost]
 		,i.[CurrentStock]
         ,i.[ProductLogo]
+		,i.[ProductLogoMime]
         ,i.[isActive]
         ,i.[CreatedOn]
         ,i.[CreatedBy]

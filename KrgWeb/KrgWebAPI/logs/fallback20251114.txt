@@ -100,3 +100,87 @@ Error Number:208,State:1,Class:16
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
    at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
    at KrgWebAPI.SecurityAndExceptionMiddleware.InvokeAsync(HttpContext context) in E:\Projects\Learning\Krg\Krg-WebAPI\KrgWeb\KrgWebAPI\SecurityAndExceptionMiddleware.cs:line 64
+2025-11-14 17:35:26.279 +05:30 [ERR] An unhandled exception occurred.
+System.ArgumentException: Parameter is not valid.
+   at Windows.Win32.Graphics.GdiPlus.StatusExtensions.ThrowIfFailed(Status status)
+   at System.Drawing.Image.LoadGdipImageFromStream(IStream* stream, Boolean useEmbeddedColorManagement)
+   at System.Drawing.Image.LoadGdipImageFromStream(Stream stream, Boolean useEmbeddedColorManagement)
+   at System.Drawing.Image.FromStream(Stream stream, Boolean useEmbeddedColorManagement, Boolean validateImageData)
+   at System.Drawing.Image.FromStream(Stream stream, Boolean useEmbeddedColorManagement)
+   at System.Drawing.Image.FromStream(Stream stream)
+   at KrgWebAPI.Controllers.ProductController.AddProduct(VProductInput productInput) in E:\Projects\Learning\Krg\Krg-WebAPI\KrgWeb\KrgWebAPI\Controllers\ProductController.cs:line 48
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at KrgWebAPI.SecurityAndExceptionMiddleware.InvokeAsync(HttpContext context) in E:\Projects\Learning\Krg\Krg-WebAPI\KrgWeb\KrgWebAPI\SecurityAndExceptionMiddleware.cs:line 64
+2025-11-14 17:37:06.096 +05:30 [ERR] An unhandled exception occurred.
+System.ArgumentException: Parameter is not valid.
+   at Windows.Win32.Graphics.GdiPlus.StatusExtensions.ThrowIfFailed(Status status)
+   at System.Drawing.Image.LoadGdipImageFromStream(IStream* stream, Boolean useEmbeddedColorManagement)
+   at System.Drawing.Image.LoadGdipImageFromStream(Stream stream, Boolean useEmbeddedColorManagement)
+   at System.Drawing.Image.FromStream(Stream stream, Boolean useEmbeddedColorManagement, Boolean validateImageData)
+   at System.Drawing.Image.FromStream(Stream stream, Boolean useEmbeddedColorManagement)
+   at System.Drawing.Image.FromStream(Stream stream)
+   at KrgWebAPI.Controllers.ProductController.AddProduct(VProductInput productInput) in E:\Projects\Learning\Krg\Krg-WebAPI\KrgWeb\KrgWebAPI\Controllers\ProductController.cs:line 73
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at KrgWebAPI.SecurityAndExceptionMiddleware.InvokeAsync(HttpContext context) in E:\Projects\Learning\Krg\Krg-WebAPI\KrgWeb\KrgWebAPI\SecurityAndExceptionMiddleware.cs:line 64
+2025-11-14 17:37:51.586 +05:30 [ERR] An unhandled exception occurred.
+System.ArgumentException: Parameter is not valid.
+   at Windows.Win32.Graphics.GdiPlus.StatusExtensions.ThrowIfFailed(Status status)
+   at System.Drawing.Image.LoadGdipImageFromStream(IStream* stream, Boolean useEmbeddedColorManagement)
+   at System.Drawing.Image.LoadGdipImageFromStream(Stream stream, Boolean useEmbeddedColorManagement)
+   at System.Drawing.Image.FromStream(Stream stream, Boolean useEmbeddedColorManagement, Boolean validateImageData)
+   at System.Drawing.Image.FromStream(Stream stream, Boolean useEmbeddedColorManagement)
+   at System.Drawing.Image.FromStream(Stream stream)
+   at KrgWebAPI.Controllers.ProductController.AddProduct(VProductInput productInput) in E:\Projects\Learning\Krg\Krg-WebAPI\KrgWeb\KrgWebAPI\Controllers\ProductController.cs:line 73
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at KrgWebAPI.SecurityAndExceptionMiddleware.InvokeAsync(HttpContext context) in E:\Projects\Learning\Krg\Krg-WebAPI\KrgWeb\KrgWebAPI\SecurityAndExceptionMiddleware.cs:line 64
+2025-11-14 17:38:27.281 +05:30 [ERR] An unhandled exception occurred.
+System.ArgumentException: Parameter is not valid.
+   at Windows.Win32.Graphics.GdiPlus.StatusExtensions.ThrowIfFailed(Status status)
+   at System.Drawing.Image.LoadGdipImageFromStream(IStream* stream, Boolean useEmbeddedColorManagement)
+   at System.Drawing.Image.LoadGdipImageFromStream(Stream stream, Boolean useEmbeddedColorManagement)
+   at System.Drawing.Image.FromStream(Stream stream, Boolean useEmbeddedColorManagement, Boolean validateImageData)
+   at System.Drawing.Image.FromStream(Stream stream, Boolean useEmbeddedColorManagement)
+   at System.Drawing.Image.FromStream(Stream stream)
+   at KrgWebAPI.Controllers.ProductController.AddProduct(VProductInput productInput) in E:\Projects\Learning\Krg\Krg-WebAPI\KrgWeb\KrgWebAPI\Controllers\ProductController.cs:line 73
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at KrgWebAPI.SecurityAndExceptionMiddleware.InvokeAsync(HttpContext context) in E:\Projects\Learning\Krg\Krg-WebAPI\KrgWeb\KrgWebAPI\SecurityAndExceptionMiddleware.cs:line 64

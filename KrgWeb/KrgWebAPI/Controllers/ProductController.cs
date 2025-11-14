@@ -6,7 +6,9 @@ using KrgWebAPI.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 using System.Threading.Tasks;
+using UtilityLayer;
 
 namespace KrgWebAPI.Controllers
 {
@@ -33,6 +35,31 @@ namespace KrgWebAPI.Controllers
                 Data = result
             });
         }
+        [HttpGet("getProductPhoto/{productCode}")]
+        public async Task<IActionResult> GetProductPhoto(Guid productCode)
+        {
+            var (imageBytes, mimeType) = await _productService.fetchProductImageAsync(productCode);
+            if (imageBytes == null || imageBytes.Length == 0)
+            {
+                // Return 200 OK with empty string as body
+                return Content(string.Empty, "text/plain");
+            }
+
+            // Serve bytes directly with appropriate mime type (jpeg, png, etc)
+            return File(imageBytes, mimeType);
+        }
+        [HttpGet("getProductDetails/{productCode}")]
+        public async Task<IActionResult> fetchProductDetails(Guid productCode)
+        {
+            var result = await _productService.fetchProductDetails(productCode);
+
+            return StatusCode(200, new ApiResponse<Vproduct>
+            {
+                Code = 200,
+                Message = $"Successfully Fetched {result.ProductCode} records",
+                Data = result
+            });
+        }
         [HttpPost("AddProduct")]
         public async Task<IActionResult> AddProduct([FromForm] VProductInput productInput)
         {
@@ -42,7 +69,16 @@ namespace KrgWebAPI.Controllers
                 using (var ms = new MemoryStream())
                 {
                     await productInput.ProductLogo.CopyToAsync(ms);
-                    product.ProductLogo = ms.ToArray();  // ✅ convert to byte[]
+                    var imageBytes = ms.ToArray();
+                    using (var img = Image.FromStream(new MemoryStream(imageBytes)))
+                    {
+                        string mimeType = ImageReader.GetMimeType(img.RawFormat);
+                        Console.WriteLine($"Detected MIME type: {mimeType}");
+
+                        // Save both imageBytes and mimeType to your database/entity
+                        product.ProductLogo = imageBytes;
+                        product.ProductLogoMime = mimeType;
+                    }
                 }
             }
 

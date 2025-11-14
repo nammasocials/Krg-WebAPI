@@ -17,6 +17,8 @@ public partial class InvProduct
 
     public byte[]? ProductLogo { get; set; }
 
+    public string? ProductLogoMime { get; set; }
+
     public bool IsActive { get; set; }
 
     public DateTime CreatedOn { get; set; }
