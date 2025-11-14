@@ -1,5 +1,5 @@
-CREATE DATABASE NSinvoiceBilling;
-GO
+--CREATE DATABASE NSinvoiceBilling;
+--GO
 Use NSinvoiceBilling;
 GO
 CREATE TABLE [dbo].[InvProducts_Constant] (
@@ -34,6 +34,7 @@ CREATE TABLE [dbo].[InvProducts] (
     [ProductName] NVARCHAR(100) NOT NULL,
 	[UnitType] int NOT NULL,
     [UnitCost] decimal(10,2) NOT Null,
+	[CurrentStock] int DEFAULT 1 NOT NULL,
 	[ProductLogo] [varbinary](max) NULL,
     [isActive] bit default 1 NOT NULL,
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
@@ -49,6 +50,7 @@ CREATE TABLE [dbo].[InvProducts_Audit] (
     [ProductName] NVARCHAR(100) NOT NULL,
 	[UnitType] int NOT NULL,
     [UnitCost] decimal(10,2) NOT Null,
+	[CurrentStock] int DEFAULT 1 NOT NULL,
 	[ProductLogo] [varbinary](max) NULL,
     [isActive] bit default 1 NOT NULL,
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
@@ -66,15 +68,51 @@ CREATE TABLE [dbo].[InvProducts_Stock] (
     [StockTnxId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID() PRIMARY KEY,
     [ProductCode] UNIQUEIDENTIFIER NOT NULL ,
     [UnitType] int NOT NULL,
-    [Quantity] Integer Default 0 NOT NULL,
+    [Quantity] Integer NOT NULL,
 	[TxnType] int NOT NULL,
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
     [CreatedBy] UNIQUEIDENTIFIER,
-    CONSTRAINT FK_InvProducts_Audit_InvProducts 
-    FOREIGN KEY (ProductCode) REFERENCES InvProducts(ProductCode)
+    CONSTRAINT FK_InvProducts_Stock_InvProducts 
+    FOREIGN KEY (ProductCode) REFERENCES InvProducts(ProductCode),
+	CONSTRAINT Chk_InvProducts_Stock_Quantity_not_zero CHECK (Quantity <> 0)
 );
 Go
 DENY UPDATE ON [dbo].[InvProducts_Stock] TO [KrgApiUser];
+GO
+
+CREATE OR ALTER TRIGGER trg_InvProducts_Stock_Quantity
+ON InvProducts_Stock
+FOR INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @ProductCode UNIQUEIDENTIFIER;
+
+    -- Handle multi-row inserts safely
+    SELECT @ProductCode = ProductCode
+    FROM inserted;
+
+    -- Calculate total stock AFTER the insert
+    DECLARE @TotalStock INT;
+
+    SELECT @TotalStock = SUM(Quantity)
+    FROM InvProducts_Stock
+    WHERE ProductCode = @ProductCode;
+
+    -- If total stock becomes negative, block the insert
+    IF (@TotalStock < 0)
+    BEGIN
+        RAISERROR ('Total stock for this product cannot be negative.', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END
+	UPDATE InvProducts
+    SET CurrentStock = @TotalStock
+    WHERE ProductCode = @ProductCode;
+END;
+GO
+
 
 
 /****** Object:  View [dbo].[VCustomers]    Script Date: 24/10/2025 14:00:10 ******/
@@ -88,16 +126,16 @@ CREATE OR ALTER VIEW [dbo].[VProducts] AS
     Select  
 	[ProductCode],
     [ProductName],
-    P.[StockCount],
+    [CurrentStock],
 	unit.[Name] as UnitName,
     [UnitCost] ,
-    [isActive] ,
-    [CreatedOn] ,
-    [CreatedBy] ,
+    P.[isActive] ,
+    P.[CreatedOn] ,
+    P.[CreatedBy] ,
 	[ModifiedOn] ,
     [ModifiedBy] 
     from InvProducts P 
-	inner join InvProducts_Constant unit on unit.ConstantId = P.UnitType;
+	inner join InvProducts_Constant unit on unit.ConstantId = P.UnitType and Category = 'UnitType';
 GO
 
 CREATE OR ALTER TRIGGER trg_InvProducts_Audit
@@ -109,25 +147,25 @@ BEGIN
 
     -- Insert audit for inserted rows (INSERT)
     INSERT INTO InvProducts_Audit (
-        [ProductCode]
-        ,[ProductName]
-        ,[StockCount]
-        ,[UnitName]
-        ,[UnitCost]
-        ,[ProductLogo]
-        ,[isActive]
-        ,[CreatedOn]
-        ,[CreatedBy]
-        ,[ModifiedOn]
-        ,[ModifiedBy]
-        ,[OperationType]
+		[ProductCode],
+		[ProductName],
+		[UnitType],
+		[UnitCost],
+		[CurrentStock],
+		[ProductLogo],
+		[isActive],
+		[CreatedOn],
+		[CreatedBy],
+		[ModifiedOn],
+		[ModifiedBy],
+		[OperationType]
     )
     SELECT
         i.[ProductCode]
         ,i.[ProductName]
-        ,i.[StockCount]
-        ,i.[UnitName]
+        ,i.[UnitType]
         ,i.[UnitCost]
+		,i.[CurrentStock]
         ,i.[ProductLogo]
         ,i.[isActive]
         ,i.[CreatedOn]
@@ -141,25 +179,25 @@ BEGIN
 
     -- Insert audit for deleted rows (DELETE)
     INSERT INTO InvProducts_Audit (
-        [ProductCode]
-        ,[ProductName]
-        ,[StockCount]
-        ,[UnitName]
-        ,[UnitCost]
-        ,[ProductLogo]
-        ,[isActive]
-        ,[CreatedOn]
-        ,[CreatedBy]
-        ,[ModifiedOn]
-        ,[ModifiedBy]
-        ,[OperationType]
+        [ProductCode],
+		[ProductName],
+		[UnitType],
+		[UnitCost],
+		[CurrentStock],
+		[ProductLogo],
+		[isActive],
+		[CreatedOn],
+		[CreatedBy],
+		[ModifiedOn],
+		[ModifiedBy],
+		[OperationType]
     )
     SELECT
         d.[ProductCode]
         ,d.[ProductName]
-        ,d.[StockCount]
-        ,d.[UnitName]
+        ,d.[UnitType]
         ,d.[UnitCost]
+		,d.[CurrentStock]
         ,d.[ProductLogo]
         ,d.[isActive]
         ,d.[CreatedOn]
@@ -173,25 +211,25 @@ BEGIN
 
     -- Insert audit for updated rows (UPDATE)
     INSERT INTO InvProducts_Audit (
-        [ProductCode]
-        ,[ProductName]
-        ,[StockCount]
-        ,[UnitName]
-        ,[UnitCost]
-        ,[ProductLogo]
-        ,[isActive]
-        ,[CreatedOn]
-        ,[CreatedBy]
-        ,[ModifiedOn]
-        ,[ModifiedBy]
-        ,[OperationType]
+        [ProductCode],
+		[ProductName],
+		[UnitType],
+		[UnitCost],
+		[CurrentStock],
+		[ProductLogo],
+		[isActive],
+		[CreatedOn],
+		[CreatedBy],
+		[ModifiedOn],
+		[ModifiedBy],
+		[OperationType]
     )
     SELECT
         i.[ProductCode]
         ,i.[ProductName]
-        ,i.[StockCount]
-        ,i.[UnitName]
+        ,i.[UnitType]
         ,i.[UnitCost]
+		,i.[CurrentStock]
         ,i.[ProductLogo]
         ,i.[isActive]
         ,i.[CreatedOn]
@@ -202,3 +240,4 @@ BEGIN
     FROM inserted i
     JOIN deleted d ON i.[ProductCode] = d.[ProductCode];
 END
+GO

@@ -9,7 +9,7 @@ public partial class Vproduct
 
     public string ProductName { get; set; } = null!;
 
-    public int StockCount { get; set; }
+    public int CurrentStock { get; set; }
 
     public string UnitName { get; set; } = null!;
 

@@ -9,11 +9,11 @@ public partial class InvProduct
 
     public string ProductName { get; set; } = null!;
 
-    public int StockCount { get; set; }
-
-    public string UnitName { get; set; } = null!;
+    public int UnitType { get; set; }
 
     public decimal UnitCost { get; set; }
+
+    public int CurrentStock { get; set; }
 
     public byte[]? ProductLogo { get; set; }
 
@@ -28,4 +28,6 @@ public partial class InvProduct
     public Guid? ModifiedBy { get; set; }
 
     public virtual ICollection<InvProductsAudit> InvProductsAudits { get; set; } = new List<InvProductsAudit>();
+
+    public virtual ICollection<InvProductsStock> InvProductsStocks { get; set; } = new List<InvProductsStock>();
 }
