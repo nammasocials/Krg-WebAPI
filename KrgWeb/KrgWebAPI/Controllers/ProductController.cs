@@ -97,25 +97,25 @@ namespace KrgWebAPI.Controllers
                 Data = result
             });
         }
-        [HttpPost("AddStockEntry")]
-        public async Task<IActionResult> AddStockEntry(Guid id)
-        {
-            var result = await _productService.deleteProduct(id);
-            if (!result)
-            {
-                return StatusCode(200, new ApiResponse<bool>
-                {
-                    Code = 500,
-                    Message = $"Removing Customer Failed for {id}",
-                    Data = result
-                });
-            }
-            return StatusCode(200, new ApiResponse<bool>
-            {
-                Code = 200,
-                Message = $"Removing Customer Succeed for {id}",
-                Data = result
-            });
-        }
+        //[HttpPost("AddStockEntry")]
+        //public async Task<IActionResult> AddStockEntry(Guid id)
+        //{
+        //    var result = await _productService.deleteProduct(id);
+        //    if (!result)
+        //    {
+        //        return StatusCode(200, new ApiResponse<bool>
+        //        {
+        //            Code = 500,
+        //            Message = $"Removing Customer Failed for {id}",
+        //            Data = result
+        //        });
+        //    }
+        //    return StatusCode(200, new ApiResponse<bool>
+        //    {
+        //        Code = 200,
+        //        Message = $"Removing Customer Succeed for {id}",
+        //        Data = result
+        //    });
+        //}
     }
 }
