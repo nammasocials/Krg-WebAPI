@@ -50,7 +50,7 @@ public partial class NsinvoiceBillingContext : DbContext
     {
         modelBuilder.Entity<ActivityLog>(entity =>
         {
-            entity.HasKey(e => e.ActivityId).HasName("PK__Activity__45F4A7919B8D124C");
+            entity.HasKey(e => e.ActivityId).HasName("PK__Activity__45F4A791DE15C64E");
 
             entity.ToTable("ActivityLog");
 
@@ -65,7 +65,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvConstant>(entity =>
         {
-            entity.HasKey(e => e.ConstantId).HasName("PK__InvConst__66315FDF071D712F");
+            entity.HasKey(e => e.ConstantId).HasName("PK__InvConst__66315FDF8C138A6B");
 
             entity.ToTable("InvConstant");
 
@@ -81,12 +81,14 @@ public partial class NsinvoiceBillingContext : DbContext
                 .HasDefaultValue(true)
                 .HasColumnName("isActive");
             entity.Property(e => e.Name).HasMaxLength(200);
+            entity.Property(e => e.PluralName).HasMaxLength(200);
             entity.Property(e => e.ShName).HasMaxLength(200);
+            entity.Property(e => e.ShPluralName).HasMaxLength(200);
         });
 
         modelBuilder.Entity<InvCustomer>(entity =>
         {
-            entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__06678520D094ABA8");
+            entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__0667852023C84BC7");
 
             entity.ToTable(tb => tb.HasTrigger("trg_InvCustomers_Audit"));
 
@@ -108,7 +110,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvCustomersAudit>(entity =>
         {
-            entity.HasKey(e => e.AuditId).HasName("PK__InvCusto__A17F23B88CA0A03D");
+            entity.HasKey(e => e.AuditId).HasName("PK__InvCusto__A17F23B8841695EF");
 
             entity.ToTable("InvCustomers_Audit");
 
@@ -139,7 +141,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProduct>(entity =>
         {
-            entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024E3F07FF2E");
+            entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024EFDA7707A");
 
             entity.ToTable(tb =>
                 {
@@ -165,7 +167,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProductsAudit>(entity =>
         {
-            entity.HasKey(e => e.AuditId).HasName("PK__InvProdu__A17F23B830BE4A24");
+            entity.HasKey(e => e.AuditId).HasName("PK__InvProdu__A17F23B8125A67CB");
 
             entity.ToTable("InvProducts_Audit");
 
@@ -196,7 +198,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProductsStock>(entity =>
         {
-            entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE380604BD9E");
+            entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE38B52C344B");
 
             entity.ToTable("InvProducts_Stock", tb => tb.HasTrigger("trg_InvProducts_Stock_Quantity"));
 
@@ -213,7 +215,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvUser>(entity =>
         {
-            entity.HasKey(e => e.UserCode).HasName("PK__InvUser__1DF52D0D2507A702");
+            entity.HasKey(e => e.UserCode).HasName("PK__InvUser__1DF52D0DE325DF92");
 
             entity.ToTable("InvUser");
 
@@ -233,7 +235,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<Log>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC07612B986C");
+            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC074A2B3ED5");
 
             entity.Property(e => e.Level).HasMaxLength(128);
             entity.Property(e => e.TimeStamp).HasColumnType("datetime");
@@ -241,7 +243,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<UserType>(entity =>
         {
-            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D816FC4DF090");
+            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D816877E243C");
 
             entity.ToTable("UserType");
 
@@ -279,7 +281,9 @@ public partial class NsinvoiceBillingContext : DbContext
             entity.Property(e => e.EntityId).HasMaxLength(100);
             entity.Property(e => e.IsActive).HasColumnName("isActive");
             entity.Property(e => e.Name).HasMaxLength(200);
+            entity.Property(e => e.PluralName).HasMaxLength(200);
             entity.Property(e => e.ShName).HasMaxLength(200);
+            entity.Property(e => e.ShPluralName).HasMaxLength(200);
         });
 
         modelBuilder.Entity<Vcustomer>(entity =>
@@ -309,8 +313,11 @@ public partial class NsinvoiceBillingContext : DbContext
             entity.Property(e => e.CreatedOn).HasColumnType("datetime");
             entity.Property(e => e.IsActive).HasColumnName("isActive");
             entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+            entity.Property(e => e.PluralShortName).HasMaxLength(200);
+            entity.Property(e => e.PluralUnitName).HasMaxLength(200);
             entity.Property(e => e.ProductName).HasMaxLength(100);
             entity.Property(e => e.ShortName).HasMaxLength(200);
+            entity.Property(e => e.StockDisplay).HasMaxLength(416);
             entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.UnitName).HasMaxLength(200);
             entity.Property(e => e.UnitNameDetail).HasMaxLength(403);

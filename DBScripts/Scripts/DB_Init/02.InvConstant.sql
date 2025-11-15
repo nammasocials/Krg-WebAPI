@@ -6,7 +6,9 @@ CREATE TABLE [dbo].[InvConstant] (
 	[Category] nvarchar(100) not null,
 	[Key] int not null,
 	[Name] nvarchar(200) not null,
+	[PluralName] nvarchar(200),
 	[ShName] nvarchar(200) not null,
+	[ShPluralName] nvarchar(200),
 	[Description] nvarchar(200),
 	[isActive] bit default 1 NOT NULL,
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
@@ -22,7 +24,9 @@ CREATE OR ALTER View VConstant AS
 	[Category],
 	[Key],
 	[Name],
+	[PluralName],
 	[ShName],
+	[ShPluralName],
 	[Description],
 	[isActive],
     [CreatedOn],
@@ -30,11 +34,11 @@ CREATE OR ALTER View VConstant AS
     from InvConstant
 GO
 
-Insert into [InvConstant] ([EntityId], [Category], [Key], [Name], [ShName], [Description], [CreatedBy] )
-Values('InvProducts','UnitType',1,'Piece','pcs','a single unit',(Select Top 1 UserCode from InvUser));
+Insert into [InvConstant] ([EntityId], [Category], [Key], [Name],[PluralName], [ShName],[ShPluralName], [Description], [CreatedBy] )
+Values('InvProducts','UnitType',1,'Piece','Pieces','pc','pcs','a single unit',(Select Top 1 UserCode from InvUser));
 Go
-Insert into [InvConstant] ([EntityId], [Category], [Key], [Name], [ShName], [Description], [CreatedBy] )
-Values('InvProducts','UnitType',2,'Pack','pk','10 units of Bags',(Select Top 1 UserCode from InvUser))
+Insert into [InvConstant] ([EntityId], [Category], [Key], [Name],[PluralName], [ShName],[ShPluralName], [Description], [CreatedBy] )
+Values('InvProducts','UnitType',2,'Pack','Packs','pk','pks','10 units of Bags',(Select Top 1 UserCode from InvUser))
 Go
 Insert into [InvConstant] ([EntityId], [Category], [Key], [Name], [ShName], [Description], [CreatedBy] )
 Values('InvProducts','StockTxnType',1,'Stock-In','In','Production of Stock Inventory',(Select Top 1 UserCode from InvUser))

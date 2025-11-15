@@ -15,7 +15,11 @@ public partial class Vconstant
 
     public string Name { get; set; } = null!;
 
+    public string? PluralName { get; set; }
+
     public string ShName { get; set; } = null!;
+
+    public string? ShPluralName { get; set; }
 
     public string? Description { get; set; }
 

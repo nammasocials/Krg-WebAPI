@@ -17,6 +17,10 @@ public partial class Vproduct
 
     public string ShortName { get; set; } = null!;
 
+    public string? PluralUnitName { get; set; }
+
+    public string? PluralShortName { get; set; }
+
     public string UnitNameDetail { get; set; } = null!;
 
     public decimal UnitCost { get; set; }
@@ -30,4 +34,6 @@ public partial class Vproduct
     public DateTime ModifiedOn { get; set; }
 
     public Guid? ModifiedBy { get; set; }
+
+    public string StockDisplay { get; set; } = null!;
 }

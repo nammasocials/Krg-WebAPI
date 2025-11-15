@@ -1,4 +1,4 @@
---CREATE DATABASE NSinvoiceBilling;
+﻿--CREATE DATABASE NSinvoiceBilling;
 --GO
 Use NSinvoiceBilling;
 GO
@@ -48,23 +48,55 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+--CREATE OR ALTER VIEW [dbo].[VProducts] AS
+--    Select  
+--	[ProductCode],
+--    [ProductName],
+--    [CurrentStock],
+--	[UnitType],
+--	unit.[Name] as UnitName,
+--	unit.[ShName] as ShortName,
+--	CONCAT(unit.[Name], ' (',unit.[ShName],')') UnitNameDetail, 
+--    [UnitCost] ,
+--    P.[isActive] ,
+--    P.[CreatedOn] ,
+--    P.[CreatedBy] ,
+--	[ModifiedOn] ,
+--    [ModifiedBy] 
+--    from InvProducts P 
+--	inner join InvConstant unit on unit.[Key] = P.UnitType and EntityId = 'InvProducts' and Category = 'UnitType';
+--GO
+
 CREATE OR ALTER VIEW [dbo].[VProducts] AS
-    Select  
-	[ProductCode],
-    [ProductName],
-    [CurrentStock],
-	[UnitType],
-	unit.[Name] as UnitName,
-	unit.[ShName] as ShortName,
-	CONCAT(unit.[Name], ' (',unit.[ShName],')') UnitNameDetail, 
-    [UnitCost] ,
-    P.[isActive] ,
-    P.[CreatedOn] ,
-    P.[CreatedBy] ,
-	[ModifiedOn] ,
-    [ModifiedBy] 
-    from InvProducts P 
-	inner join InvConstant unit on unit.[Key] = P.UnitType and EntityId = 'InvProducts' and Category = 'UnitType';
+SELECT
+      P.[ProductCode],
+      P.[ProductName],
+      P.[CurrentStock],
+      P.[UnitType],
+      unit.[Name] AS UnitName,
+      unit.[ShName] AS ShortName,
+      unit.[PluralName] AS PluralUnitName,
+      unit.[ShPluralName] AS PluralShortName,
+      CONCAT(unit.[Name], ' (', unit.[ShName], ')') AS UnitNameDetail,
+      P.[UnitCost],
+      P.[isActive],
+      P.[CreatedOn],
+      P.[CreatedBy],
+      P.[ModifiedOn],
+      P.[ModifiedBy],
+
+      -- ⭐ NEW COLUMN: StockDisplay
+      CASE 
+          WHEN P.CurrentStock <= 1 
+               THEN CONCAT(P.CurrentStock, ' ', unit.[Name], ' (', unit.[ShName], ')')
+          ELSE CONCAT(P.CurrentStock, ' ', unit.[PluralName], ' (', unit.[ShPluralName], ')')
+      END AS StockDisplay
+
+FROM InvProducts P
+INNER JOIN InvConstant unit 
+       ON unit.[Key] = P.UnitType 
+      AND unit.EntityId = 'InvProducts' 
+      AND unit.Category = 'UnitType';
 GO
 
 CREATE OR ALTER TRIGGER trg_InvProducts_InitialStock
