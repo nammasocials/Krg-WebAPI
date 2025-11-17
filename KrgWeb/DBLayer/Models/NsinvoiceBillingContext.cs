@@ -43,6 +43,8 @@ public partial class NsinvoiceBillingContext : DbContext
 
     public virtual DbSet<Vproduct> Vproducts { get; set; }
 
+    public virtual DbSet<Vstock> Vstocks { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=DefaultConnection");
 
@@ -141,7 +143,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProduct>(entity =>
         {
-            entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024EFDA7707A");
+            entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024E92E6A61E");
 
             entity.ToTable(tb =>
                 {
@@ -167,7 +169,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProductsAudit>(entity =>
         {
-            entity.HasKey(e => e.AuditId).HasName("PK__InvProdu__A17F23B8125A67CB");
+            entity.HasKey(e => e.AuditId).HasName("PK__InvProdu__A17F23B83FFBC16F");
 
             entity.ToTable("InvProducts_Audit");
 
@@ -198,7 +200,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProductsStock>(entity =>
         {
-            entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE38B52C344B");
+            entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE3832AAD7A7");
 
             entity.ToTable("InvProducts_Stock", tb => tb.HasTrigger("trg_InvProducts_Stock_Quantity"));
 
@@ -319,6 +321,23 @@ public partial class NsinvoiceBillingContext : DbContext
             entity.Property(e => e.ShortName).HasMaxLength(200);
             entity.Property(e => e.StockDisplay).HasMaxLength(416);
             entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.UnitName).HasMaxLength(200);
+            entity.Property(e => e.UnitNameDetail).HasMaxLength(403);
+        });
+
+        modelBuilder.Entity<Vstock>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("VStock");
+
+            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+            entity.Property(e => e.PluralShortName).HasMaxLength(200);
+            entity.Property(e => e.PluralUnitName).HasMaxLength(200);
+            entity.Property(e => e.ProductName).HasMaxLength(100);
+            entity.Property(e => e.ShortName).HasMaxLength(200);
+            entity.Property(e => e.StockDisplay).HasMaxLength(416);
+            entity.Property(e => e.TransactionType).HasMaxLength(200);
             entity.Property(e => e.UnitName).HasMaxLength(200);
             entity.Property(e => e.UnitNameDetail).HasMaxLength(403);
         });

@@ -16,6 +16,7 @@ namespace DBLayer.Service
         public Task<(byte[] ImageData, string MimeType)> fetchProductImageAsync(Guid productCode);
         public Task<Vproduct> fetchProductDetails(Guid productCode);
         public Task<bool> deleteProduct(Guid productId);
+        public Task<List<Vstock>> fetchProductStockHistoryAsync(Guid productCode);
         public Task<bool> AddStock(Guid productId, int stockCount);
         public Task<Vproduct> AddOrEditProduct(InvProduct product, bool isEdit);
     }
@@ -89,10 +90,17 @@ namespace DBLayer.Service
             }
             return true;
         }
+        public async Task<List<Vstock>> fetchProductStockHistoryAsync(Guid productCode)
+        {
+            var stockList = await _context.Vstocks.Where(c => c.ProductCode == productCode).
+                OrderByDescending(S => S.CreatedOn)
+                .ToListAsync();
+            return stockList;
+        }
         public async Task<bool> AddStock(Guid productId, int stockCount)
         {
-            var productForStock = await _context.InvProducts
-                .FirstOrDefaultAsync(c => c.ProductCode == productId);
+            var productForStock = await _context.InvProducts.Where(c => c.ProductCode == productId)
+                .FirstOrDefaultAsync();
             var claims = _userClaimsService.GetUserClaims();
             var invStock = new InvProductsStock
             {

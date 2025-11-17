@@ -1,4 +1,4 @@
---CREATE DATABASE NSinvoiceBilling;
+﻿--CREATE DATABASE NSinvoiceBilling;
 --GO
 CREATE TABLE [dbo].[InvProducts_Stock] (
     [StockTnxId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID() PRIMARY KEY,
@@ -14,6 +14,41 @@ CREATE TABLE [dbo].[InvProducts_Stock] (
 );
 Go
 DENY UPDATE ON [dbo].[InvProducts_Stock] TO [KrgApiUser];
+GO
+
+Create OR Alter View VStock AS
+SELECT
+      Stock.[ProductCode],
+      P.[ProductName],
+      P.[UnitType],
+      unit.[Name] AS UnitName,
+      unit.[ShName] AS ShortName,
+      unit.[PluralName] AS PluralUnitName,
+      unit.[ShPluralName] AS PluralShortName,
+      CONCAT(unit.[Name], ' (', unit.[ShName], ')') AS UnitNameDetail,
+      TxnType.Name as TransactionType,
+      Stock.Quantity,
+      Stock.[CreatedOn],
+      Stock.[CreatedBy],
+
+      -- ⭐ NEW COLUMN: StockDisplay
+      CASE 
+          WHEN Stock.Quantity <= 1 
+               THEN CONCAT(Stock.Quantity, ' ', unit.[Name], ' (', unit.[ShName], ')')
+          ELSE CONCAT(Stock.Quantity, ' ', unit.[PluralName], ' (', unit.[ShPluralName], ')')
+      END AS StockDisplay
+
+FROM InvProducts_Stock Stock
+INNER JOIN InvProducts P 
+       ON P.ProductCode = Stock.ProductCode 
+INNER JOIN InvConstant TxnType 
+       ON TxnType.[Key] = Stock.TxnType 
+      AND TxnType.EntityId = 'InvProducts' 
+      AND TxnType.Category = 'StockTxnType'
+INNER JOIN InvConstant unit 
+       ON unit.[Key] = Stock.UnitType 
+      AND unit.EntityId = 'InvProducts' 
+      AND unit.Category = 'UnitType';
 GO
 
 CREATE OR ALTER TRIGGER trg_InvProducts_Stock_Quantity

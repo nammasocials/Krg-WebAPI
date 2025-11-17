@@ -133,6 +133,18 @@ namespace KrgWebAPI.Controllers
                 Data = result
             });
         }
+        [HttpGet("fetchStockList/{productCode}")]
+        public async Task<IActionResult> fetchStockList(Guid productCode)
+        {
+            var result = await _productService.fetchProductStockHistoryAsync(productCode);
+
+            return StatusCode(200, new ApiResponse<List<Vstock>>
+            {
+                Code = 200,
+                Message = $"Successfully Fetched {result.Count} records",
+                Data = result
+            });
+        }
         [HttpPost("AddStockEntry")]
         public async Task<IActionResult> AddStockEntry([FromForm] VProductAddStock vProductAddStock)
         {
