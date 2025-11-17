@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DBLayer.Models;
 using DBLayer.Service.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace DBLayer.Service
 {
@@ -15,6 +16,7 @@ namespace DBLayer.Service
         public Task<(byte[] ImageData, string MimeType)> fetchProductImageAsync(Guid productCode);
         public Task<Vproduct> fetchProductDetails(Guid productCode);
         public Task<bool> deleteProduct(Guid productId);
+        public Task<bool> AddStock(Guid productId, int stockCount);
         public Task<Vproduct> AddOrEditProduct(InvProduct product, bool isEdit);
     }
     public class ProductService : IProductService
@@ -86,6 +88,33 @@ namespace DBLayer.Service
                 return false;
             }
             return true;
+        }
+        public async Task<bool> AddStock(Guid productId, int stockCount)
+        {
+            var productForStock = await _context.InvProducts
+                .FirstOrDefaultAsync(c => c.ProductCode == productId);
+            var claims = _userClaimsService.GetUserClaims();
+            var invStock = new InvProductsStock
+            {
+                ProductCode = productId,
+                UnitType = productForStock.UnitType,
+                Quantity = stockCount,
+                TxnType = 1,
+                CreatedOn = DateTime.Now,
+                CreatedBy = claims.UserCode,
+            };
+            var result = false;
+            try
+            {
+                await _context.InvProductsStocks.AddAsync(invStock);
+                await _context.SaveChangesAsync();
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                result = true;
+            }
+            return result;
         }
     }
 }

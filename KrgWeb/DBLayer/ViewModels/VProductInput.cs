@@ -20,4 +20,9 @@ namespace DBLayer.ViewModels
         public decimal UnitCost { get; set; }
         public IFormFile? ProductLogo { get; set; }
     }
+    public class VProductAddStock
+    {
+        public Guid ProductCode { get; set; }
+        public int Quantity { get; set; }
+    }
 }
