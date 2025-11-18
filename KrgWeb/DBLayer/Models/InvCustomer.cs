@@ -32,4 +32,6 @@ public partial class InvCustomer
     public Guid? ModifiedBy { get; set; }
 
     public virtual ICollection<InvCustomersAudit> InvCustomersAudits { get; set; } = new List<InvCustomersAudit>();
+
+    public virtual ICollection<InvInvoice> InvInvoices { get; set; } = new List<InvInvoice>();
 }

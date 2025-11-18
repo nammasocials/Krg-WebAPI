@@ -23,6 +23,14 @@ public partial class NsinvoiceBillingContext : DbContext
 
     public virtual DbSet<InvCustomersAudit> InvCustomersAudits { get; set; }
 
+    public virtual DbSet<InvInvoice> InvInvoices { get; set; }
+
+    public virtual DbSet<InvInvoiceAudit> InvInvoiceAudits { get; set; }
+
+    public virtual DbSet<InvInvoiceItem> InvInvoiceItems { get; set; }
+
+    public virtual DbSet<InvInvoiceItemsAudit> InvInvoiceItemsAudits { get; set; }
+
     public virtual DbSet<InvProduct> InvProducts { get; set; }
 
     public virtual DbSet<InvProductsAudit> InvProductsAudits { get; set; }
@@ -40,6 +48,10 @@ public partial class NsinvoiceBillingContext : DbContext
     public virtual DbSet<Vconstant> Vconstants { get; set; }
 
     public virtual DbSet<Vcustomer> Vcustomers { get; set; }
+
+    public virtual DbSet<Vinvoice> Vinvoices { get; set; }
+
+    public virtual DbSet<VinvoiceDetail> VinvoiceDetails { get; set; }
 
     public virtual DbSet<Vproduct> Vproducts { get; set; }
 
@@ -139,6 +151,131 @@ public partial class NsinvoiceBillingContext : DbContext
                 .HasForeignKey(d => d.CustomerCode)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_InvCustomers_Audit_InvCustomers");
+        });
+
+        modelBuilder.Entity<InvInvoice>(entity =>
+        {
+            entity.HasKey(e => e.InvoiceCode).HasName("PK__InvInvoi__0D9D7FF264C938D0");
+
+            entity.ToTable("InvInvoice", tb => tb.HasTrigger("trg_InvInvoice_Audit"));
+
+            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B227454AA318").IsUnique();
+
+            entity.Property(e => e.InvoiceCode).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CreatedOn)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Gst)
+                .HasMaxLength(10)
+                .HasColumnName("GST");
+            entity.Property(e => e.InvoiceNo).HasMaxLength(100);
+            entity.Property(e => e.ModifiedOn)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.TotalCost).HasColumnType("decimal(10, 2)");
+
+            entity.HasOne(d => d.CustomerCodeNavigation).WithMany(p => p.InvInvoices)
+                .HasForeignKey(d => d.CustomerCode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvCustomer");
+        });
+
+        modelBuilder.Entity<InvInvoiceAudit>(entity =>
+        {
+            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B8710ADD85");
+
+            entity.ToTable("InvInvoice_Audit");
+
+            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B22701ED11E7").IsUnique();
+
+            entity.Property(e => e.AuditId).HasColumnName("AuditID");
+            entity.Property(e => e.CreatedOn)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Gst)
+                .HasMaxLength(10)
+                .HasColumnName("GST");
+            entity.Property(e => e.InvoiceNo).HasMaxLength(100);
+            entity.Property(e => e.ModifiedOn)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.OperationType)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.TotalCost).HasColumnType("decimal(10, 2)");
+
+            entity.HasOne(d => d.InvoiceCodeNavigation).WithMany(p => p.InvInvoiceAudits)
+                .HasForeignKey(d => d.InvoiceCode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvInvoice_Audit_InvInvoice");
+        });
+
+        modelBuilder.Entity<InvInvoiceItem>(entity =>
+        {
+            entity.HasKey(e => e.ItemCode).HasName("PK__InvInvoi__3ECC0FEB6C153467");
+
+            entity.ToTable("InvInvoice_Items", tb => tb.HasTrigger("trg_InvInvoice_Item_Audit"));
+
+            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B227AA7883BA").IsUnique();
+
+            entity.Property(e => e.ItemCode).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CreatedOn)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Hsncode)
+                .HasMaxLength(10)
+                .HasColumnName("HSNCode");
+            entity.Property(e => e.InvoiceNo).HasMaxLength(100);
+            entity.Property(e => e.ModifiedOn)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Quantity).HasDefaultValue(1);
+            entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
+
+            entity.HasOne(d => d.InvoiceCodeNavigation).WithMany(p => p.InvInvoiceItems)
+                .HasForeignKey(d => d.InvoiceCode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvInvoice");
+
+            entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.InvInvoiceItems)
+                .HasForeignKey(d => d.ProductCode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvProducts");
+        });
+
+        modelBuilder.Entity<InvInvoiceItemsAudit>(entity =>
+        {
+            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B8B1EBDC2C");
+
+            entity.ToTable("InvInvoice_Items_Audit");
+
+            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B2270D751F60").IsUnique();
+
+            entity.Property(e => e.AuditId).HasColumnName("AuditID");
+            entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CreatedOn)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Hsncode)
+                .HasMaxLength(10)
+                .HasColumnName("HSNCode");
+            entity.Property(e => e.InvoiceNo).HasMaxLength(100);
+            entity.Property(e => e.ModifiedOn)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.OperationType)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.Quantity).HasDefaultValue(1);
+            entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
+
+            entity.HasOne(d => d.ItemCodeNavigation).WithMany(p => p.InvInvoiceItemsAudits)
+                .HasForeignKey(d => d.ItemCode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvInvoice_Items_Audit_InvInvoice_Items");
         });
 
         modelBuilder.Entity<InvProduct>(entity =>
@@ -310,6 +447,45 @@ public partial class NsinvoiceBillingContext : DbContext
                 .HasColumnName("GST");
             entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
             entity.Property(e => e.SecnContactNo).HasMaxLength(15);
+        });
+
+        modelBuilder.Entity<Vinvoice>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("VInvoices");
+
+            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+            entity.Property(e => e.CustomerName).HasMaxLength(100);
+            entity.Property(e => e.Gst)
+                .HasMaxLength(10)
+                .HasColumnName("GST");
+            entity.Property(e => e.InvoiceNo).HasMaxLength(100);
+            entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+            entity.Property(e => e.TotalCost).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<VinvoiceDetail>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("VInvoiceDetail");
+
+            entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+            entity.Property(e => e.CustomerName).HasMaxLength(100);
+            entity.Property(e => e.Gst)
+                .HasMaxLength(10)
+                .HasColumnName("GST");
+            entity.Property(e => e.Hsncode)
+                .HasMaxLength(10)
+                .HasColumnName("HSNCode");
+            entity.Property(e => e.InvoiceNo).HasMaxLength(100);
+            entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+            entity.Property(e => e.ProductLogoMime).HasMaxLength(30);
+            entity.Property(e => e.ProductName).HasMaxLength(100);
+            entity.Property(e => e.TotalCost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
         });
 
         modelBuilder.Entity<Vproduct>(entity =>
