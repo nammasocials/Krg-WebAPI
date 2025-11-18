@@ -18,6 +18,7 @@ namespace DBLayer.ViewModels
         public int UnitType { get; set; }
 
         public decimal UnitCost { get; set; }
+        public string Hsncode { get; set; } = null!;
         public IFormFile? ProductLogo { get; set; }
     }
     public class VProductAddStock

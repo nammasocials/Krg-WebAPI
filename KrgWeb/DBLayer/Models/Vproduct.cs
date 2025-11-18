@@ -23,6 +23,8 @@ public partial class Vproduct
 
     public string UnitNameDetail { get; set; } = null!;
 
+    public string Hsncode { get; set; } = null!;
+
     public decimal UnitCost { get; set; }
 
     public bool IsActive { get; set; }

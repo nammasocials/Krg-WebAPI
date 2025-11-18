@@ -1,5 +1,8 @@
 ﻿--CREATE DATABASE NSinvoiceBilling;
 --GO
+use NSinvoiceBilling;
+GO
+
 CREATE TABLE [dbo].[InvProducts_Stock] (
     [StockTnxId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID() PRIMARY KEY,
     [ProductCode] UNIQUEIDENTIFIER NOT NULL ,

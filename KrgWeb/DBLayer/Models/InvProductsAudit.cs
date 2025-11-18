@@ -15,6 +15,8 @@ public partial class InvProductsAudit
 
     public decimal UnitCost { get; set; }
 
+    public string Hsncode { get; set; } = null!;
+
     public int CurrentStock { get; set; }
 
     public byte[]? ProductLogo { get; set; }

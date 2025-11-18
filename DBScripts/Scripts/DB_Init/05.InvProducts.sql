@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[InvProducts] (
     [ProductName] NVARCHAR(100) NOT NULL,
 	[UnitType] int NOT NULL,
     [UnitCost] decimal(10,2) NOT Null,
+	[HSNCode] nvarchar(10) not null,
 	[CurrentStock] int DEFAULT 1 NOT NULL,
 	[ProductLogo] [varbinary](max) NULL,
 	[ProductLogoMime] Nvarchar(30),
@@ -25,6 +26,7 @@ CREATE TABLE [dbo].[InvProducts_Audit] (
     [ProductName] NVARCHAR(100) NOT NULL,
 	[UnitType] int NOT NULL,
     [UnitCost] decimal(10,2) NOT Null,
+	[HSNCode] nvarchar(10) not null,
 	[CurrentStock] int DEFAULT 1 NOT NULL,
 	[ProductLogo] [varbinary](max) NULL,
 	[ProductLogoMime] Nvarchar(30),
@@ -78,6 +80,7 @@ SELECT
       unit.[PluralName] AS PluralUnitName,
       unit.[ShPluralName] AS PluralShortName,
       CONCAT(unit.[Name], ' (', unit.[ShName], ')') AS UnitNameDetail,
+	  [HSNCode],
       P.[UnitCost],
       P.[isActive],
       P.[CreatedOn],
@@ -134,6 +137,7 @@ BEGIN
 		[ProductName],
 		[UnitType],
 		[UnitCost],
+		[HSNCode],
 		[CurrentStock],
 		[ProductLogo],
 		[ProductLogoMime],
@@ -149,6 +153,7 @@ BEGIN
         ,i.[ProductName]
         ,i.[UnitType]
         ,i.[UnitCost]
+		,i.[HSNCode]
 		,i.[CurrentStock]
         ,i.[ProductLogo]
 		,i.[ProductLogoMime]
@@ -168,6 +173,7 @@ BEGIN
 		[ProductName],
 		[UnitType],
 		[UnitCost],
+		[HSNCode],
 		[CurrentStock],
 		[ProductLogo],
 		[ProductLogoMime],
@@ -183,6 +189,7 @@ BEGIN
         ,d.[ProductName]
         ,d.[UnitType]
         ,d.[UnitCost]
+		,d.[HSNCode]
 		,d.[CurrentStock]
         ,d.[ProductLogo]
 		,d.[ProductLogoMime]
@@ -202,6 +209,7 @@ BEGIN
 		[ProductName],
 		[UnitType],
 		[UnitCost],
+		[HSNCode],
 		[CurrentStock],
 		[ProductLogo],
 		[ProductLogoMime],
@@ -217,6 +225,7 @@ BEGIN
         ,i.[ProductName]
         ,i.[UnitType]
         ,i.[UnitCost]
+		,i.[HSNCode]
 		,i.[CurrentStock]
         ,i.[ProductLogo]
 		,i.[ProductLogoMime]
