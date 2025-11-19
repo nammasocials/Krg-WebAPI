@@ -1,3 +1,5 @@
+Use NSinvoiceBilling;
+GO
 CREATE OR ALTER TRIGGER trg_InvInvoice_Item_Audit
 ON InvInvoice_Items
 AFTER INSERT, UPDATE, DELETE

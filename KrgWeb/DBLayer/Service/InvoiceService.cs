@@ -11,7 +11,7 @@ namespace DBLayer.Service
 {
     public interface IInvoiceService
     {
-        public Task<List<Vproduct>> fetchInvoiceList();
+        public Task<List<Vinvoice>> fetchInvoiceList();
     }
     public class InvoiceService : IInvoiceService
     {
@@ -22,10 +22,10 @@ namespace DBLayer.Service
             _context = context;
             _userClaimsService = iUserClaimsService;
         }
-        public async Task<List<Vproduct>> fetchInvoiceList()
+        public async Task<List<Vinvoice>> fetchInvoiceList()
         {
-            var products = await _context.Vproducts.ToListAsync();
-            return products;
+            var invoiceList = await _context.Vinvoices.ToListAsync();
+            return invoiceList;
         }
     }
 }
