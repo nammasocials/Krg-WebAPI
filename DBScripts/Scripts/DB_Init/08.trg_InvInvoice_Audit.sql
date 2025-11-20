@@ -1,3 +1,5 @@
+Use NSinvoiceBilling;
+GO
 CREATE OR ALTER TRIGGER trg_InvInvoice_Audit
 ON InvInvoice
 AFTER INSERT, UPDATE, DELETE
@@ -11,6 +13,8 @@ BEGIN
 		[InvoiceNo],
 		[CustomerCode],
 		[TotalCost],
+		[isEwayBillAvailable],
+		[EWayBillLogo],
 		[GST],
 		[CreatedOn],
 		[CreatedBy],
@@ -22,6 +26,8 @@ BEGIN
         i.[InvoiceCode],
         i.[InvoiceNo],
         i.[CustomerCode],
+		i.[isEwayBillAvailable],
+		i.[EWayBillLogo],
         i.[TotalCost],
         i.[GST],
         i.[CreatedOn],
@@ -38,6 +44,8 @@ BEGIN
         [InvoiceCode],
 		[InvoiceNo],
 		[CustomerCode],
+		[isEwayBillAvailable],
+		[EWayBillLogo],
 		[TotalCost],
 		[GST],
 		[CreatedOn],
@@ -50,6 +58,8 @@ BEGIN
         d.[InvoiceCode],
         d.[InvoiceNo],
         d.[CustomerCode],
+		d.[isEwayBillAvailable],
+		d.[EWayBillLogo],
         d.[TotalCost],
         d.[GST],
         d.[CreatedOn],
@@ -66,6 +76,8 @@ BEGIN
         [InvoiceCode],
 		[InvoiceNo],
 		[CustomerCode],
+		[isEwayBillAvailable],
+		[EWayBillLogo],
 		[TotalCost],
 		[GST],
 		[CreatedOn],
@@ -78,6 +90,8 @@ BEGIN
         i.[InvoiceCode],
         i.[InvoiceNo],
         i.[CustomerCode],
+		i.[isEwayBillAvailable],
+		i.[EWayBillLogo],
         i.[TotalCost],
         i.[GST],
         i.[CreatedOn],

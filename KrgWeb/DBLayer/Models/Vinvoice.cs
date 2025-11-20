@@ -11,6 +11,8 @@ public partial class Vinvoice
 
     public string CustomerName { get; set; } = null!;
 
+    public bool IsEwayBillAvailable { get; set; }
+
     public decimal TotalCost { get; set; }
 
     public string Gst { get; set; } = null!;

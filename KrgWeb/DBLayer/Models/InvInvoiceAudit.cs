@@ -13,6 +13,10 @@ public partial class InvInvoiceAudit
 
     public Guid CustomerCode { get; set; }
 
+    public bool IsEwayBillAvailable { get; set; }
+
+    public byte[]? EwayBillLogo { get; set; }
+
     public decimal TotalCost { get; set; }
 
     public string Gst { get; set; } = null!;
