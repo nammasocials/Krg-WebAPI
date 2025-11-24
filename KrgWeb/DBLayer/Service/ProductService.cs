@@ -53,6 +53,7 @@ namespace DBLayer.Service
         }
         public async Task<Vproduct> AddOrEditProduct(InvProduct product, bool isEdit)
         {
+            var claims = _userClaimsService.GetUserClaims();
             if (isEdit)
             {
                 var productToEdit = await _context.InvProducts
@@ -63,6 +64,8 @@ namespace DBLayer.Service
                     var createdOn = productToEdit.CreatedOn;
                     _context.Entry(productToEdit).CurrentValues.SetValues(product);
                     productToEdit.CreatedOn = createdOn;
+                    productToEdit.ModifiedBy = claims.UserCode;
+                    productToEdit.ModifiedOn = DateTime.Now;
                     await _context.SaveChangesAsync();
                 }
             }
