@@ -27,5 +27,17 @@ namespace DBLayer.Service
             var invoiceList = await _context.Vinvoices.ToListAsync();
             return invoiceList;
         }
+        public async Task<Vinvoice> AddInvoiceAsync(InvInvoice invoiceEntity, List<InvInvoiceItem> products)
+        {
+            var claims = _userClaimsService.GetUserClaims();
+            invoiceEntity.CreatedBy = claims.UserCode;
+
+            await _context.InvInvoices.AddAsync(invoiceEntity);
+            await _context.SaveChangesAsync();
+
+
+
+            return await _context.Vinvoices.Where(C => C.InvoiceCode == invoiceEntity.InvoiceCode).FirstOrDefaultAsync();
+        }
     }
 }
