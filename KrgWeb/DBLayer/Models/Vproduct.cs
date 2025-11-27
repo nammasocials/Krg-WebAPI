@@ -27,6 +27,14 @@ public partial class Vproduct
 
     public decimal UnitCost { get; set; }
 
+    public decimal CentralGstPer { get; set; }
+
+    public decimal StateGstPer { get; set; }
+
+    public decimal? IntraStateTotal { get; set; }
+
+    public decimal? InterStateTotal { get; set; }
+
     public bool IsActive { get; set; }
 
     public DateTime CreatedOn { get; set; }

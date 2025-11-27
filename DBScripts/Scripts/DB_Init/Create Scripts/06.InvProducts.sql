@@ -9,8 +9,6 @@ CREATE TABLE [dbo].[InvProducts] (
 	[UnitType] int NOT NULL,
     [UnitCost] decimal(10,2) NOT Null,
 	[HSNCode] nvarchar(10) not null,
-	[CentralGstPer] decimal(10,2) NOT Null,
-	[StateGstPer] decimal(10,2) NOT Null,
 	[CurrentStock] int DEFAULT 1 NOT NULL,
 	[ProductLogo] [varbinary](max) NULL,
 	[ProductLogoMime] Nvarchar(30),
@@ -29,8 +27,6 @@ CREATE TABLE [dbo].[InvProducts_Audit] (
 	[UnitType] int NOT NULL,
     [UnitCost] decimal(10,2) NOT Null,
 	[HSNCode] nvarchar(10) not null,
-	[CentralGstPer] decimal(10,2) NOT Null,
-	[StateGstPer] decimal(10,2) NOT Null,
 	[CurrentStock] int DEFAULT 1 NOT NULL,
 	[ProductLogo] [varbinary](max) NULL,
 	[ProductLogoMime] Nvarchar(30),
@@ -86,12 +82,6 @@ SELECT
       CONCAT(unit.[Name], ' (', unit.[ShName], ')') AS UnitNameDetail,
 	  [HSNCode],
       P.[UnitCost],
-	  P.[CentralGstPer],
-	  P.[StateGstPer],
-	  -- Intra-State Calculation (CGST + SGST)
-	  dbo.fn_CalculateIntraStateGST(P.UnitCost, P.CentralGstPer, P.StateGstPer) AS IntraStateTotal,
-	  -- Inter-State Calculation (IGST)
-	  dbo.fn_CalculateInterStateGST(P.UnitCost, P.CentralGstPer, P.StateGstPer) AS InterStateTotal,
       P.[isActive],
       P.[CreatedOn],
       P.[CreatedBy],
@@ -148,8 +138,6 @@ BEGIN
 		[UnitType],
 		[UnitCost],
 		[HSNCode],
-		[CentralGstPer],
-		[StateGstPer],
 		[CurrentStock],
 		[ProductLogo],
 		[ProductLogoMime],
@@ -166,8 +154,6 @@ BEGIN
         ,i.[UnitType]
         ,i.[UnitCost]
 		,i.[HSNCode]
-		,i.[CentralGstPer]
-		,i.[StateGstPer]
 		,i.[CurrentStock]
         ,i.[ProductLogo]
 		,i.[ProductLogoMime]
@@ -188,8 +174,6 @@ BEGIN
 		[UnitType],
 		[UnitCost],
 		[HSNCode],
-		[CentralGstPer],
-		[StateGstPer],
 		[CurrentStock],
 		[ProductLogo],
 		[ProductLogoMime],
@@ -206,8 +190,6 @@ BEGIN
         ,d.[UnitType]
         ,d.[UnitCost]
 		,d.[HSNCode]
-		,d.[CentralGstPer]
-		,d.[StateGstPer]
 		,d.[CurrentStock]
         ,d.[ProductLogo]
 		,d.[ProductLogoMime]
@@ -228,8 +210,6 @@ BEGIN
 		[UnitType],
 		[UnitCost],
 		[HSNCode],
-		[CentralGstPer],
-		[StateGstPer],
 		[CurrentStock],
 		[ProductLogo],
 		[ProductLogoMime],
@@ -246,8 +226,6 @@ BEGIN
         ,i.[UnitType]
         ,i.[UnitCost]
 		,i.[HSNCode]
-		,i.[CentralGstPer]
-		,i.[StateGstPer]
 		,i.[CurrentStock]
         ,i.[ProductLogo]
 		,i.[ProductLogoMime]

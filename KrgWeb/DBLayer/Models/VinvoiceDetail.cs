@@ -23,9 +23,17 @@ public partial class VinvoiceDetail
 
     public decimal UnitCost { get; set; }
 
+    public int Quantity { get; set; }
+
     public decimal Cost { get; set; }
 
-    public int Quantity { get; set; }
+    public decimal CentralGst { get; set; }
+
+    public decimal CentralGstAmount { get; set; }
+
+    public decimal StateGst { get; set; }
+
+    public decimal StateGstAmount { get; set; }
 
     public string Hsncode { get; set; } = null!;
 

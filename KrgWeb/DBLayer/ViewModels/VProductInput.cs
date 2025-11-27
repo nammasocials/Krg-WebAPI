@@ -10,14 +10,12 @@ namespace DBLayer.ViewModels
     public class VProductInput
     {
         public Guid ProductCode { get; set; }
-
         public string ProductName { get; set; } = null!;
-
         public int CurrentStock { get; set; }
-
         public int UnitType { get; set; }
-
         public decimal UnitCost { get; set; }
+        public decimal CentralGstPer { get; set; }
+        public decimal StateGstPer { get; set; }
         public string Hsncode { get; set; } = null!;
         public IFormFile? ProductLogo { get; set; }
     }

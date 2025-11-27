@@ -64,7 +64,7 @@ public partial class NsinvoiceBillingContext : DbContext
     {
         modelBuilder.Entity<ActivityLog>(entity =>
         {
-            entity.HasKey(e => e.ActivityId).HasName("PK__Activity__45F4A791C5FBDE7B");
+            entity.HasKey(e => e.ActivityId).HasName("PK__Activity__45F4A79191D8763E");
 
             entity.ToTable("ActivityLog");
 
@@ -79,7 +79,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvConstant>(entity =>
         {
-            entity.HasKey(e => e.ConstantId).HasName("PK__InvConst__66315FDF8A6CBD6C");
+            entity.HasKey(e => e.ConstantId).HasName("PK__InvConst__66315FDFC32FDB75");
 
             entity.ToTable("InvConstant");
 
@@ -102,7 +102,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvCustomer>(entity =>
         {
-            entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__06678520F1F8A65B");
+            entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__0667852059A7D4B8");
 
             entity.ToTable(tb => tb.HasTrigger("trg_InvCustomers_Audit"));
 
@@ -124,7 +124,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvCustomersAudit>(entity =>
         {
-            entity.HasKey(e => e.AuditId).HasName("PK__InvCusto__A17F23B81C087E6E");
+            entity.HasKey(e => e.AuditId).HasName("PK__InvCusto__A17F23B85C298943");
 
             entity.ToTable("InvCustomers_Audit");
 
@@ -155,11 +155,11 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvInvoice>(entity =>
         {
-            entity.HasKey(e => e.InvoiceCode).HasName("PK__InvInvoi__0D9D7FF2A1EBC6E4");
+            entity.HasKey(e => e.InvoiceCode).HasName("PK__InvInvoi__0D9D7FF251305244");
 
             entity.ToTable("InvInvoice", tb => tb.HasTrigger("trg_InvInvoice_Audit"));
 
-            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B227F453EE89").IsUnique();
+            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B227F1B6F1AA").IsUnique();
 
             entity.Property(e => e.InvoiceCode).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedOn)
@@ -184,11 +184,11 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvInvoiceAudit>(entity =>
         {
-            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B89883F49D");
+            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B8C0F8DDD2");
 
             entity.ToTable("InvInvoice_Audit");
 
-            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B2274886BD81").IsUnique();
+            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B2274A26AB0D").IsUnique();
 
             entity.Property(e => e.AuditId).HasColumnName("AuditID");
             entity.Property(e => e.CreatedOn)
@@ -217,14 +217,16 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvInvoiceItem>(entity =>
         {
-            entity.HasKey(e => e.ItemCode).HasName("PK__InvInvoi__3ECC0FEBF9FA1594");
+            entity.HasKey(e => e.ItemCode).HasName("PK__InvInvoi__3ECC0FEBCB05A201");
 
-            entity.ToTable("InvInvoice_Items");
+            entity.ToTable("InvInvoice_Items", tb => tb.HasTrigger("trg_InvInvoice_Item_Audit"));
 
-            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B2273F14B332").IsUnique();
+            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B2272852FE8F").IsUnique();
 
             entity.Property(e => e.ItemCode).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CentralGst).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CentralGstAmount).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Cost).HasColumnType("decimal(20, 4)");
             entity.Property(e => e.CreatedOn)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -235,7 +237,10 @@ public partial class NsinvoiceBillingContext : DbContext
             entity.Property(e => e.ModifiedOn)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.NetProductAmount).HasColumnType("decimal(20, 4)");
             entity.Property(e => e.Quantity).HasDefaultValue(1);
+            entity.Property(e => e.StateGst).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.StateGstAmount).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.InvoiceCodeNavigation).WithMany(p => p.InvInvoiceItems)
@@ -251,14 +256,16 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvInvoiceItemsAudit>(entity =>
         {
-            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B820BA6B1B");
+            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B8EFF04A6C");
 
             entity.ToTable("InvInvoice_Items_Audit");
 
-            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B227A7FBC054").IsUnique();
+            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B2272AE73853").IsUnique();
 
             entity.Property(e => e.AuditId).HasColumnName("AuditID");
-            entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CentralGst).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CentralGstAmount).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Cost).HasColumnType("decimal(20, 4)");
             entity.Property(e => e.CreatedOn)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -269,11 +276,14 @@ public partial class NsinvoiceBillingContext : DbContext
             entity.Property(e => e.ModifiedOn)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.NetProductAmount).HasColumnType("decimal(20, 4)");
             entity.Property(e => e.OperationType)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .IsFixedLength();
             entity.Property(e => e.Quantity).HasDefaultValue(1);
+            entity.Property(e => e.StateGst).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.StateGstAmount).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.ItemCodeNavigation).WithMany(p => p.InvInvoiceItemsAudits)
@@ -284,7 +294,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProduct>(entity =>
         {
-            entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024E9AE48D68");
+            entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024E578309B5");
 
             entity.ToTable(tb =>
                 {
@@ -293,6 +303,7 @@ public partial class NsinvoiceBillingContext : DbContext
                 });
 
             entity.Property(e => e.ProductCode).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CentralGstPer).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.CreatedOn)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -308,16 +319,18 @@ public partial class NsinvoiceBillingContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.ProductLogoMime).HasMaxLength(30);
             entity.Property(e => e.ProductName).HasMaxLength(100);
+            entity.Property(e => e.StateGstPer).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
         });
 
         modelBuilder.Entity<InvProductsAudit>(entity =>
         {
-            entity.HasKey(e => e.AuditId).HasName("PK__InvProdu__A17F23B818F5A3B6");
+            entity.HasKey(e => e.AuditId).HasName("PK__InvProdu__A17F23B884A18572");
 
             entity.ToTable("InvProducts_Audit");
 
             entity.Property(e => e.AuditId).HasColumnName("AuditID");
+            entity.Property(e => e.CentralGstPer).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.CreatedOn)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -337,6 +350,7 @@ public partial class NsinvoiceBillingContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.ProductLogoMime).HasMaxLength(30);
             entity.Property(e => e.ProductName).HasMaxLength(100);
+            entity.Property(e => e.StateGstPer).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.InvProductsAudits)
@@ -347,7 +361,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProductsStock>(entity =>
         {
-            entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE38C34B90AF");
+            entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE3819AA7E3A");
 
             entity.ToTable("InvProducts_Stock", tb => tb.HasTrigger("trg_InvProducts_Stock_Quantity"));
 
@@ -364,7 +378,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvUser>(entity =>
         {
-            entity.HasKey(e => e.UserCode).HasName("PK__InvUser__1DF52D0D93E7F34B");
+            entity.HasKey(e => e.UserCode).HasName("PK__InvUser__1DF52D0D681175C3");
 
             entity.ToTable("InvUser");
 
@@ -384,7 +398,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<Log>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC0719FAB87D");
+            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC07D71E4729");
 
             entity.Property(e => e.Level).HasMaxLength(128);
             entity.Property(e => e.TimeStamp).HasColumnType("datetime");
@@ -392,7 +406,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<UserType>(entity =>
         {
-            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D8165E8A42ED");
+            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D816AAA22790");
 
             entity.ToTable("UserType");
 
@@ -476,7 +490,9 @@ public partial class NsinvoiceBillingContext : DbContext
                 .HasNoKey()
                 .ToView("VInvoiceDetail");
 
-            entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CentralGst).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CentralGstAmount).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Cost).HasColumnType("decimal(20, 4)");
             entity.Property(e => e.CreatedOn).HasColumnType("datetime");
             entity.Property(e => e.CustomerName).HasMaxLength(100);
             entity.Property(e => e.Gst)
@@ -489,6 +505,8 @@ public partial class NsinvoiceBillingContext : DbContext
             entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
             entity.Property(e => e.ProductLogoMime).HasMaxLength(30);
             entity.Property(e => e.ProductName).HasMaxLength(100);
+            entity.Property(e => e.StateGst).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.StateGstAmount).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.TotalCost).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
         });
@@ -499,16 +517,20 @@ public partial class NsinvoiceBillingContext : DbContext
                 .HasNoKey()
                 .ToView("VProducts");
 
+            entity.Property(e => e.CentralGstPer).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.CreatedOn).HasColumnType("datetime");
             entity.Property(e => e.Hsncode)
                 .HasMaxLength(10)
                 .HasColumnName("HSNCode");
+            entity.Property(e => e.InterStateTotal).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.IntraStateTotal).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.IsActive).HasColumnName("isActive");
             entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
             entity.Property(e => e.PluralShortName).HasMaxLength(200);
             entity.Property(e => e.PluralUnitName).HasMaxLength(200);
             entity.Property(e => e.ProductName).HasMaxLength(100);
             entity.Property(e => e.ShortName).HasMaxLength(200);
+            entity.Property(e => e.StateGstPer).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.StockDisplay).HasMaxLength(416);
             entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.UnitName).HasMaxLength(200);

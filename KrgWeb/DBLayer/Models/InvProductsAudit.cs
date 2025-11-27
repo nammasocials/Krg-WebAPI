@@ -17,6 +17,10 @@ public partial class InvProductsAudit
 
     public string Hsncode { get; set; } = null!;
 
+    public decimal CentralGstPer { get; set; }
+
+    public decimal StateGstPer { get; set; }
+
     public int CurrentStock { get; set; }
 
     public byte[]? ProductLogo { get; set; }
