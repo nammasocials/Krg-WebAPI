@@ -9,8 +9,6 @@ public partial class InvProduct
 
     public string ProductName { get; set; } = null!;
 
-    public int UnitType { get; set; }
-
     public decimal UnitCost { get; set; }
 
     public string Hsncode { get; set; } = null!;

@@ -13,6 +13,8 @@ public partial class Vconstant
 
     public int Key { get; set; }
 
+    public string? ConstantValue { get; set; }
+
     public string Name { get; set; } = null!;
 
     public string? PluralName { get; set; }
