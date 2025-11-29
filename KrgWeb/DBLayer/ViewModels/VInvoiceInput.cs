@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,9 @@ namespace DBLayer.ViewModels
 
         public bool IsEwayBillAvailable { get; set; }
 
-        public byte[]? EwayBillLogo { get; set; }
+        public IFormFile? EwayBillLogo { get; set; }
+        public string? EwayBillLogoMime { get; set; }
+        public List<VInvoiceProductsInput> InvoiceItems { get; set; }
     }
     public class VInvoiceProductsInput
     {

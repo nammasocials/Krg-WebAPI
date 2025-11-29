@@ -79,7 +79,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvConstant>(entity =>
         {
-            entity.HasKey(e => e.ConstantId).HasName("PK__InvConst__66315FDFB4BFA2AD");
+            entity.HasKey(e => e.ConstantId).HasName("PK__InvConst__66315FDF4164FCCC");
 
             entity.ToTable("InvConstant");
 
@@ -156,17 +156,20 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvInvoice>(entity =>
         {
-            entity.HasKey(e => e.InvoiceCode).HasName("PK__InvInvoi__0D9D7FF273988706");
+            entity.HasKey(e => e.InvoiceCode).HasName("PK__InvInvoi__0D9D7FF2B74F5374");
 
             entity.ToTable("InvInvoice", tb => tb.HasTrigger("trg_InvInvoice_Audit"));
 
-            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B22711D4FC90").IsUnique();
+            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B227FE035F90").IsUnique();
 
             entity.Property(e => e.InvoiceCode).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedOn)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.EwayBillLogo).HasColumnName("EWayBillLogo");
+            entity.Property(e => e.EwayBillLogoMime)
+                .HasMaxLength(30)
+                .HasColumnName("EWayBillLogoMime");
             entity.Property(e => e.Gst)
                 .HasMaxLength(10)
                 .HasColumnName("GST");
@@ -185,17 +188,20 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvInvoiceAudit>(entity =>
         {
-            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B808BA851C");
+            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B8A9A11685");
 
             entity.ToTable("InvInvoice_Audit");
 
-            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B22753E3BB60").IsUnique();
+            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B227994C8D88").IsUnique();
 
             entity.Property(e => e.AuditId).HasColumnName("AuditID");
             entity.Property(e => e.CreatedOn)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.EwayBillLogo).HasColumnName("EWayBillLogo");
+            entity.Property(e => e.EwayBillLogoMime)
+                .HasMaxLength(30)
+                .HasColumnName("EWayBillLogoMime");
             entity.Property(e => e.Gst)
                 .HasMaxLength(10)
                 .HasColumnName("GST");
@@ -218,11 +224,11 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvInvoiceItem>(entity =>
         {
-            entity.HasKey(e => e.ItemCode).HasName("PK__InvInvoi__3ECC0FEB98BF2EDE");
+            entity.HasKey(e => e.ItemCode).HasName("PK__InvInvoi__3ECC0FEBE5FDD176");
 
-            entity.ToTable("InvInvoice_Items", tb => tb.HasTrigger("trg_InvInvoice_Item_Audit"));
+            entity.ToTable("InvInvoice_Items");
 
-            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B227FB7FE512").IsUnique();
+            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B22736A03439").IsUnique();
 
             entity.Property(e => e.ItemCode).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CentralGst).HasColumnType("decimal(10, 2)");
@@ -257,11 +263,11 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvInvoiceItemsAudit>(entity =>
         {
-            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B81E0C2CF6");
+            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B83F4A93B1");
 
             entity.ToTable("InvInvoice_Items_Audit");
 
-            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B22788AE7DC1").IsUnique();
+            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B227C27C2C72").IsUnique();
 
             entity.Property(e => e.AuditId).HasColumnName("AuditID");
             entity.Property(e => e.CentralGst).HasColumnType("decimal(10, 2)");

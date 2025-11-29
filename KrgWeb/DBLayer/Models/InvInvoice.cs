@@ -15,6 +15,8 @@ public partial class InvInvoice
 
     public byte[]? EwayBillLogo { get; set; }
 
+    public string? EwayBillLogoMime { get; set; }
+
     public string Gst { get; set; } = null!;
 
     public decimal TotalCost { get; set; }
