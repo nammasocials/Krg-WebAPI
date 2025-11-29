@@ -9,8 +9,6 @@ public partial class InvProductsStock
 
     public Guid ProductCode { get; set; }
 
-    public int UnitType { get; set; }
-
     public int Quantity { get; set; }
 
     public int TxnType { get; set; }

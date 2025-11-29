@@ -362,7 +362,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProductsStock>(entity =>
         {
-            entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE387A23F784");
+            entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE38783E559B");
 
             entity.ToTable("InvProducts_Stock", tb => tb.HasTrigger("trg_InvProducts_Stock_Quantity"));
 

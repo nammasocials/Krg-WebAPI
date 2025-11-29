@@ -108,7 +108,6 @@ namespace DBLayer.Service
             var invStock = new InvProductsStock
             {
                 ProductCode = productId,
-                UnitType = productForStock.UnitType,
                 Quantity = stockCount,
                 TxnType = 1,
                 CreatedOn = DateTime.Now,

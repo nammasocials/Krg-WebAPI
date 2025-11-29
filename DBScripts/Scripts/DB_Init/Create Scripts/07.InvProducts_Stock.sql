@@ -6,7 +6,6 @@ GO
 CREATE TABLE [dbo].[InvProducts_Stock] (
     [StockTnxId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID() PRIMARY KEY,
     [ProductCode] UNIQUEIDENTIFIER NOT NULL ,
-    [UnitType] int NOT NULL,
     [Quantity] Integer NOT NULL,
 	[TxnType] int NOT NULL,
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),

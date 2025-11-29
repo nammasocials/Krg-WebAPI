@@ -12,7 +12,6 @@ namespace DBLayer.ViewModels
         public Guid ProductCode { get; set; }
         public string ProductName { get; set; } = null!;
         public int CurrentStock { get; set; }
-        public int UnitType { get; set; }
         public decimal UnitCost { get; set; }
         public decimal CentralGstPer { get; set; }
         public decimal StateGstPer { get; set; }

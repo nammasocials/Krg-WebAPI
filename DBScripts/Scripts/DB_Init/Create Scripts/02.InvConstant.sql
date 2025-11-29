@@ -43,8 +43,8 @@ Insert into [InvConstant] ([EntityId], [Category], [Key],[ConstantValue], [Name]
 Values('InvProducts','UnitType',2,'10','Pack','Packs','pk','pks','10 units of Bags',(Select Top 1 UserCode from InvUser))
 Go
 Insert into [InvConstant] ([EntityId], [Category], [Key],[ConstantValue], [Name], [ShName], [Description], [CreatedBy] )
-Values('InvProducts','StockTxnType',1,'Stock-In','1','In','Production of Stock Inventory',(Select Top 1 UserCode from InvUser))
+Values('InvProducts','StockTxnType',1,'1','Stock-In','In','Production of Stock Inventory',(Select Top 1 UserCode from InvUser))
 Go
 Insert into [InvConstant] ([EntityId],[Category], [Key],[ConstantValue], [Name], [ShName], [Description], [CreatedBy] )
-Values('InvProducts','StockTxnType',2,'Stock-Out','-1','Out','Sales of Stock Inventory',(Select Top 1 UserCode from InvUser))
+Values('InvProducts','StockTxnType',2,'-1','Stock-Out','Out','Sales of Stock Inventory',(Select Top 1 UserCode from InvUser))
 Go
