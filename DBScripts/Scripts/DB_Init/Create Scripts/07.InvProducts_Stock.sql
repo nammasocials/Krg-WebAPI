@@ -23,23 +23,23 @@ Create OR Alter View VStock AS
 SELECT
       Stock.[ProductCode],
       P.[ProductName],
-      P.[UnitType],
-      unit.[Name] AS UnitName,
-      unit.[ShName] AS ShortName,
-      unit.[PluralName] AS PluralUnitName,
-      unit.[ShPluralName] AS PluralShortName,
-      CONCAT(unit.[Name], ' (', unit.[ShName], ')') AS UnitNameDetail,
+      --P.[UnitType],
+      --unit.[Name] AS UnitName,
+      --unit.[ShName] AS ShortName,
+      --unit.[PluralName] AS PluralUnitName,
+      --unit.[ShPluralName] AS PluralShortName,
+      --CONCAT(unit.[Name], ' (', unit.[ShName], ')') AS UnitNameDetail,
       TxnType.Name as TransactionType,
       Stock.Quantity,
       Stock.[CreatedOn],
-      Stock.[CreatedBy],
+      Stock.[CreatedBy]
 
       -- ⭐ NEW COLUMN: StockDisplay
-      CASE 
-          WHEN Stock.Quantity <= 1 
-               THEN CONCAT(Stock.Quantity, ' ', unit.[Name], ' (', unit.[ShName], ')')
-          ELSE CONCAT(Stock.Quantity, ' ', unit.[PluralName], ' (', unit.[ShPluralName], ')')
-      END AS StockDisplay
+      --CASE 
+      --    WHEN Stock.Quantity <= 1 
+      --         THEN CONCAT(Stock.Quantity, ' ', unit.[Name], ' (', unit.[ShName], ')')
+      --    ELSE CONCAT(Stock.Quantity, ' ', unit.[PluralName], ' (', unit.[ShPluralName], ')')
+      --END AS StockDisplay
 
 FROM InvProducts_Stock Stock
 INNER JOIN InvProducts P 
@@ -48,12 +48,30 @@ INNER JOIN InvConstant TxnType
        ON TxnType.[Key] = Stock.TxnType 
       AND TxnType.EntityId = 'InvProducts' 
       AND TxnType.Category = 'StockTxnType'
-INNER JOIN InvConstant unit 
-       ON unit.[Key] = Stock.UnitType 
-      AND unit.EntityId = 'InvProducts' 
-      AND unit.Category = 'UnitType';
+--INNER JOIN InvConstant unit 
+--       ON unit.[Key] = Stock.UnitType 
+--      AND unit.EntityId = 'InvProducts' 
+--      AND unit.Category = 'UnitType';
 GO
-
+CREATE OR ALTER TRIGGER trg_InvProducts_InitialStock
+ON InvProducts
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+	INSERT INTO [dbo].[InvProducts_Stock]
+           ([ProductCode]
+           ,[Quantity]
+           ,[TxnType]
+           ,[CreatedBy])
+     SELECT
+        i.[ProductCode]
+		,i.[CurrentStock]
+		,(Select [key] from InvConstant where  Category = 'StockTxnType' and EntityId = 'InvProducts' and Name = 'Stock-In')
+        ,i.[CreatedBy]
+    FROM inserted i
+END
+GO
 CREATE OR ALTER TRIGGER trg_InvProducts_Stock_Quantity
 ON InvProducts_Stock
 FOR INSERT

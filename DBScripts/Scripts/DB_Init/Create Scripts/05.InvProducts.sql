@@ -6,7 +6,6 @@ GO
 CREATE TABLE [dbo].[InvProducts] (
     [ProductCode] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID() PRIMARY KEY,
     [ProductName] NVARCHAR(100) NOT NULL,
-	[UnitType] int NOT NULL,
     [UnitCost] decimal(10,2) NOT Null,
 	[HSNCode] nvarchar(10) not null,
 	[CentralGstPer] decimal(10,2) NOT Null,
@@ -26,7 +25,6 @@ CREATE TABLE [dbo].[InvProducts_Audit] (
     [AuditID] INT IDENTITY(1,1) PRIMARY KEY,
     [ProductCode] UNIQUEIDENTIFIER NOT NULL ,
     [ProductName] NVARCHAR(100) NOT NULL,
-	[UnitType] int NOT NULL,
     [UnitCost] decimal(10,2) NOT Null,
 	[HSNCode] nvarchar(10) not null,
 	[CentralGstPer] decimal(10,2) NOT Null,
@@ -78,12 +76,6 @@ SELECT
       P.[ProductCode],
       P.[ProductName],
       P.[CurrentStock],
-      P.[UnitType],
-      unit.[Name] AS UnitName,
-      unit.[ShName] AS ShortName,
-      unit.[PluralName] AS PluralUnitName,
-      unit.[ShPluralName] AS PluralShortName,
-      CONCAT(unit.[Name], ' (', unit.[ShName], ')') AS UnitNameDetail,
 	  [HSNCode],
       P.[UnitCost],
 	  P.[CentralGstPer],
@@ -96,42 +88,20 @@ SELECT
       P.[CreatedOn],
       P.[CreatedBy],
       P.[ModifiedOn],
-      P.[ModifiedBy],
+      P.[ModifiedBy]
 
       -- ⭐ NEW COLUMN: StockDisplay
-      CASE 
-          WHEN P.CurrentStock <= 1 
-               THEN CONCAT(P.CurrentStock, ' ', unit.[Name], ' (', unit.[ShName], ')')
-          ELSE CONCAT(P.CurrentStock, ' ', unit.[PluralName], ' (', unit.[ShPluralName], ')')
-      END AS StockDisplay
+      --CASE 
+      --    WHEN P.CurrentStock <= 1 
+      --         THEN CONCAT(P.CurrentStock, ' ', unit.[Name], ' (', unit.[ShName], ')')
+      --    ELSE CONCAT(P.CurrentStock, ' ', unit.[PluralName], ' (', unit.[ShPluralName], ')')
+      --END AS StockDisplay
 
 FROM InvProducts P
-INNER JOIN InvConstant unit 
-       ON unit.[Key] = P.UnitType 
-      AND unit.EntityId = 'InvProducts' 
-      AND unit.Category = 'UnitType';
-GO
-
-CREATE OR ALTER TRIGGER trg_InvProducts_InitialStock
-ON InvProducts
-AFTER INSERT
-AS
-BEGIN
-    SET NOCOUNT ON;
-	INSERT INTO [dbo].[InvProducts_Stock]
-           ([ProductCode]
-           ,[UnitType]
-           ,[Quantity]
-           ,[TxnType]
-           ,[CreatedBy])
-     SELECT
-        i.[ProductCode]
-        ,i.[UnitType]
-		,i.[CurrentStock]
-		,(Select [key] from InvConstant where  Category = 'StockTxnType' and EntityId = 'InvProducts' and Name = 'Stock-In')
-        ,i.[CreatedBy]
-    FROM inserted i
-END
+--INNER JOIN InvConstant unit 
+--       ON unit.[Key] = P.UnitType 
+--      AND unit.EntityId = 'InvProducts' 
+--      AND unit.Category = 'UnitType';
 GO
 
 CREATE OR ALTER TRIGGER trg_InvProducts_Audit
@@ -145,7 +115,6 @@ BEGIN
     INSERT INTO InvProducts_Audit (
 		[ProductCode],
 		[ProductName],
-		[UnitType],
 		[UnitCost],
 		[HSNCode],
 		[CentralGstPer],
@@ -163,7 +132,6 @@ BEGIN
     SELECT
         i.[ProductCode]
         ,i.[ProductName]
-        ,i.[UnitType]
         ,i.[UnitCost]
 		,i.[HSNCode]
 		,i.[CentralGstPer]
@@ -185,7 +153,6 @@ BEGIN
     INSERT INTO InvProducts_Audit (
         [ProductCode],
 		[ProductName],
-		[UnitType],
 		[UnitCost],
 		[HSNCode],
 		[CentralGstPer],
@@ -203,7 +170,6 @@ BEGIN
     SELECT
         d.[ProductCode]
         ,d.[ProductName]
-        ,d.[UnitType]
         ,d.[UnitCost]
 		,d.[HSNCode]
 		,d.[CentralGstPer]
@@ -225,7 +191,6 @@ BEGIN
     INSERT INTO InvProducts_Audit (
         [ProductCode],
 		[ProductName],
-		[UnitType],
 		[UnitCost],
 		[HSNCode],
 		[CentralGstPer],
@@ -243,7 +208,6 @@ BEGIN
     SELECT
         i.[ProductCode]
         ,i.[ProductName]
-        ,i.[UnitType]
         ,i.[UnitCost]
 		,i.[HSNCode]
 		,i.[CentralGstPer]
