@@ -1,5 +1,5 @@
---CREATE DATABASE NSinvoiceBilling;
---GO
+CREATE DATABASE NSinvoiceBilling;
+GO
 Use NSinvoiceBilling;
 GO
 CREATE TABLE [dbo].[UserType] (
@@ -35,10 +35,10 @@ Go
 
 --CREATE LOGIN KrgApiUser WITH PASSWORD = 'Krg@10121796';
 --USE NSinvoiceBilling;
---CREATE USER KrgApiUser FOR LOGIN KrgApiUser;
+CREATE USER KrgApiUser FOR LOGIN KrgApiUser;
 
----- 3??  Give data access (read/write)
---ALTER ROLE db_datareader ADD MEMBER KrgApiUser;
---ALTER ROLE db_datawriter ADD MEMBER KrgApiUser;
---GRANT CREATE TABLE TO [KrgApiUser];
---GRANT VIEW DEFINITION TO [KrgApiUser];
+-- 3??  Give data access (read/write)
+ALTER ROLE db_datareader ADD MEMBER KrgApiUser;
+ALTER ROLE db_datawriter ADD MEMBER KrgApiUser;
+GRANT CREATE TABLE TO [KrgApiUser];
+GRANT VIEW DEFINITION TO [KrgApiUser];
