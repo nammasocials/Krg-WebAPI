@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="DBLayer/DBLayer.csproj" />
+  <Project Path="KrgWebAPI/KrgWebAPI.csproj" />
+  <Project Path="UtilityLayer/UtilityLayer.csproj" />
+</Solution>

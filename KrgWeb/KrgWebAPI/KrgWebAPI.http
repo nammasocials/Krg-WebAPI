@@ -1,4 +1,4 @@
-@KrgWebAPI_HostAddress = http://localhost:5045
+@KrgWebAPI_HostAddress = http://localhost:5057
 
 GET {{KrgWebAPI_HostAddress}}/weatherforecast/
 Accept: application/json

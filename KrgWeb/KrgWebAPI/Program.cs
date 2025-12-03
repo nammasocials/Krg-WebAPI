@@ -1,7 +1,4 @@
-
-using DBLayer;
 using DBLayer.Models;
-using DBLayer.Profiler;
 using DBLayer.Service;
 using DBLayer.Service.Authentication;
 using KrgWebAPI.Constants;
@@ -53,7 +50,6 @@ builder.Services.AddCors(options =>
 
 
 builder.Host.UseSerilog();
-
 
 //////////////////// JWT Validation ///////////////////////////
 builder.Services.AddAuthentication(options =>
@@ -107,29 +103,29 @@ builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 // Add services to the container.
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
 app.UseCors("AllowFrontend");
+
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-//}
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
 
 app.UseHttpsRedirection();
-app.UseRouting();
 
 app.UseAuthentication();
+
 app.UseAuthorization();
+
 app.UseMiddleware<KrgWebAPI.SecurityAndExceptionMiddleware>();
+
 app.MapControllers();
-
-
 
 app.Run();
