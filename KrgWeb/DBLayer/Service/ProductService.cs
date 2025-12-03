@@ -18,7 +18,7 @@ namespace DBLayer.Service
         public Task<bool> deleteProduct(Guid productId);
         public Task<List<Vstock>> fetchProductStockHistoryAsync(Guid productCode);
         public Task<bool> AddStock(Guid productId, int stockCount);
-        public Task<decimal> FetchStockDetailsAsync(Guid productId);
+        //public Task<decimal> FetchStockDetailsAsync(Guid productId);
         public Task<Vproduct> AddOrEditProduct(InvProduct product, bool isEdit);
     }
     public class ProductService : IProductService
@@ -101,10 +101,10 @@ namespace DBLayer.Service
                 .ToListAsync();
             return stockList;
         }
-        public async Task<decimal> FetchStockDetailsAsync(Guid productId)
-        {
+        //public async Task<decimal> FetchStockDetailsAsync(Guid productId)
+        //{
             
-        }
+        //}
         public async Task<bool> AddStock(Guid productId, int stockCount)
         {
             var productForStock = await _context.InvProducts.Where(c => c.ProductCode == productId)

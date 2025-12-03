@@ -165,25 +165,25 @@ namespace KrgWebAPI.Controllers
                 Data = result
             });
         }
-        [HttpGet("{productCode}/stock")]
-        public async Task<IActionResult> FetchStockDetailsByProductCode(Guid productCode)
-        {
-            var result = await _productService.FetchStockDetailsAsync(productCode);
-            if (!result)
-            {
-                return StatusCode(200, new ApiResponse<decimal>
-                {
-                    Code = 500,
-                    Message = $"Adding Stock for {vProductAddStock.ProductCode}",
-                    Data = vProductAddStock.ProductCode
-                });
-            }
-            return StatusCode(200, new ApiResponse<bool>
-            {
-                Code = 200,
-                Message = $"Removing Customer Succeed for {result}",
-                Data = result
-            });
-        }
+        //[HttpGet("{productCode}/stock")]
+        //public async Task<IActionResult> FetchStockDetailsByProductCode(Guid productCode)
+        //{
+        //    var result = await _productService.FetchStockDetailsAsync(productCode);
+        //    if (!result)
+        //    {
+        //        return StatusCode(200, new ApiResponse<decimal>
+        //        {
+        //            Code = 500,
+        //            Message = $"Adding Stock for {vProductAddStock.ProductCode}",
+        //            Data = vProductAddStock.ProductCode
+        //        });
+        //    }
+        //    return StatusCode(200, new ApiResponse<bool>
+        //    {
+        //        Code = 200,
+        //        Message = $"Removing Customer Succeed for {result}",
+        //        Data = result
+        //    });
+        //}
     }
 }
