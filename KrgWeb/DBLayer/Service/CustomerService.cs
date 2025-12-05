@@ -25,17 +25,24 @@ namespace DBLayer.Service
     {
         private readonly NsinvoiceBillingContext _context;
         private readonly IUserClaimsService _userClaimsService;
+        private readonly ICustomerCacheService _cacheService;
         private readonly IRecentActivityService _recentActivityService;
         public CustomerService(NsinvoiceBillingContext context, IUserClaimsService iUserClaimsService,
-            IRecentActivityService iRecentActivityService) 
+            IRecentActivityService iRecentActivityService, ICustomerCacheService customerCache) 
         {
             _context = context;
             _userClaimsService = iUserClaimsService;
             _recentActivityService = iRecentActivityService;
+            _cacheService = customerCache;
         }
         public async Task<List<Vcustomer>> fetchCustomerList()
         {
-            var customers = await _context.Vcustomers.ToListAsync();
+            var customers = await _cacheService.GetCurrentCustomersAsync();
+            if (customers == null || customers.Count <= 0)
+            {
+                customers = await _context.Vcustomers.ToListAsync();
+
+            }
             return customers;
         }
         public async Task<VDashboardStats> fetchDashboardCustomerStats()

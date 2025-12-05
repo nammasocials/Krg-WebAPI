@@ -88,6 +88,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddDbContext<NsinvoiceBillingContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICommonService, CommonService>();
 builder.Services.AddScoped<IUserClaimsService, UserClaimsService>();
@@ -95,6 +96,8 @@ builder.Services.AddScoped<IRecentActivityService, RecentActivityService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddScoped<ICustomerPersistentQueueService, CustomerPersistentQueueService>();
+builder.Services.AddScoped<ICustomerCacheService, CustomerCacheService>();
 
 ///////////////////////////// Profilers /////////////////////////////////////////////////////////
 
