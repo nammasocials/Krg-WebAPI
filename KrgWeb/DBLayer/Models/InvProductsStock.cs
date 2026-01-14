@@ -15,8 +15,6 @@ public partial class InvProductsStock
 
     public DateTime CreatedOn { get; set; }
 
-    public DateTime EntryCreatedOn { get; set; }
-
     public Guid? CreatedBy { get; set; }
 
     public virtual InvProduct ProductCodeNavigation { get; set; } = null!;
