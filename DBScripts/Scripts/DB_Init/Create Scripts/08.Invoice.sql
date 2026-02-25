@@ -7,7 +7,7 @@ CREATE TABLE [dbo].[InvInvoice] (
 	[isEwayBillAvailable] bit DEFAULT 0 Not null,
 	[EWayBillLogo] [varbinary](max) NULL,
 	[EWayBillLogoMime] Nvarchar(30),
-	[GST] nvarchar(10) not null,
+	[GST] decimal(10,2) NOT Null,
 	[TotalCost] decimal(10,2) NOT Null,
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
     [CreatedBy] UNIQUEIDENTIFIER,

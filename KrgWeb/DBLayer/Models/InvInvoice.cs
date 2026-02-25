@@ -17,7 +17,7 @@ public partial class InvInvoice
 
     public string? EwayBillLogoMime { get; set; }
 
-    public string Gst { get; set; } = null!;
+    public decimal Gst { get; set; }
 
     public decimal TotalCost { get; set; }
 

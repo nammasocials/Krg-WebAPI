@@ -15,6 +15,7 @@ namespace DBLayer.Service
         public Task<List<Vproduct>> fetchProductList();
         public Task<(byte[] ImageData, string MimeType)> fetchProductImageAsync(Guid productCode);
         public Task<Vproduct> fetchProductDetails(Guid productCode);
+        Task<InvProduct> fetchProductEntityByCodeAsync(Guid productCode);
         public Task<bool> deleteProduct(Guid productId);
         public Task<List<Vstock>> fetchProductStockHistoryAsync(Guid productCode);
         public Task<bool> AddStock(Guid productId, int stockCount);
@@ -50,6 +51,11 @@ namespace DBLayer.Service
         public async Task<Vproduct> fetchProductDetails(Guid productCode)
         {
             var product = await _context.Vproducts.Where(C => C.ProductCode == productCode).FirstOrDefaultAsync();
+            return product;
+        }
+        public async Task<InvProduct> fetchProductEntityByCodeAsync(Guid productCode)
+        {
+            var product = await _context.InvProducts.Where(C => C.ProductCode == productCode).FirstOrDefaultAsync();
             return product;
         }
         public async Task<Vproduct> AddOrEditProduct(InvProduct product, bool isEdit)

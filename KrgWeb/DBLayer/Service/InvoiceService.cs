@@ -22,10 +22,13 @@ namespace DBLayer.Service
     {
         private readonly NsinvoiceBillingContext _context;
         private readonly IUserClaimsService _userClaimsService;
-        public InvoiceService(NsinvoiceBillingContext context, IUserClaimsService iUserClaimsService)
+        private readonly IProductService _productService;
+
+        public InvoiceService(NsinvoiceBillingContext context, IUserClaimsService iUserClaimsService, IProductService iProductService)
         {
             _context = context;
             _userClaimsService = iUserClaimsService;
+            _productService = iProductService;
         }
         public async Task<List<Vinvoice>> fetchInvoiceList()
         {
@@ -55,23 +58,35 @@ namespace DBLayer.Service
                     }
                 }
             }
+
             await _context.InvInvoices.AddAsync(invoiceEntity);
             await _context.SaveChangesAsync();
 
-            await AddInvoiceItemsAsync(invoiceEntity.InvoiceCode, invoice.InvoiceItems);
+            await AddInvoiceItemsAsync(invoiceEntity.InvoiceCode,invoiceEntity.InvoiceNo, invoice.InvoiceItems);
 
             return await _context.Vinvoices.Where(C => C.InvoiceCode == invoiceEntity.InvoiceCode).FirstOrDefaultAsync();
         }
 
-        public async Task<List<VinvoiceDetail>> AddInvoiceItemsAsync(Guid invoiceCode ,List<VInvoiceProductsInput> items)
+        public async Task<List<VinvoiceDetail>> AddInvoiceItemsAsync(Guid invoiceCode , string invoiceNo,List<VInvoiceProductsInput> items)
         {
             var claims = _userClaimsService.GetUserClaims();
 
-            foreach (var item in items)
+            var itemEntities = InvoiceItemsMapper.ToEntity(items);
+
+            foreach (var item in itemEntities)
             {
                 item.InvoiceCode = invoiceCode;
+                var product = await _productService.fetchProductEntityByCodeAsync(item.ProductCode);
+                if (product != null)
+                {
+                    item.InvoiceNo = invoiceNo;
+                    item.Hsncode = product.Hsncode;
+                    item.UnitCost = product.UnitCost;
+                    item.Cost = product.UnitCost * item.Quantity;
+                    item.StateGst = product.StateGstPer;
+                    item.CentralGst = product.CentralGstPer;
+                }
             }
-            var itemEntities = InvoiceItemsMapper.ToEntity(items);
             _context.InvInvoiceItems.AddRange(itemEntities);
             await _context.SaveChangesAsync();
 
