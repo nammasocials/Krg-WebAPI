@@ -2,6 +2,7 @@ using DBLayer.Models;
 using DBLayer.Service;
 using DBLayer.Service.Authentication;
 using KrgWebAPI.Constants;
+using KrgWebAPI.Services; 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -98,6 +99,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<ICustomerPersistentQueueService, CustomerPersistentQueueService>();
 builder.Services.AddScoped<ICustomerCacheService, CustomerCacheService>();
+
+builder.Services.AddScoped<PdfService>();
 
 ///////////////////////////// Profilers /////////////////////////////////////////////////////////
 
