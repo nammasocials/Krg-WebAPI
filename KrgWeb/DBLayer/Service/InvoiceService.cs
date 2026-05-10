@@ -17,6 +17,7 @@ namespace DBLayer.Service
     {
         public Task<List<Vinvoice>> fetchInvoiceList();
         public Task<Vinvoice> AddInvoiceAsync(VInvoiceInput invoice);
+        public Task<VinvoiceDetail?> fetchInvoiceDetails(Guid invoiceCode);
     }
     public class InvoiceService : IInvoiceService
     {
@@ -40,6 +41,12 @@ namespace DBLayer.Service
         {
             var invoiceList = await _context.Vinvoices.ToListAsync();
             return invoiceList;
+        }
+        public async Task<VinvoiceDetail?> fetchInvoiceDetails(Guid invoiceCode)
+        {
+            var invoiceDetails = await _context.VinvoiceDetails.
+                Where(I => I.InvoiceCode == invoiceCode).FirstOrDefaultAsync();
+            return invoiceDetails;
         }
         public async Task<Vinvoice> AddInvoiceAsync(VInvoiceInput invoice)
         {

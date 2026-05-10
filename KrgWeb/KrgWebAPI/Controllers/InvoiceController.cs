@@ -31,6 +31,18 @@ namespace KrgWebAPI.Controllers
                 Data = result
             });
         }
+        [HttpGet("fetchInvoiceDetails/{invoiceDetails}")]
+        public async Task<IActionResult> getIvioiceDetailsAsync(Guid invoiceDetails)
+        {
+            var result = await _invoiceService.fetchInvoiceDetails(invoiceDetails);
+
+            return StatusCode(200, new ApiResponse<VinvoiceDetail>
+            {
+                Code = 200,
+                Message = $"Successfully Fetched {result.InvoiceNo} records",
+                Data = result
+            });
+        }
         [HttpPost("AddInvoice")]
         public async Task<IActionResult> AddInvoice([FromForm] VInvoiceInput invoiceInput)
         {
