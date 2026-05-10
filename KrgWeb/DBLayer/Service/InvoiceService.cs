@@ -22,12 +22,18 @@ namespace DBLayer.Service
     {
         private readonly NsinvoiceBillingContext _context;
         private readonly IUserClaimsService _userClaimsService;
+        private readonly ICustomerService _customerService;
         private readonly IProductService _productService;
 
-        public InvoiceService(NsinvoiceBillingContext context, IUserClaimsService iUserClaimsService, IProductService iProductService)
+        public InvoiceService(
+            NsinvoiceBillingContext context, 
+            IUserClaimsService iUserClaimsService, 
+            IProductService iProductService,
+            ICustomerService iCustomerService)
         {
             _context = context;
             _userClaimsService = iUserClaimsService;
+            _customerService = iCustomerService;
             _productService = iProductService;
         }
         public async Task<List<Vinvoice>> fetchInvoiceList()
@@ -41,6 +47,8 @@ namespace DBLayer.Service
             var claims = _userClaimsService.GetUserClaims();
             var invoiceEntity = InvoiceMapper.ToEntity(invoice);
             invoiceEntity.CreatedBy = claims.UserCode;
+            var customer = await _customerService.fetchCustomerDetails(invoiceEntity.CustomerCode);
+            invoiceEntity.Gst = customer.Gst;
             if (invoiceEntity.EwayBillLogo != null)
             {
                 using (var ms = new MemoryStream())

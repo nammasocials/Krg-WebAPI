@@ -39,7 +39,7 @@ public partial class VinvoiceDetail
 
     public decimal TotalCost { get; set; }
 
-    public decimal Gst { get; set; }
+    public string Gst { get; set; } = null!;
 
     public DateTime CreatedOn { get; set; }
 
