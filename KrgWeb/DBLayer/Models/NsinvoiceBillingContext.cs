@@ -64,130 +64,84 @@ public partial class NsinvoiceBillingContext : DbContext
     {
         modelBuilder.Entity<ActivityLog>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.ActivityId).HasName("PK__Activity__45F4A7918954FF69");
+=======
+            entity.HasKey(e => e.ActivityId).HasName("PK__Activity__45F4A791E72C414C");
+>>>>>>> Stashed changes
 
-            entity.ToTable("ActivityLog");
-
-            entity.Property(e => e.ActionType).HasMaxLength(20);
-            entity.Property(e => e.CreatedDate)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(500);
-            entity.Property(e => e.EntityType).HasMaxLength(50);
-            entity.Property(e => e.RedirectUrl).HasMaxLength(300);
+            entity.Property(e => e.CreatedDate).HasDefaultValueSql("(getdate())");
         });
 
         modelBuilder.Entity<InvConstant>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.ConstantId).HasName("PK__InvConst__66315FDFD4C04F69");
+=======
+            entity.HasKey(e => e.ConstantId).HasName("PK__InvConst__66315FDF6379C72B");
+>>>>>>> Stashed changes
 
-            entity.ToTable("InvConstant");
-
-            entity.HasIndex(e => new { e.Category, e.EntityId, e.Key, e.IsActive }, "UQ_Constant").IsUnique();
-
-            entity.Property(e => e.Category).HasMaxLength(100);
-            entity.Property(e => e.ConstantValue).HasMaxLength(200);
-            entity.Property(e => e.CreatedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(200);
-            entity.Property(e => e.EntityId).HasMaxLength(100);
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("isActive");
-            entity.Property(e => e.Name).HasMaxLength(200);
-            entity.Property(e => e.PluralName).HasMaxLength(200);
-            entity.Property(e => e.ShName).HasMaxLength(200);
-            entity.Property(e => e.ShPluralName).HasMaxLength(200);
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
         });
 
         modelBuilder.Entity<InvCustomer>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__06678520DFE54EF6");
+=======
+            entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__06678520CF0E4239");
+>>>>>>> Stashed changes
 
             entity.ToTable(tb => tb.HasTrigger("trg_InvCustomers_Audit"));
 
             entity.Property(e => e.CustomerCode).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.ContactNo).HasMaxLength(15);
-            entity.Property(e => e.CreatedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.CustomerAddress).HasMaxLength(500);
-            entity.Property(e => e.CustomerEmail).HasMaxLength(100);
-            entity.Property(e => e.CustomerLogoMime).HasMaxLength(30);
-            entity.Property(e => e.CustomerName).HasMaxLength(100);
-            entity.Property(e => e.Gst)
-                .HasMaxLength(30)
-                .HasColumnName("GST");
-            entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-            entity.Property(e => e.SecnContactNo).HasMaxLength(15);
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
         });
 
         modelBuilder.Entity<InvCustomersAudit>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.AuditId).HasName("PK__InvCusto__A17F23B84C37D664");
+=======
+            entity.HasKey(e => e.AuditId).HasName("PK__InvCusto__A17F23B89AF5CC59");
+>>>>>>> Stashed changes
 
-            entity.ToTable("InvCustomers_Audit");
-
-            entity.Property(e => e.AuditId).HasColumnName("AuditID");
-            entity.Property(e => e.ContactNo).HasMaxLength(15);
-            entity.Property(e => e.CreatedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.CustomerAddress).HasMaxLength(500);
-            entity.Property(e => e.CustomerEmail).HasMaxLength(100);
-            entity.Property(e => e.CustomerLogoMime).HasMaxLength(30);
-            entity.Property(e => e.CustomerName).HasMaxLength(100);
-            entity.Property(e => e.Gst)
-                .HasMaxLength(30)
-                .HasColumnName("GST");
-            entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-            entity.Property(e => e.OperationType)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .IsFixedLength();
-            entity.Property(e => e.SecnContactNo).HasMaxLength(15);
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.OperationType).IsFixedLength();
 
             entity.HasOne(d => d.CustomerCodeNavigation).WithMany(p => p.InvCustomersAudits)
-                .HasForeignKey(d => d.CustomerCode)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_InvCustomers_Audit_InvCustomers");
         });
 
         modelBuilder.Entity<InvInvoice>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.InvoiceCode).HasName("PK__InvInvoi__0D9D7FF2388466D3");
 
             entity.ToTable("InvInvoice", tb => tb.HasTrigger("trg_InvInvoice_Audit"));
 
             entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B227E99D0D9C").IsUnique();
 
+=======
+            entity.HasKey(e => e.InvoiceCode).HasName("PK__InvInvoi__0D9D7FF20A4B07D3");
+
+            entity.ToTable("InvInvoice", tb => tb.HasTrigger("trg_InvInvoice_Audit"));
+
+>>>>>>> Stashed changes
             entity.Property(e => e.InvoiceCode).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.CreatedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.EwayBillLogo).HasColumnName("EWayBillLogo");
-            entity.Property(e => e.EwayBillLogoMime)
-                .HasMaxLength(30)
-                .HasColumnName("EWayBillLogoMime");
-            entity.Property(e => e.Gst)
-                .HasMaxLength(10)
-                .HasColumnName("GST");
-            entity.Property(e => e.InvoiceNo).HasMaxLength(100);
-            entity.Property(e => e.IsEwayBillAvailable).HasColumnName("isEwayBillAvailable");
-            entity.Property(e => e.ModifiedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.TotalCost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
 
             entity.HasOne(d => d.CustomerCodeNavigation).WithMany(p => p.InvInvoices)
-                .HasForeignKey(d => d.CustomerCode)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_InvCustomer");
         });
 
         modelBuilder.Entity<InvInvoiceAudit>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B8902DDB56");
 
             entity.ToTable("InvInvoice_Audit");
@@ -215,54 +169,51 @@ public partial class NsinvoiceBillingContext : DbContext
                 .IsUnicode(false)
                 .IsFixedLength();
             entity.Property(e => e.TotalCost).HasColumnType("decimal(10, 2)");
+=======
+            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B887531600");
+
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.OperationType).IsFixedLength();
+>>>>>>> Stashed changes
 
             entity.HasOne(d => d.InvoiceCodeNavigation).WithMany(p => p.InvInvoiceAudits)
-                .HasForeignKey(d => d.InvoiceCode)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_InvInvoice_Audit_InvInvoice");
         });
 
         modelBuilder.Entity<InvInvoiceItem>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.ItemCode).HasName("PK__InvInvoi__3ECC0FEB48E3AC80");
 
             entity.ToTable("InvInvoice_Items", tb => tb.HasTrigger("trg_InvInvoice_Item_Audit"));
 
             entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B22736BC9CA4").IsUnique();
 
+=======
+            entity.HasKey(e => e.ItemCode).HasName("PK__InvInvoi__3ECC0FEBE66A0FFB");
+
+            entity.ToTable("InvInvoice_Items", tb => tb.HasTrigger("trg_InvInvoice_Item_Audit"));
+
+>>>>>>> Stashed changes
             entity.Property(e => e.ItemCode).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.CentralGst).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.CentralGstAmount).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Cost).HasColumnType("decimal(20, 4)");
-            entity.Property(e => e.CreatedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.Hsncode)
-                .HasMaxLength(10)
-                .HasColumnName("HSNCode");
-            entity.Property(e => e.InvoiceNo).HasMaxLength(100);
-            entity.Property(e => e.ModifiedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.NetProductAmount).HasColumnType("decimal(20, 4)");
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.Quantity).HasDefaultValue(1);
-            entity.Property(e => e.StateGst).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.StateGstAmount).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.InvoiceCodeNavigation).WithMany(p => p.InvInvoiceItems)
-                .HasForeignKey(d => d.InvoiceCode)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_InvInvoice");
 
             entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.InvInvoiceItems)
-                .HasForeignKey(d => d.ProductCode)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_InvProducts");
         });
 
         modelBuilder.Entity<InvInvoiceItemsAudit>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B847E14D5B");
 
             entity.ToTable("InvInvoice_Items_Audit");
@@ -288,20 +239,27 @@ public partial class NsinvoiceBillingContext : DbContext
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .IsFixedLength();
+=======
+            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B8DAD19C71");
+
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.OperationType).IsFixedLength();
+>>>>>>> Stashed changes
             entity.Property(e => e.Quantity).HasDefaultValue(1);
-            entity.Property(e => e.StateGst).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.StateGstAmount).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.ItemCodeNavigation).WithMany(p => p.InvInvoiceItemsAudits)
-                .HasForeignKey(d => d.ItemCode)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_InvInvoice_Items_Audit_InvInvoice_Items");
         });
 
         modelBuilder.Entity<InvProduct>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024EEE07FD82");
+=======
+            entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024EF9DDFB59");
+>>>>>>> Stashed changes
 
             entity.ToTable(tb =>
                 {
@@ -310,244 +268,133 @@ public partial class NsinvoiceBillingContext : DbContext
                 });
 
             entity.Property(e => e.ProductCode).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.CentralGstPer).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.CreatedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.CurrentStock).HasDefaultValue(1);
-            entity.Property(e => e.Hsncode)
-                .HasMaxLength(10)
-                .HasColumnName("HSNCode");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("isActive");
-            entity.Property(e => e.ModifiedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.ProductLogoMime).HasMaxLength(30);
-            entity.Property(e => e.ProductName).HasMaxLength(100);
-            entity.Property(e => e.StateGstPer).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
         });
 
         modelBuilder.Entity<InvProductsAudit>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.AuditId).HasName("PK__InvProdu__A17F23B8797C8C17");
+=======
+            entity.HasKey(e => e.AuditId).HasName("PK__InvProdu__A17F23B85C9A5EEA");
+>>>>>>> Stashed changes
 
-            entity.ToTable("InvProducts_Audit");
-
-            entity.Property(e => e.AuditId).HasColumnName("AuditID");
-            entity.Property(e => e.CentralGstPer).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.CreatedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.CurrentStock).HasDefaultValue(1);
-            entity.Property(e => e.Hsncode)
-                .HasMaxLength(10)
-                .HasColumnName("HSNCode");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("isActive");
-            entity.Property(e => e.ModifiedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.OperationType)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .IsFixedLength();
-            entity.Property(e => e.ProductLogoMime).HasMaxLength(30);
-            entity.Property(e => e.ProductName).HasMaxLength(100);
-            entity.Property(e => e.StateGstPer).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.OperationType).IsFixedLength();
 
             entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.InvProductsAudits)
-                .HasForeignKey(d => d.ProductCode)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_InvProducts_Audit_InvProducts");
         });
 
         modelBuilder.Entity<InvProductsStock>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE380D92BF8F");
+=======
+            entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE38501EBC9D");
+>>>>>>> Stashed changes
 
             entity.ToTable("InvProducts_Stock", tb => tb.HasTrigger("trg_InvProducts_Stock_Quantity"));
 
             entity.Property(e => e.StockTnxId).HasDefaultValueSql("(newid())");
+<<<<<<< Updated upstream
             entity.Property(e => e.CreatedOn)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+=======
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
+>>>>>>> Stashed changes
 
             entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.InvProductsStocks)
-                .HasForeignKey(d => d.ProductCode)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_InvProducts_Stock_InvProducts");
         });
 
         modelBuilder.Entity<InvUser>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.UserCode).HasName("PK__InvUser__1DF52D0D197FC5A5");
 
             entity.ToTable("InvUser");
+=======
+            entity.HasKey(e => e.UserCode).HasName("PK__InvUser__1DF52D0DCBAE6686");
+>>>>>>> Stashed changes
 
             entity.Property(e => e.UserCode).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.CreatedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.FullName).HasMaxLength(200);
-            entity.Property(e => e.Password).HasMaxLength(255);
-            entity.Property(e => e.Username).HasMaxLength(100);
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
 
             entity.HasOne(d => d.UserTypeNavigation).WithMany(p => p.InvUsers)
-                .HasForeignKey(d => d.UserType)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_InvUser_UserType");
         });
 
         modelBuilder.Entity<Log>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC076180256C");
 
             entity.Property(e => e.Level).HasMaxLength(128);
             entity.Property(e => e.TimeStamp).HasColumnType("datetime");
+=======
+            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC073BBC97FB");
+>>>>>>> Stashed changes
         });
 
         modelBuilder.Entity<UserType>(entity =>
         {
+<<<<<<< Updated upstream
             entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D816582EAE76");
+=======
+            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D81654D9CEE3");
+>>>>>>> Stashed changes
 
-            entity.ToTable("UserType");
-
-            entity.Property(e => e.CreatedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(500);
-            entity.Property(e => e.UserTypeName).HasMaxLength(255);
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
         });
 
         modelBuilder.Entity<VactivityLog>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("VActivityLog");
+            entity.ToView("VActivityLog");
 
-            entity.Property(e => e.ActionType).HasMaxLength(20);
             entity.Property(e => e.ActivityId).ValueGeneratedOnAdd();
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(500);
-            entity.Property(e => e.EntityType).HasMaxLength(50);
-            entity.Property(e => e.RedirectUrl).HasMaxLength(300);
         });
 
         modelBuilder.Entity<Vconstant>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("VConstant");
+            entity.ToView("VConstant");
 
-            entity.Property(e => e.Category).HasMaxLength(100);
             entity.Property(e => e.ConstantId).ValueGeneratedOnAdd();
-            entity.Property(e => e.ConstantValue).HasMaxLength(200);
-            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(200);
-            entity.Property(e => e.EntityId).HasMaxLength(100);
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
-            entity.Property(e => e.Name).HasMaxLength(200);
-            entity.Property(e => e.PluralName).HasMaxLength(200);
-            entity.Property(e => e.ShName).HasMaxLength(200);
-            entity.Property(e => e.ShPluralName).HasMaxLength(200);
         });
 
         modelBuilder.Entity<Vcustomer>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("VCustomers");
-
-            entity.Property(e => e.ContactNo).HasMaxLength(15);
-            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-            entity.Property(e => e.CustomerAddress).HasMaxLength(500);
-            entity.Property(e => e.CustomerEmail).HasMaxLength(100);
-            entity.Property(e => e.CustomerName).HasMaxLength(100);
-            entity.Property(e => e.Gst)
-                .HasMaxLength(30)
-                .HasColumnName("GST");
-            entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-            entity.Property(e => e.SecnContactNo).HasMaxLength(15);
+            entity.ToView("VCustomers");
         });
 
         modelBuilder.Entity<Vinvoice>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("VInvoices");
-
-            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-            entity.Property(e => e.CustomerName).HasMaxLength(100);
-            entity.Property(e => e.Gst)
-                .HasMaxLength(10)
-                .HasColumnName("GST");
-            entity.Property(e => e.InvoiceNo).HasMaxLength(100);
-            entity.Property(e => e.IsEwayBillAvailable).HasColumnName("isEwayBillAvailable");
-            entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-            entity.Property(e => e.TotalCost).HasColumnType("decimal(10, 2)");
+            entity.ToView("VInvoices");
         });
 
         modelBuilder.Entity<VinvoiceDetail>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("VInvoiceDetail");
-
-            entity.Property(e => e.CentralGst).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.CentralGstAmount).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Cost).HasColumnType("decimal(20, 4)");
-            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-            entity.Property(e => e.CustomerName).HasMaxLength(100);
-            entity.Property(e => e.Gst)
-                .HasMaxLength(10)
-                .HasColumnName("GST");
-            entity.Property(e => e.Hsncode)
-                .HasMaxLength(10)
-                .HasColumnName("HSNCode");
-            entity.Property(e => e.InvoiceNo).HasMaxLength(100);
-            entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-            entity.Property(e => e.ProductLogoMime).HasMaxLength(30);
-            entity.Property(e => e.ProductName).HasMaxLength(100);
-            entity.Property(e => e.StateGst).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.StateGstAmount).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.TotalCost).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
+            entity.ToView("VInvoiceDetail");
         });
 
         modelBuilder.Entity<Vproduct>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("VProducts");
-
-            entity.Property(e => e.CentralGstPer).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-            entity.Property(e => e.Hsncode)
-                .HasMaxLength(10)
-                .HasColumnName("HSNCode");
-            entity.Property(e => e.InterStateTotal).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.IntraStateTotal).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
-            entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-            entity.Property(e => e.ProductName).HasMaxLength(100);
-            entity.Property(e => e.StateGstPer).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.UnitCost).HasColumnType("decimal(10, 2)");
+            entity.ToView("VProducts");
         });
 
         modelBuilder.Entity<Vstock>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("VStock");
-
-            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-            entity.Property(e => e.ProductName).HasMaxLength(100);
-            entity.Property(e => e.TransactionType).HasMaxLength(200);
+            entity.ToView("VStock");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,12 +1,13 @@
-﻿using System;
+﻿using DBLayer.Models;
+using DBLayer.Service.Authentication;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DBLayer.Models;
-using DBLayer.Service.Authentication;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 
 namespace DBLayer.Service
 {
@@ -21,6 +22,7 @@ namespace DBLayer.Service
         public Task<bool> AddStock(Guid productId, int stockCount);
         //public Task<decimal> FetchStockDetailsAsync(Guid productId);
         public Task<Vproduct> AddOrEditProduct(InvProduct product, bool isEdit);
+        Task<bool> UpdateStock(Guid productId, int invoicedStockCount);
     }
     public class ProductService : IProductService
     {
@@ -109,8 +111,18 @@ namespace DBLayer.Service
         }
         //public async Task<decimal> FetchStockDetailsAsync(Guid productId)
         //{
-            
+
         //}
+        public async Task<bool> UpdateStock(Guid productId, int invoicedStockCount)
+        {
+            await _context.Database.ExecuteSqlRawAsync(
+                "EXEC InvProducts_StockUpdate @ProductCode, @Quantity, @isAddStock",
+                new SqlParameter("@ProductCode", productId),
+                new SqlParameter("@Quantity", invoicedStockCount),
+                new SqlParameter("@isAddStock", false)
+            );
+            return true;
+        }
         public async Task<bool> AddStock(Guid productId, int stockCount)
         {
             var productForStock = await _context.InvProducts.Where(c => c.ProductCode == productId)

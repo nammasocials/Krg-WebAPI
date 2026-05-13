@@ -40,5 +40,6 @@ CREATE USER KrgApiUser FOR LOGIN KrgApiUser;
 -- 3??  Give data access (read/write)
 ALTER ROLE db_datareader ADD MEMBER KrgApiUser;
 ALTER ROLE db_datawriter ADD MEMBER KrgApiUser;
+GRANT EXECUTE TO KrgApiUser;
 GRANT CREATE TABLE TO [KrgApiUser];
 GRANT VIEW DEFINITION TO [KrgApiUser];

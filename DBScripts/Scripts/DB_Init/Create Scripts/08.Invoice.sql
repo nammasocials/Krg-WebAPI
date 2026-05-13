@@ -7,7 +7,11 @@ CREATE TABLE [dbo].[InvInvoice] (
 	[isEwayBillAvailable] bit DEFAULT 0 Not null,
 	[EWayBillLogo] [varbinary](max) NULL,
 	[EWayBillLogoMime] Nvarchar(30),
+<<<<<<< Updated upstream
 	[GST] Nvarchar(30) NOT Null,
+=======
+	[GST] nvarchar(30) not null,
+>>>>>>> Stashed changes
 	[TotalCost] decimal(10,2) NOT Null,
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
     [CreatedBy] UNIQUEIDENTIFIER,
@@ -51,7 +55,11 @@ CREATE TABLE [dbo].[InvInvoice_Audit] (
 	[EWayBillLogo] [varbinary](max) NULL,
 	[EWayBillLogoMime] Nvarchar(30),
     [TotalCost] decimal(10,2) NOT Null,
+<<<<<<< Updated upstream
 	[GST] Nvarchar(30) NOT Null,
+=======
+	[GST] nvarchar(30) not null,
+>>>>>>> Stashed changes
     [CreatedOn] DATETIME NOT NULL DEFAULT(GETDATE()),
     [CreatedBy] UNIQUEIDENTIFIER,
 	[ModifiedOn] DATETIME NOT NULL DEFAULT(GETDATE()),

@@ -25,6 +25,7 @@ namespace DBLayer.Service
         private readonly IUserClaimsService _userClaimsService;
         private readonly ICustomerService _customerService;
         private readonly IProductService _productService;
+<<<<<<< Updated upstream
 
         public InvoiceService(
             NsinvoiceBillingContext context, 
@@ -36,6 +37,17 @@ namespace DBLayer.Service
             _userClaimsService = iUserClaimsService;
             _customerService = iCustomerService;
             _productService = iProductService;
+=======
+        public InvoiceService(NsinvoiceBillingContext context, 
+            IUserClaimsService iUserClaimsService,
+            ICustomerService customerService,
+            IProductService productService)
+        {
+            _context = context;
+            _userClaimsService = iUserClaimsService;
+            _customerService = customerService;
+            _productService = productService;
+>>>>>>> Stashed changes
         }
         public async Task<List<Vinvoice>> fetchInvoiceList()
         {
@@ -54,7 +66,11 @@ namespace DBLayer.Service
             var claims = _userClaimsService.GetUserClaims();
             var invoiceEntity = InvoiceMapper.ToEntity(invoice);
             invoiceEntity.CreatedBy = claims.UserCode;
+<<<<<<< Updated upstream
             var customer = await _customerService.fetchCustomerDetails(invoiceEntity.CustomerCode);
+=======
+            var customer = await _customerService.fetchCustomerDetails(invoice.CustomerCode);
+>>>>>>> Stashed changes
             invoiceEntity.Gst = customer.Gst;
             if (invoiceEntity.EwayBillLogo != null)
             {
@@ -77,11 +93,16 @@ namespace DBLayer.Service
             await _context.InvInvoices.AddAsync(invoiceEntity);
             await _context.SaveChangesAsync();
 
+<<<<<<< Updated upstream
             await AddInvoiceItemsAsync(invoiceEntity.InvoiceCode,invoiceEntity.InvoiceNo, invoice.InvoiceItems);
+=======
+            await AddInvoiceItemsAsync(invoiceEntity, invoice.InvoiceItems);
+>>>>>>> Stashed changes
 
             return await _context.Vinvoices.Where(C => C.InvoiceCode == invoiceEntity.InvoiceCode).FirstOrDefaultAsync();
         }
 
+<<<<<<< Updated upstream
         public async Task<List<VinvoiceDetail>> AddInvoiceItemsAsync(Guid invoiceCode , string invoiceNo,List<VInvoiceProductsInput> items)
         {
             var claims = _userClaimsService.GetUserClaims();
@@ -101,11 +122,35 @@ namespace DBLayer.Service
                     item.StateGst = product.StateGstPer;
                     item.CentralGst = product.CentralGstPer;
                 }
+=======
+        public async Task<List<VinvoiceDetail>> AddInvoiceItemsAsync(InvInvoice invoice ,List<VInvoiceProductsInput> items)
+        {
+            var claims = _userClaimsService.GetUserClaims();
+            var itemEntities = InvoiceItemsMapper.ToEntity(items);
+            foreach (var item in itemEntities)
+            {
+                item.InvoiceCode = invoice.InvoiceCode;
+                item.InvoiceNo = invoice.InvoiceNo;
+                var productDetails = await _productService.fetchProductDetails(item.ProductCode);
+                item.Hsncode = productDetails.Hsncode;
+                item.UnitCost = productDetails.UnitCost;
+                item.CentralGst = productDetails.CentralGstPer;
+                item.StateGst = productDetails.CentralGstPer;
+                item.Cost = item.Quantity * productDetails.UnitCost;
+                item.CentralGstAmount = (productDetails.CentralGstPer * item.Cost) / 100;
+                item.StateGstAmount = (productDetails.StateGstPer * item.Cost) / 100;
+                item.NetProductAmount = item.Cost + item.CentralGstAmount + item.StateGstAmount;
+>>>>>>> Stashed changes
             }
             _context.InvInvoiceItems.AddRange(itemEntities);
             await _context.SaveChangesAsync();
 
-            return await _context.VinvoiceDetails.Where(C => C.InvoiceCode == invoiceCode).ToListAsync();
+            foreach (var item in itemEntities)
+            {
+                await _productService.UpdateStock(item.ProductCode, item.Quantity);
+            }
+            
+            return await _context.VinvoiceDetails.Where(C => C.InvoiceCode == invoice.InvoiceCode).ToListAsync();
         }
     }
 }

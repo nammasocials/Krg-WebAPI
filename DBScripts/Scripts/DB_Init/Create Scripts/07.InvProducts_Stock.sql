@@ -52,23 +52,68 @@ INNER JOIN InvConstant TxnType
 --      AND unit.EntityId = 'InvProducts' 
 --      AND unit.Category = 'UnitType';
 GO
+CREATE OR ALTER PROCEDURE InvProducts_StockUpdate
+(
+    @ProductCode UNIQUEIDENTIFIER,
+    @Quantity INT,
+    @isAddStock BIT
+)
+AS
+BEGIN
+    DECLARE @Key INT;
+
+    IF @isAddStock = 1
+        SELECT @Key = [Key]
+        FROM InvConstant
+        WHERE Category = 'StockTxnType'
+          AND EntityId = 'InvProducts'
+          AND Name = 'Stock-In';
+
+    ELSE
+        SELECT @Key = [Key]
+        FROM InvConstant
+        WHERE Category = 'StockTxnType'
+          AND EntityId = 'InvProducts'
+          AND Name = 'Stock-Out';
+
+    INSERT INTO InvProducts_Stock
+    (
+        ProductCode,
+        Quantity,
+        TxnType
+    )
+    VALUES
+    (
+        @ProductCode,
+        @Quantity,
+        @Key
+    );
+END
+GO
 CREATE OR ALTER TRIGGER trg_InvProducts_InitialStock
 ON InvProducts
 AFTER INSERT
 AS
 BEGIN
     SET NOCOUNT ON;
-	INSERT INTO [dbo].[InvProducts_Stock]
-           ([ProductCode]
-           ,[Quantity]
-           ,[TxnType]
-           ,[CreatedBy])
-     SELECT
-        i.[ProductCode]
-		,i.[CurrentStock]
-		,(Select [key] from InvConstant where  Category = 'StockTxnType' and EntityId = 'InvProducts' and Name = 'Stock-In')
-        ,i.[CreatedBy]
+	Declare @ProductCode uniqueidentifier, @Quantity int, @isAddStock bit;
+
+	SELECT
+        @ProductCode = i.[ProductCode] , @Quantity = i.[CurrentStock]
     FROM inserted i
+
+	EXEC InvProducts_StockUpdate @ProductCode, @Quantity,@isAddStock;
+	--INSERT INTO [dbo].[InvProducts_Stock]
+ --          ([ProductCode]
+ --          ,[Quantity]
+ --          ,[TxnType]
+ --          ,[CreatedBy])
+ --    SELECT
+ --       i.[ProductCode]
+	--	,i.[CurrentStock]
+	--	,(Select [key] from InvConstant where  Category = 'StockTxnType' and EntityId = 'InvProducts' and Name = 'Stock-In')
+ --       ,i.[CreatedBy]
+ --   FROM inserted i
 END
 GO
 CREATE OR ALTER TRIGGER trg_InvProducts_Stock_Quantity
