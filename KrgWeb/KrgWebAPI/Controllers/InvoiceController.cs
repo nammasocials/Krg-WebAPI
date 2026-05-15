@@ -57,5 +57,18 @@ namespace KrgWebAPI.Controllers
                 Data = result
             });
         }
+        [HttpGet("getEwayBillPhoto/{invoiceCode}")]
+        public async Task<IActionResult> GetEwayBillPhoto(Guid invoiceCode)
+        {
+            var (imageBytes, mimeType) = await _invoiceService.fetchEwaybillLogoIfAvailableAsync(invoiceCode);
+            if (imageBytes == null || imageBytes.Length == 0)
+            {
+                // Return 200 OK with empty string as body
+                return Content(string.Empty, "text/plain");
+            }
+
+            // Serve bytes directly with appropriate mime type (jpeg, png, etc)
+            return File(imageBytes, mimeType);
+        }
     }
 }

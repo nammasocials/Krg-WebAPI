@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DBLayer.Models;
 
 [Table("InvInvoice")]
-[Index("InvoiceNo", Name = "UQ__InvInvoi__D796B227C5F2257E", IsUnique = true)]
+[Index("InvoiceNo", Name = "UQ__InvInvoi__D796B22779F996C4", IsUnique = true)]
 public partial class InvInvoice
 {
     [Key]

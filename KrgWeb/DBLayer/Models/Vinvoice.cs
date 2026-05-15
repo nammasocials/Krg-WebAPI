@@ -17,6 +17,8 @@ public partial class Vinvoice
     [StringLength(100)]
     public string CustomerName { get; set; } = null!;
 
+    public Guid CustomerCode { get; set; }
+
     [Column("isEwayBillAvailable")]
     public bool IsEwayBillAvailable { get; set; }
 

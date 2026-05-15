@@ -18,6 +18,7 @@ namespace DBLayer.Service
         public Task<List<Vinvoice>> fetchInvoiceList();
         public Task<Vinvoice> AddInvoiceAsync(VInvoiceInput invoice);
         public Task<VinvoiceDetail?> fetchInvoiceDetails(Guid invoiceCode);
+        public Task<(byte[] ImageData, string MimeType)> fetchEwaybillLogoIfAvailableAsync(Guid invoiceCode);
     }
     public class InvoiceService : IInvoiceService
     {
@@ -25,11 +26,11 @@ namespace DBLayer.Service
         private readonly IUserClaimsService _userClaimsService;
         private readonly ICustomerService _customerService;
         private readonly IProductService _productService;
-<<<<<<< Updated upstream
+
 
         public InvoiceService(
-            NsinvoiceBillingContext context, 
-            IUserClaimsService iUserClaimsService, 
+            NsinvoiceBillingContext context,
+            IUserClaimsService iUserClaimsService,
             IProductService iProductService,
             ICustomerService iCustomerService)
         {
@@ -37,7 +38,8 @@ namespace DBLayer.Service
             _userClaimsService = iUserClaimsService;
             _customerService = iCustomerService;
             _productService = iProductService;
-=======
+        }
+
         public InvoiceService(NsinvoiceBillingContext context, 
             IUserClaimsService iUserClaimsService,
             ICustomerService customerService,
@@ -47,7 +49,7 @@ namespace DBLayer.Service
             _userClaimsService = iUserClaimsService;
             _customerService = customerService;
             _productService = productService;
->>>>>>> Stashed changes
+
         }
         public async Task<List<Vinvoice>> fetchInvoiceList()
         {
@@ -66,11 +68,8 @@ namespace DBLayer.Service
             var claims = _userClaimsService.GetUserClaims();
             var invoiceEntity = InvoiceMapper.ToEntity(invoice);
             invoiceEntity.CreatedBy = claims.UserCode;
-<<<<<<< Updated upstream
-            var customer = await _customerService.fetchCustomerDetails(invoiceEntity.CustomerCode);
-=======
+
             var customer = await _customerService.fetchCustomerDetails(invoice.CustomerCode);
->>>>>>> Stashed changes
             invoiceEntity.Gst = customer.Gst;
             if (invoiceEntity.EwayBillLogo != null)
             {
@@ -92,37 +91,11 @@ namespace DBLayer.Service
 
             await _context.InvInvoices.AddAsync(invoiceEntity);
             await _context.SaveChangesAsync();
-
-<<<<<<< Updated upstream
-            await AddInvoiceItemsAsync(invoiceEntity.InvoiceCode,invoiceEntity.InvoiceNo, invoice.InvoiceItems);
-=======
             await AddInvoiceItemsAsync(invoiceEntity, invoice.InvoiceItems);
->>>>>>> Stashed changes
 
             return await _context.Vinvoices.Where(C => C.InvoiceCode == invoiceEntity.InvoiceCode).FirstOrDefaultAsync();
         }
 
-<<<<<<< Updated upstream
-        public async Task<List<VinvoiceDetail>> AddInvoiceItemsAsync(Guid invoiceCode , string invoiceNo,List<VInvoiceProductsInput> items)
-        {
-            var claims = _userClaimsService.GetUserClaims();
-
-            var itemEntities = InvoiceItemsMapper.ToEntity(items);
-
-            foreach (var item in itemEntities)
-            {
-                item.InvoiceCode = invoiceCode;
-                var product = await _productService.fetchProductEntityByCodeAsync(item.ProductCode);
-                if (product != null)
-                {
-                    item.InvoiceNo = invoiceNo;
-                    item.Hsncode = product.Hsncode;
-                    item.UnitCost = product.UnitCost;
-                    item.Cost = product.UnitCost * item.Quantity;
-                    item.StateGst = product.StateGstPer;
-                    item.CentralGst = product.CentralGstPer;
-                }
-=======
         public async Task<List<VinvoiceDetail>> AddInvoiceItemsAsync(InvInvoice invoice ,List<VInvoiceProductsInput> items)
         {
             var claims = _userClaimsService.GetUserClaims();
@@ -140,7 +113,7 @@ namespace DBLayer.Service
                 item.CentralGstAmount = (productDetails.CentralGstPer * item.Cost) / 100;
                 item.StateGstAmount = (productDetails.StateGstPer * item.Cost) / 100;
                 item.NetProductAmount = item.Cost + item.CentralGstAmount + item.StateGstAmount;
->>>>>>> Stashed changes
+
             }
             _context.InvInvoiceItems.AddRange(itemEntities);
             await _context.SaveChangesAsync();
@@ -151,6 +124,25 @@ namespace DBLayer.Service
             }
             
             return await _context.VinvoiceDetails.Where(C => C.InvoiceCode == invoice.InvoiceCode).ToListAsync();
+        }
+        public async Task<(byte[] ImageData, string MimeType)> fetchEwaybillLogoIfAvailableAsync(Guid invoiceCode)
+        {
+            var isEwayBill = await _context.InvInvoices.Where(c => c.InvoiceCode == invoiceCode)
+                .Select(S => S.IsEwayBillAvailable).FirstOrDefaultAsync();
+            if (isEwayBill)
+            {
+                var ewayBillPhoto = await _context.InvInvoices
+                    .Where(c => c.InvoiceCode == invoiceCode)
+                    .Select(c => new { c.EwayBillLogoMime, c.EwayBillLogo })
+                    .FirstOrDefaultAsync();
+                
+                if (ewayBillPhoto == null || ewayBillPhoto.EwayBillLogo == null)
+                {
+                    return (null, null);
+                }
+                return (ewayBillPhoto.EwayBillLogo, ewayBillPhoto.EwayBillLogoMime ?? "image/jpeg");
+            }
+            return (null, null);
         }
     }
 }

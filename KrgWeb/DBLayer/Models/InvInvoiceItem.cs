@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace DBLayer.Models;
 
 [Table("InvInvoice_Items")]
-[Index("InvoiceNo", Name = "UQ__InvInvoi__D796B227905702CD", IsUnique = true)]
 public partial class InvInvoiceItem
 {
     [Key]

@@ -19,6 +19,8 @@ public partial class VinvoiceDetail
     [StringLength(100)]
     public string CustomerName { get; set; } = null!;
 
+    public Guid CustomerCode { get; set; }
+
     public Guid ProductCode { get; set; }
 
     [StringLength(100)]

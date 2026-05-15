@@ -64,22 +64,14 @@ public partial class NsinvoiceBillingContext : DbContext
     {
         modelBuilder.Entity<ActivityLog>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.ActivityId).HasName("PK__Activity__45F4A7918954FF69");
-=======
-            entity.HasKey(e => e.ActivityId).HasName("PK__Activity__45F4A791E72C414C");
->>>>>>> Stashed changes
+            entity.HasKey(e => e.ActivityId).HasName("PK__Activity__45F4A7913624A68B");
 
             entity.Property(e => e.CreatedDate).HasDefaultValueSql("(getdate())");
         });
 
         modelBuilder.Entity<InvConstant>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.ConstantId).HasName("PK__InvConst__66315FDFD4C04F69");
-=======
-            entity.HasKey(e => e.ConstantId).HasName("PK__InvConst__66315FDF6379C72B");
->>>>>>> Stashed changes
+            entity.HasKey(e => e.ConstantId).HasName("PK__InvConst__66315FDF524730C3");
 
             entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
@@ -87,11 +79,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvCustomer>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__06678520DFE54EF6");
-=======
-            entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__06678520CF0E4239");
->>>>>>> Stashed changes
+            entity.HasKey(e => e.CustomerCode).HasName("PK__InvCusto__06678520F85CD989");
 
             entity.ToTable(tb => tb.HasTrigger("trg_InvCustomers_Audit"));
 
@@ -101,11 +89,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvCustomersAudit>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.AuditId).HasName("PK__InvCusto__A17F23B84C37D664");
-=======
-            entity.HasKey(e => e.AuditId).HasName("PK__InvCusto__A17F23B89AF5CC59");
->>>>>>> Stashed changes
+            entity.HasKey(e => e.AuditId).HasName("PK__InvCusto__A17F23B84B857908");
 
             entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.OperationType).IsFixedLength();
@@ -117,19 +101,10 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvInvoice>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.InvoiceCode).HasName("PK__InvInvoi__0D9D7FF2388466D3");
+            entity.HasKey(e => e.InvoiceCode).HasName("PK__InvInvoi__0D9D7FF2A5D0DA89");
 
             entity.ToTable("InvInvoice", tb => tb.HasTrigger("trg_InvInvoice_Audit"));
 
-            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B227E99D0D9C").IsUnique();
-
-=======
-            entity.HasKey(e => e.InvoiceCode).HasName("PK__InvInvoi__0D9D7FF20A4B07D3");
-
-            entity.ToTable("InvInvoice", tb => tb.HasTrigger("trg_InvInvoice_Audit"));
-
->>>>>>> Stashed changes
             entity.Property(e => e.InvoiceCode).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
@@ -141,41 +116,11 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvInvoiceAudit>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B8902DDB56");
-
-            entity.ToTable("InvInvoice_Audit");
-
-            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B2278437557A").IsUnique();
-
-            entity.Property(e => e.AuditId).HasColumnName("AuditID");
-            entity.Property(e => e.CreatedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.EwayBillLogo).HasColumnName("EWayBillLogo");
-            entity.Property(e => e.EwayBillLogoMime)
-                .HasMaxLength(30)
-                .HasColumnName("EWayBillLogoMime");
-            entity.Property(e => e.Gst)
-                .HasMaxLength(10)
-                .HasColumnName("GST");
-            entity.Property(e => e.InvoiceNo).HasMaxLength(100);
-            entity.Property(e => e.IsEwayBillAvailable).HasColumnName("isEwayBillAvailable");
-            entity.Property(e => e.ModifiedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.OperationType)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .IsFixedLength();
-            entity.Property(e => e.TotalCost).HasColumnType("decimal(10, 2)");
-=======
-            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B887531600");
+            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B8C665B51F");
 
             entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.OperationType).IsFixedLength();
->>>>>>> Stashed changes
 
             entity.HasOne(d => d.InvoiceCodeNavigation).WithMany(p => p.InvInvoiceAudits)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -184,19 +129,14 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvInvoiceItem>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.ItemCode).HasName("PK__InvInvoi__3ECC0FEB48E3AC80");
+            entity.HasKey(e => e.ItemCode).HasName("PK__InvInvoi__3ECC0FEBA30AB1E9");
 
-            entity.ToTable("InvInvoice_Items", tb => tb.HasTrigger("trg_InvInvoice_Item_Audit"));
+            entity.ToTable("InvInvoice_Items", tb =>
+                {
+                    tb.HasTrigger("trg_AfterInsert_InvInvoiceItems");
+                    tb.HasTrigger("trg_InvInvoice_Item_Audit");
+                });
 
-            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B22736BC9CA4").IsUnique();
-
-=======
-            entity.HasKey(e => e.ItemCode).HasName("PK__InvInvoi__3ECC0FEBE66A0FFB");
-
-            entity.ToTable("InvInvoice_Items", tb => tb.HasTrigger("trg_InvInvoice_Item_Audit"));
-
->>>>>>> Stashed changes
             entity.Property(e => e.ItemCode).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
@@ -213,39 +153,11 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvInvoiceItemsAudit>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B847E14D5B");
-
-            entity.ToTable("InvInvoice_Items_Audit");
-
-            entity.HasIndex(e => e.InvoiceNo, "UQ__InvInvoi__D796B22757483425").IsUnique();
-
-            entity.Property(e => e.AuditId).HasColumnName("AuditID");
-            entity.Property(e => e.CentralGst).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.CentralGstAmount).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Cost).HasColumnType("decimal(20, 4)");
-            entity.Property(e => e.CreatedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.Hsncode)
-                .HasMaxLength(10)
-                .HasColumnName("HSNCode");
-            entity.Property(e => e.InvoiceNo).HasMaxLength(100);
-            entity.Property(e => e.ModifiedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.NetProductAmount).HasColumnType("decimal(20, 4)");
-            entity.Property(e => e.OperationType)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .IsFixedLength();
-=======
-            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B8DAD19C71");
+            entity.HasKey(e => e.AuditId).HasName("PK__InvInvoi__A17F23B8784D4C29");
 
             entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.OperationType).IsFixedLength();
->>>>>>> Stashed changes
             entity.Property(e => e.Quantity).HasDefaultValue(1);
 
             entity.HasOne(d => d.ItemCodeNavigation).WithMany(p => p.InvInvoiceItemsAudits)
@@ -255,11 +167,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProduct>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024EEE07FD82");
-=======
-            entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024EF9DDFB59");
->>>>>>> Stashed changes
+            entity.HasKey(e => e.ProductCode).HasName("PK__InvProdu__2F4E024E7253D5EA");
 
             entity.ToTable(tb =>
                 {
@@ -276,11 +184,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProductsAudit>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.AuditId).HasName("PK__InvProdu__A17F23B8797C8C17");
-=======
-            entity.HasKey(e => e.AuditId).HasName("PK__InvProdu__A17F23B85C9A5EEA");
->>>>>>> Stashed changes
+            entity.HasKey(e => e.AuditId).HasName("PK__InvProdu__A17F23B8BB0ADCB8");
 
             entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.CurrentStock).HasDefaultValue(1);
@@ -295,22 +199,12 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvProductsStock>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE380D92BF8F");
-=======
-            entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE38501EBC9D");
->>>>>>> Stashed changes
+            entity.HasKey(e => e.StockTnxId).HasName("PK__InvProdu__6079CE3845F29430");
 
             entity.ToTable("InvProducts_Stock", tb => tb.HasTrigger("trg_InvProducts_Stock_Quantity"));
 
             entity.Property(e => e.StockTnxId).HasDefaultValueSql("(newid())");
-<<<<<<< Updated upstream
-            entity.Property(e => e.CreatedOn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-=======
             entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
->>>>>>> Stashed changes
 
             entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.InvProductsStocks)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -319,13 +213,7 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<InvUser>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.UserCode).HasName("PK__InvUser__1DF52D0D197FC5A5");
-
-            entity.ToTable("InvUser");
-=======
-            entity.HasKey(e => e.UserCode).HasName("PK__InvUser__1DF52D0DCBAE6686");
->>>>>>> Stashed changes
+            entity.HasKey(e => e.UserCode).HasName("PK__InvUser__1DF52D0D89E0D5F2");
 
             entity.Property(e => e.UserCode).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
@@ -337,23 +225,12 @@ public partial class NsinvoiceBillingContext : DbContext
 
         modelBuilder.Entity<Log>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC076180256C");
-
-            entity.Property(e => e.Level).HasMaxLength(128);
-            entity.Property(e => e.TimeStamp).HasColumnType("datetime");
-=======
-            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC073BBC97FB");
->>>>>>> Stashed changes
+            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC0798F485DE");
         });
 
         modelBuilder.Entity<UserType>(entity =>
         {
-<<<<<<< Updated upstream
-            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D816582EAE76");
-=======
-            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D81654D9CEE3");
->>>>>>> Stashed changes
+            entity.HasKey(e => e.UserTypeId).HasName("PK__UserType__40D2D81694E3940E");
 
             entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
         });
