@@ -19,6 +19,13 @@ public partial class Vinvoice
 
     public Guid CustomerCode { get; set; }
 
+    [Column("GSTNumber")]
+    [StringLength(30)]
+    public string Gstnumber { get; set; } = null!;
+
+    [StringLength(100)]
+    public string CustomerEmail { get; set; } = null!;
+
     [Column("isEwayBillAvailable")]
     public bool IsEwayBillAvailable { get; set; }
 
