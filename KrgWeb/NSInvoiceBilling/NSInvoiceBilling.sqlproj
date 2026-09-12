@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>NSInvoiceBilling</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{abbef081-ccee-421c-b619-2edf9ce87421}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql170DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>NSInvoiceBilling</RootNamespace>
+    <AssemblyName>NSInvoiceBilling</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <!-- The audit triggers are intentionally non-schemabound and the seed data
+         lives in the post-deployment script, so suppress the noisy analysis. -->
+    <SuppressTSqlWarnings>71502;71562</SuppressTSqlWarnings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Tables" />
+    <Folder Include="Views" />
+    <Folder Include="StoredProcedures" />
+    <Folder Include="Functions" />
+    <Folder Include="Triggers" />
+    <Folder Include="Security" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\Reseed" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\ActivityLog.sql" />
+    <Build Include="Tables\InvConstant.sql" />
+    <Build Include="Tables\InvCustomers.sql" />
+    <Build Include="Tables\InvCustomers_Audit.sql" />
+    <Build Include="Tables\InvExpenses.sql" />
+    <Build Include="Tables\InvExpenses_Audit.sql" />
+    <Build Include="Tables\InvInvoice.sql" />
+    <Build Include="Tables\InvMenu.sql" />
+    <Build Include="Tables\InvInvoice_Audit.sql" />
+    <Build Include="Tables\InvInvoice_Items.sql" />
+    <Build Include="Tables\InvInvoice_Items_Audit.sql" />
+    <Build Include="Tables\InvProducts.sql" />
+    <Build Include="Tables\InvProducts_Audit.sql" />
+    <Build Include="Tables\InvProducts_Stock.sql" />
+    <Build Include="Tables\InvUser.sql" />
+    <Build Include="Tables\Logs.sql" />
+    <Build Include="Tables\UserType.sql" />
+    <Build Include="Views\VActivityLog.sql" />
+    <Build Include="Views\VConstant.sql" />
+    <Build Include="Views\VCustomers.sql" />
+    <Build Include="Views\VExpenses.sql" />
+    <Build Include="Views\VInvoiceDetail.sql" />
+    <Build Include="Views\VInvoices.sql" />
+    <Build Include="Views\VProducts.sql" />
+    <Build Include="Views\VStock.sql" />
+    <Build Include="StoredProcedures\InvProducts_StockUpdate.sql" />
+    <Build Include="StoredProcedures\usp_CalculateAndUpdateGST.sql" />
+    <Build Include="Functions\fn_CalculateInterStateGST.sql" />
+    <Build Include="Functions\fn_CalculateIntraStateGST.sql" />
+    <Build Include="Triggers\trg_AfterInsert_InvInvoiceItems.sql" />
+    <Build Include="Triggers\trg_InvCustomers_Audit.sql" />
+    <Build Include="Triggers\trg_InvExpenses_Audit.sql" />
+    <Build Include="Triggers\trg_InvInvoice_Audit.sql" />
+    <Build Include="Triggers\trg_InvInvoice_Item_Audit.sql" />
+    <Build Include="Triggers\trg_InvProducts_Audit.sql" />
+    <Build Include="Triggers\trg_InvProducts_InitialStock.sql" />
+    <Build Include="Triggers\trg_InvProducts_Stock_Quantity.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
+    <None Include="Scripts\Reseed\01.UserType.sql" />
+    <None Include="Scripts\Reseed\02.InvUser.sql" />
+    <None Include="Scripts\Reseed\03.InvConstant.sql" />
+    <None Include="Scripts\Reseed\04.InvConstant.Expenses.sql" />
+    <None Include="Scripts\Reseed\05.InvMenu.sql" />
+    <None Include="Security\KrgApiUser.sql" />
+    <None Include="Security\Permissions.sql" />
+    <None Include="Security\RoleMemberships.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Declares the variable so the post-deployment script can reference it.
+         A dacpac carries no value for it: seeding is on unless a publish passes
+         /v:SeedReferenceData=0. -->
+    <SqlCmdVariable Include="SeedReferenceData">
+      <DefaultValue>1</DefaultValue>
+      <Value>$(SqlCmdVar__SeedReferenceData)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+</Project>

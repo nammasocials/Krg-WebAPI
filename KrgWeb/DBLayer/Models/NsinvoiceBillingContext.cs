@@ -23,6 +23,8 @@ public partial class NsinvoiceBillingContext : DbContext
 
     public virtual DbSet<InvCustomersAudit> InvCustomersAudits { get; set; }
 
+    public virtual DbSet<InvExpense> InvExpenses { get; set; }
+
     public virtual DbSet<InvInvoice> InvInvoices { get; set; }
 
     public virtual DbSet<InvInvoiceAudit> InvInvoiceAudits { get; set; }
@@ -48,6 +50,8 @@ public partial class NsinvoiceBillingContext : DbContext
     public virtual DbSet<Vconstant> Vconstants { get; set; }
 
     public virtual DbSet<Vcustomer> Vcustomers { get; set; }
+
+    public virtual DbSet<Vexpense> Vexpenses { get; set; }
 
     public virtual DbSet<Vinvoice> Vinvoices { get; set; }
 
@@ -252,6 +256,24 @@ public partial class NsinvoiceBillingContext : DbContext
         modelBuilder.Entity<Vcustomer>(entity =>
         {
             entity.ToView("VCustomers");
+        });
+
+        modelBuilder.Entity<InvExpense>(entity =>
+        {
+            entity.HasKey(e => e.ExpenseCode);
+
+            entity.ToTable(tb => tb.HasTrigger("trg_InvExpenses_Audit"));
+
+            entity.Property(e => e.ExpenseCode).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.ExpenseDate).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
+        });
+
+        modelBuilder.Entity<Vexpense>(entity =>
+        {
+            entity.ToView("VExpenses");
         });
 
         modelBuilder.Entity<Vinvoice>(entity =>

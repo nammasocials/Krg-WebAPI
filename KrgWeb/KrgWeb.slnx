@@ -1,5 +1,8 @@
 <Solution>
   <Project Path="DBLayer/DBLayer.csproj" />
   <Project Path="KrgWebAPI/KrgWebAPI.csproj" />
+  <Project Path="NSInvoiceBilling/NSInvoiceBilling.sqlproj" Id="abbef081-ccee-421c-b619-2edf9ce87421">
+    <Build />
+  </Project>
   <Project Path="UtilityLayer/UtilityLayer.csproj" />
 </Solution>

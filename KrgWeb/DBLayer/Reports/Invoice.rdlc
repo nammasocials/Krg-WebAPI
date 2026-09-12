@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Invoice report. Rendered to PDF by DBLayer\Service\InvoiceReportService.cs.
+
+  The "InvoiceItems" dataset is bound to IEnumerable<DBLayer.ViewModels.VInvoiceReportItem>,
+  so the Field names below must match that class's property names. Everything on
+  the invoice header is passed as a report parameter instead.
+-->
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="InvoiceDataSource">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>1a0d9f66-4a49-4b2a-9d0e-9a0e5c4a1b01</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="InvoiceItems">
+      <Query>
+        <DataSourceName>InvoiceDataSource</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="SlNo"><DataField>SlNo</DataField><rd:TypeName>System.Int32</rd:TypeName></Field>
+        <Field Name="ProductName"><DataField>ProductName</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="HsnCode"><DataField>HsnCode</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="Quantity"><DataField>Quantity</DataField><rd:TypeName>System.Int32</rd:TypeName></Field>
+        <Field Name="UnitCost"><DataField>UnitCost</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+        <Field Name="Cost"><DataField>Cost</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+        <Field Name="CentralGst"><DataField>CentralGst</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+        <Field Name="CentralGstAmount"><DataField>CentralGstAmount</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+        <Field Name="StateGst"><DataField>StateGst</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+        <Field Name="StateGstAmount"><DataField>StateGstAmount</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+        <Field Name="NetProductAmount"><DataField>NetProductAmount</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>VInvoiceReportItem</rd:DataSetName>
+        <rd:TableName>VInvoiceReportItem</rd:TableName>
+        <rd:ObjectDataSourceType>DBLayer.ViewModels.VInvoiceReportItem, DBLayer</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="InvoiceNo"><DataType>String</DataType><Prompt>Invoice No</Prompt></ReportParameter>
+    <ReportParameter Name="InvoiceDate"><DataType>String</DataType><Prompt>Invoice Date</Prompt></ReportParameter>
+    <ReportParameter Name="CustomerName"><DataType>String</DataType><Prompt>Customer Name</Prompt></ReportParameter>
+    <ReportParameter Name="CustomerEmail"><DataType>String</DataType><Nullable>true</Nullable><Prompt>Customer Email</Prompt></ReportParameter>
+    <ReportParameter Name="CustomerGst"><DataType>String</DataType><Nullable>true</Nullable><Prompt>Customer GST</Prompt></ReportParameter>
+    <ReportParameter Name="CompanyName"><DataType>String</DataType><Prompt>Company Name</Prompt></ReportParameter>
+    <ReportParameter Name="CompanyAddress"><DataType>String</DataType><Nullable>true</Nullable><Prompt>Company Address</Prompt></ReportParameter>
+    <ReportParameter Name="CompanyGst"><DataType>String</DataType><Nullable>true</Nullable><Prompt>Company GST</Prompt></ReportParameter>
+    <ReportParameter Name="TotalCost"><DataType>String</DataType><Prompt>Total Cost</Prompt></ReportParameter>
+  </ReportParameters>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Textbox Name="TxtTitle">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>TAX INVOICE</Value>
+                    <Style><FontFamily>Arial</FontFamily><FontSize>16pt</FontSize><FontWeight>Bold</FontWeight><Color>#1F3864</Color></Style>
+                  </TextRun>
+                </TextRuns>
+                <Style><TextAlign>Center</TextAlign></Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>TxtTitle</rd:DefaultName>
+            <Top>0in</Top><Left>0in</Left><Height>0.35in</Height><Width>7.3in</Width>
+            <Style><Border><Style>None</Style></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+          </Textbox>
+          <Textbox Name="TxtCompany">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph><TextRuns><TextRun><Value>=Parameters!CompanyName.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>11pt</FontSize><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>=Parameters!CompanyAddress.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>9pt</FontSize></Style></TextRun></TextRuns><Style /></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>=IIf(Len(Parameters!CompanyGst.Value) = 0, "", "GSTIN: " &amp; Parameters!CompanyGst.Value)</Value><Style><FontFamily>Arial</FontFamily><FontSize>9pt</FontSize></Style></TextRun></TextRuns><Style /></Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>TxtCompany</rd:DefaultName>
+            <Top>0.45in</Top><Left>0in</Left><Height>0.8in</Height><Width>4.2in</Width>
+            <Style><Border><Style>None</Style></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+          </Textbox>
+          <Textbox Name="TxtInvoiceMeta">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph><TextRuns><TextRun><Value>="Invoice No: " &amp; Parameters!InvoiceNo.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>11pt</FontSize><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>="Date: " &amp; Parameters!InvoiceDate.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>9pt</FontSize></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>TxtInvoiceMeta</rd:DefaultName>
+            <Top>0.45in</Top><Left>4.2in</Left><Height>0.8in</Height><Width>3.1in</Width>
+            <Style><Border><Style>None</Style></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+          </Textbox>
+          <Textbox Name="TxtBillTo">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph><TextRuns><TextRun><Value>BILL TO</Value><Style><FontFamily>Arial</FontFamily><FontSize>9pt</FontSize><FontWeight>Bold</FontWeight><Color>#1F3864</Color></Style></TextRun></TextRuns><Style /></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>=Parameters!CustomerName.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>11pt</FontSize><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>=Parameters!CustomerEmail.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>9pt</FontSize></Style></TextRun></TextRuns><Style /></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>=IIf(Len(Parameters!CustomerGst.Value) = 0, "", "GSTIN: " &amp; Parameters!CustomerGst.Value)</Value><Style><FontFamily>Arial</FontFamily><FontSize>9pt</FontSize></Style></TextRun></TextRuns><Style /></Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>TxtBillTo</rd:DefaultName>
+            <Top>1.35in</Top><Left>0in</Left><Height>0.95in</Height><Width>7.3in</Width>
+            <Style><Border><Style>Solid</Style><Color>#BFBFBF</Color><Width>1pt</Width></Border><BackgroundColor>#F2F5FA</BackgroundColor><PaddingLeft>4pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom></Style>
+          </Textbox>
+          <Tablix Name="TablixItems">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn><Width>0.35in</Width></TablixColumn>
+                <TablixColumn><Width>1.4in</Width></TablixColumn>
+                <TablixColumn><Width>0.6in</Width></TablixColumn>
+                <TablixColumn><Width>0.45in</Width></TablixColumn>
+                <TablixColumn><Width>0.7in</Width></TablixColumn>
+                <TablixColumn><Width>0.75in</Width></TablixColumn>
+                <TablixColumn><Width>0.5in</Width></TablixColumn>
+                <TablixColumn><Width>0.65in</Width></TablixColumn>
+                <TablixColumn><Width>0.5in</Width></TablixColumn>
+                <TablixColumn><Width>0.65in</Width></TablixColumn>
+                <TablixColumn><Width>0.75in</Width></TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.32in</Height>
+                  <TablixCells>
+                    <TablixCell><CellContents><Textbox Name="HdrSlNo"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>#</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#FFFFFF</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>HdrSlNo</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#1F3864</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="HdrProductName"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>Product</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#FFFFFF</Color></Style></TextRun></TextRuns><Style><TextAlign>Left</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>HdrProductName</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#1F3864</BackgroundColor><PaddingLeft>3pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="HdrHsnCode"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>HSN</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#FFFFFF</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>HdrHsnCode</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#1F3864</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="HdrQuantity"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>Qty</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#FFFFFF</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>HdrQuantity</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#1F3864</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="HdrUnitCost"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>Rate</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#FFFFFF</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>HdrUnitCost</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#1F3864</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="HdrCost"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>Amount</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#FFFFFF</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>HdrCost</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#1F3864</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="HdrCentralGst"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>CGST %</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#FFFFFF</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>HdrCentralGst</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#1F3864</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="HdrCentralGstAmount"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>CGST Amt</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#FFFFFF</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>HdrCentralGstAmount</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#1F3864</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="HdrStateGst"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>SGST %</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#FFFFFF</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>HdrStateGst</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#1F3864</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="HdrStateGstAmount"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>SGST Amt</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#FFFFFF</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>HdrStateGstAmount</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#1F3864</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="HdrNetProductAmount"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>Net Amount</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#FFFFFF</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>HdrNetProductAmount</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#1F3864</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell><CellContents><Textbox Name="ColSlNo"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!SlNo.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>ColSlNo</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#BFBFBF</Color><Width>1pt</Width></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="ColProductName"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!ProductName.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize></Style></TextRun></TextRuns><Style><TextAlign>Left</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>ColProductName</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#BFBFBF</Color><Width>1pt</Width></Border><PaddingLeft>3pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="ColHsnCode"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!HsnCode.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>ColHsnCode</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#BFBFBF</Color><Width>1pt</Width></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="ColQuantity"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Quantity.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><Format>N0</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>ColQuantity</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#BFBFBF</Color><Width>1pt</Width></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="ColUnitCost"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!UnitCost.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><Format>N2</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>ColUnitCost</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#BFBFBF</Color><Width>1pt</Width></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="ColCost"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Cost.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><Format>N2</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>ColCost</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#BFBFBF</Color><Width>1pt</Width></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="ColCentralGst"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!CentralGst.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><Format>N2</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>ColCentralGst</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#BFBFBF</Color><Width>1pt</Width></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="ColCentralGstAmount"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!CentralGstAmount.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><Format>N2</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>ColCentralGstAmount</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#BFBFBF</Color><Width>1pt</Width></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="ColStateGst"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!StateGst.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><Format>N2</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>ColStateGst</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#BFBFBF</Color><Width>1pt</Width></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="ColStateGstAmount"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!StateGstAmount.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><Format>N2</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>ColStateGstAmount</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#BFBFBF</Color><Width>1pt</Width></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="ColNetProductAmount"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!NetProductAmount.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Format>N2</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>ColNetProductAmount</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#BFBFBF</Color><Width>1pt</Width></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.3in</Height>
+                  <TablixCells>
+                    <TablixCell><CellContents><Textbox Name="FtrSpacer1"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value /><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><rd:DefaultName>FtrSpacer1</rd:DefaultName><Style><Border><Style>None</Style></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FtrSpacer2"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value /><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><rd:DefaultName>FtrSpacer2</rd:DefaultName><Style><Border><Style>None</Style></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FtrSpacer3"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value /><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><rd:DefaultName>FtrSpacer3</rd:DefaultName><Style><Border><Style>None</Style></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FtrQuantity"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Sum(Fields!Quantity.Value)</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Format>N0</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>FtrQuantity</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#E8EDF5</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FtrLabel"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>Total</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>FtrLabel</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#E8EDF5</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FtrCost"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Sum(Fields!Cost.Value)</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Format>N2</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>FtrCost</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#E8EDF5</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FtrSpacer4"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value /><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><rd:DefaultName>FtrSpacer4</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#E8EDF5</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FtrCentralGstAmount"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Sum(Fields!CentralGstAmount.Value)</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Format>N2</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>FtrCentralGstAmount</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#E8EDF5</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FtrSpacer5"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value /><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><rd:DefaultName>FtrSpacer5</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#E8EDF5</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FtrStateGstAmount"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Sum(Fields!StateGstAmount.Value)</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Format>N2</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>FtrStateGstAmount</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#E8EDF5</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FtrNetProductAmount"><CanGrow>true</CanGrow><KeepTogether>true</KeepTogether><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Sum(Fields!NetProductAmount.Value)</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Format>N2</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><rd:DefaultName>FtrNetProductAmount</rd:DefaultName><Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#E8EDF5</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember /><TablixMember /><TablixMember /><TablixMember /><TablixMember /><TablixMember />
+                <TablixMember /><TablixMember /><TablixMember /><TablixMember /><TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Details" />
+                  <TablixMembers><TablixMember /></TablixMembers>
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>InvoiceItems</DataSetName>
+            <Top>2.45in</Top><Left>0in</Left><Height>0.87in</Height><Width>7.3in</Width>
+            <Style><Border><Style>None</Style></Border></Style>
+          </Tablix>
+          <Textbox Name="TxtGrandTotal">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun><Value>Invoice Total (INR): </Value><Style><FontFamily>Arial</FontFamily><FontSize>11pt</FontSize><FontWeight>Bold</FontWeight></Style></TextRun>
+                  <TextRun><Value>=Parameters!TotalCost.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>13pt</FontSize><FontWeight>Bold</FontWeight><Color>#1F3864</Color></Style></TextRun>
+                </TextRuns>
+                <Style><TextAlign>Right</TextAlign></Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>TxtGrandTotal</rd:DefaultName>
+            <Top>3.45in</Top><Left>3.8in</Left><Height>0.4in</Height><Width>3.5in</Width>
+            <Style><Border><Style>Solid</Style><Color>#1F3864</Color><Width>1pt</Width></Border><BackgroundColor>#E8EDF5</BackgroundColor><PaddingLeft>4pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+          </Textbox>
+          <Textbox Name="TxtSignature">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph><TextRuns><TextRun><Value>=" For " &amp; Parameters!CompanyName.Value</Value><Style><FontFamily>Arial</FontFamily><FontSize>9pt</FontSize><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value /><Style><FontFamily>Arial</FontFamily><FontSize>9pt</FontSize></Style></TextRun></TextRuns><Style /></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>Authorised Signatory</Value><Style><FontFamily>Arial</FontFamily><FontSize>9pt</FontSize></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>TxtSignature</rd:DefaultName>
+            <Top>4.0in</Top><Left>3.8in</Left><Height>0.75in</Height><Width>3.5in</Width>
+            <Style><Border><Style>None</Style></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+          </Textbox>
+          <Textbox Name="TxtNote">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph><TextRuns><TextRun><Value>This is a computer generated invoice and does not require a physical signature.</Value><Style><FontFamily>Arial</FontFamily><FontSize>7pt</FontSize><FontStyle>Italic</FontStyle><Color>#808080</Color></Style></TextRun></TextRuns><Style /></Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>TxtNote</rd:DefaultName>
+            <Top>4.0in</Top><Left>0in</Left><Height>0.3in</Height><Width>3.7in</Width>
+            <Style><Border><Style>None</Style></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+          </Textbox>
+        </ReportItems>
+        <Height>4.85in</Height>
+        <Style />
+      </Body>
+      <Width>7.3in</Width>
+      <Page>
+        <PageFooter>
+          <Height>0.3in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="TxtPageNumber">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph><TextRuns><TextRun><Value>="Page " &amp; Globals!PageNumber &amp; " of " &amp; Globals!TotalPages</Value><Style><FontFamily>Arial</FontFamily><FontSize>8pt</FontSize><Color>#808080</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>TxtPageNumber</rd:DefaultName>
+              <Top>0.05in</Top><Left>0in</Left><Height>0.2in</Height><Width>7.3in</Width>
+              <Style><Border><Style>None</Style></Border><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+            </Textbox>
+          </ReportItems>
+          <Style><Border><Style>None</Style></Border></Style>
+        </PageFooter>
+        <PageHeight>11.69in</PageHeight>
+        <PageWidth>8.27in</PageWidth>
+        <LeftMargin>0.5in</LeftMargin>
+        <RightMargin>0.47in</RightMargin>
+        <TopMargin>0.5in</TopMargin>
+        <BottomMargin>0.5in</BottomMargin>
+        <ColumnSpacing>0.13in</ColumnSpacing>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>7c1f0a52-1a3d-4c78-9c60-2e4b8f5d3a10</rd:ReportID>
+</Report>

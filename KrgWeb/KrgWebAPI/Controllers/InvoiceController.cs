@@ -15,9 +15,11 @@ namespace KrgWebAPI.Controllers
     public class InvoiceController : Controller
     {
         private readonly IInvoiceService _invoiceService;
-        public InvoiceController(IInvoiceService iInvoiceService)
+        private readonly IInvoiceReportService _invoiceReportService;
+        public InvoiceController(IInvoiceService iInvoiceService, IInvoiceReportService iInvoiceReportService)
         {
             _invoiceService = iInvoiceService;
+            _invoiceReportService = iInvoiceReportService;
         }
         [HttpGet("fetchInvoiceList")]
         public async Task<IActionResult> getAllInvioiceAsync()
@@ -57,6 +59,28 @@ namespace KrgWebAPI.Controllers
                 Data = result
             });
         }
+        /// <summary>
+        /// Renders the invoice through Reports\Invoice.rdlc and returns it as a PDF
+        /// download. One call per invoice; the browser gets the file directly.
+        /// </summary>
+        [HttpGet("exportInvoicePdf/{invoiceCode}")]
+        public async Task<IActionResult> ExportInvoicePdf(Guid invoiceCode)
+        {
+            var export = await _invoiceReportService.ExportInvoicePdfAsync(invoiceCode);
+
+            if (export == null)
+            {
+                return StatusCode(404, new ApiResponse<string>
+                {
+                    Code = 404,
+                    Message = $"No invoice found for {invoiceCode}",
+                    Data = null
+                });
+            }
+
+            return File(export.Value.Pdf, "application/pdf", export.Value.FileName);
+        }
+
         [HttpGet("getEwayBillPhoto/{invoiceCode}")]
         public async Task<IActionResult> GetEwayBillPhoto(Guid invoiceCode)
         {

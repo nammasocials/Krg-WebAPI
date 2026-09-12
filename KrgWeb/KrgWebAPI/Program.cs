@@ -44,6 +44,9 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("https://192.168.0.9:8002", "http://localhost:4200", "https://192.168.0.9:96") // your Angular app's origin
               .AllowAnyMethod()
               .AllowAnyHeader()
+              // Content-Disposition is not CORS-safelisted, so the invoice PDF download
+              // cannot read the filename the API sends without this.
+              .WithExposedHeaders("Content-Disposition")
               .AllowCredentials();
     });
 });
@@ -96,6 +99,9 @@ builder.Services.AddScoped<IRecentActivityService, RecentActivityService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddScoped<IInvoiceReportService, InvoiceReportService>();
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<ICustomerPersistentQueueService, CustomerPersistentQueueService>();
 builder.Services.AddScoped<ICustomerCacheService, CustomerCacheService>();
 

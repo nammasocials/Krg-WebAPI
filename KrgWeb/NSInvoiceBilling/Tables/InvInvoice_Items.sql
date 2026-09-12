@@ -1,0 +1,21 @@
+CREATE TABLE [dbo].[InvInvoice_Items] (
+    [ItemCode]         UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID() PRIMARY KEY,
+    [InvoiceCode]      UNIQUEIDENTIFIER NOT NULL,
+    [InvoiceNo]        NVARCHAR (100)   NOT NULL,
+    [ProductCode]      UNIQUEIDENTIFIER NOT NULL,
+    [UnitCost]         DECIMAL (10, 2)  NOT NULL,
+    [Quantity]         INT              NOT NULL DEFAULT 1,
+    [Cost]             DECIMAL (20, 4)  NOT NULL,
+    [HSNCode]          NVARCHAR (10)    NOT NULL,
+    [CentralGst]       DECIMAL (10, 2)  NOT NULL,
+    [CentralGstAmount] DECIMAL (10, 2)  NOT NULL,
+    [StateGst]         DECIMAL (10, 2)  NOT NULL,
+    [StateGstAmount]   DECIMAL (10, 2)  NOT NULL,
+    [NetProductAmount] DECIMAL (20, 4)  NOT NULL,
+    [CreatedOn]        DATETIME         NOT NULL DEFAULT (GETDATE()),
+    [CreatedBy]        UNIQUEIDENTIFIER NULL,
+    [ModifiedOn]       DATETIME         NOT NULL DEFAULT (GETDATE()),
+    [ModifiedBy]       UNIQUEIDENTIFIER NULL,
+    CONSTRAINT [FK_InvInvoice] FOREIGN KEY ([InvoiceCode]) REFERENCES [dbo].[InvInvoice] ([InvoiceCode]),
+    CONSTRAINT [FK_InvProducts] FOREIGN KEY ([ProductCode]) REFERENCES [dbo].[InvProducts] ([ProductCode])
+);
